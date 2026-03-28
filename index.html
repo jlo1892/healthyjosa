@@ -981,7 +981,7 @@ var Equiv = {
     SMAE_GROUPS.forEach(function(g) {
       h += '<div class="equiv-card" style="cursor:pointer" onclick="Equiv.toggle(\' + g.id + \')">';
       h += '<div class="equiv-card-header"><h4 style="font-family:var(--font-b);font-weight:600;font-size:.85rem">' + g.icon + ' ' + g.name + '</h4></div>';
-      h += '<div style="padding:10px 14px"><div class="equiv-macros"><div class="equiv-macro"><span>Kcal</span><strong>' + g.e + '</strong></div><div class="equiv-macro"><span>P</span><strong>' + g.p + 'g</strong></div><div class="equiv-macro"><span>L</span><strong>' + g.l + 'g</strong></div><div class="equiv-macro"><span>H</span><strong>' + g.h + 'g</strong></div></div></div></div>';
+      h += '<div style="padding:12px 16px"><table style="width:100%;font-size:.82rem"><tr><td style="color:var(--g500)">Kcal</td><td style="font-weight:700;text-align:right">' + g.e + '</td></tr><tr><td style="color:var(--g500)">Proteína</td><td style="font-weight:700;text-align:right">' + g.p + 'g</td></tr><tr><td style="color:var(--g500)">Lípidos</td><td style="font-weight:700;text-align:right">' + g.l + 'g</td></tr><tr><td style="color:var(--g500)">HCO</td><td style="font-weight:700;text-align:right">' + g.h + 'g</td></tr></table></div></div>';
     });
     h += '</div><div id="eq-det"></div>';
     return h;
@@ -1104,7 +1104,7 @@ var Calc = {
     var adecP = objP ? (tP / objP * 100).toFixed(1) : "—";
     var adecL = objL ? (tL / objL * 100).toFixed(1) : "—";
     var adecH = objH ? (tH / objH * 100).toFixed(1) : "—";
-    h += '<div class="grid-4 mt-4" style="gap:10px">';
+    h += '<div class="grid-4 mt-4" style="gap:10px" id="eq-adec">';
     h += UI.stat("🔥", adecE + "%", "Adec. Kcal (" + tE + "/" + kcal + ")", parseFloat(adecE) >= 90 && parseFloat(adecE) <= 110 ? "green" : "amber");
     h += UI.stat("🥩", adecP + "%", "Adec. Prot (" + tP.toFixed(0) + "/" + objP + "g)", parseFloat(adecP) >= 90 && parseFloat(adecP) <= 110 ? "green" : "amber");
     h += UI.stat("🧈", adecL + "%", "Adec. Líp (" + tL.toFixed(0) + "/" + objL + "g)", parseFloat(adecL) >= 90 && parseFloat(adecL) <= 110 ? "green" : "amber");
@@ -1124,6 +1124,18 @@ var Calc = {
     var tl = document.getElementById("eq-tl"); if (tl) tl.textContent = tL.toFixed(0);
     var th = document.getElementById("eq-th"); if (th) th.textContent = tH.toFixed(0);
     var tk = document.getElementById("eq-tk"); if (tk) tk.textContent = tE + " kcal";
+    var objK = +(document.querySelector("[name=eqkcal]") || {}).value || 0;
+    var objP = +(document.querySelector("[name=eqprot]") || {}).value || 0;
+    var objL = +(document.querySelector("[name=eqlip]") || {}).value || 0;
+    var objH = +(document.querySelector("[name=eqhco]") || {}).value || 0;
+    var ad = document.getElementById("eq-adec");
+    if (ad) {
+      var aE = objK ? (tE/objK*100).toFixed(1) : "—";
+      var aP = objP ? (tP/objP*100).toFixed(1) : "—";
+      var aL = objL ? (tL/objL*100).toFixed(1) : "—";
+      var aH = objH ? (tH/objH*100).toFixed(1) : "—";
+      ad.innerHTML = UI.stat("🔥",aE+"%","Adec. Kcal ("+tE+"/"+objK+")",(parseFloat(aE)>=90&&parseFloat(aE)<=110)?"green":"amber") + UI.stat("🥩",aP+"%","Adec. Prot ("+tP.toFixed(0)+"/"+objP+"g)",(parseFloat(aP)>=90&&parseFloat(aP)<=110)?"green":"amber") + UI.stat("🧈",aL+"%","Adec. Líp ("+tL.toFixed(0)+"/"+objL+"g)",(parseFloat(aL)>=90&&parseFloat(aL)<=110)?"green":"amber") + UI.stat("🌾",aH+"%","Adec. HCO ("+tH.toFixed(0)+"/"+objH+"g)",(parseFloat(aH)>=90&&parseFloat(aH)<=110)?"green":"amber");
+    }
   },
   saveCalc: function() {
     var p = App.activePatient;
@@ -1159,61 +1171,86 @@ var MealPlan = {
     var meals = ["Desayuno", "Snack AM", "Comida", "Snack PM", "Cena"];
     var days = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"];
     var p = this.p, pd = this.planData;
-    var h = '<div class="flex items-center gap-3 mb-4" style="flex-wrap:wrap"><div style="flex:1"><h1>Plan de Alimentación</h1><p class="text-muted">Crea, edita y asigna planes</p></div>';
-    if (p) {
-      h += '<button class="btn btn-primary" onclick="MealPlan.sendToPatient()">📤 Enviar a ' + (p.name || "paciente") + '</button>';
-      h += '<button class="btn btn-outline" onclick="Router.nav(\'grocery\',{patientId:\' + p.id + \'})">🛒 Lista súper</button>';
-    }
-    h += '<button class="btn btn-secondary" onclick="Router.nav(\'calculators\')">🧮 Calculadora</button></div>';
+    var h = '<div class="flex items-center gap-3 mb-4" style="flex-wrap:wrap"><div style="flex:1"><h1>Plan de Alimentación</h1><p class="text-muted">Estructura tu menú con equivalentes</p></div>';
+    if (p) h += '<button class="btn btn-primary" onclick="MealPlan.sendToPatient()">📤 Enviar a ' + (p.name || "paciente") + '</button>';
+    h += '<button class="btn btn-outline" onclick="Router.nav(' + Q + 'calculators' + Q + ')">🧮 Calculadora</button>';
+    h += '<button class="btn btn-outline" onclick="Router.nav(' + Q + 'equivalents' + Q + ')">🥑 Equivalentes</button></div>';
     if (p) h += UI.ctxBar();
-    h += UI.infoBox("<strong>Tip:</strong> Revisa el recordatorio de 24h para basarte en lo que el paciente ya come.", "tip");
+    h += UI.infoBox("<strong>Tip:</strong> Revisa el recordatorio de 24h. Cada tiempo de comida tiene equivalentes y menú sugerido. Haz clic en los grupos para agregarlos rápido.", "tip");
+    if (p && p.savedCalculator && p.savedCalculator.eqDistribution) {
+      var eq = p.savedCalculator.eqDistribution;
+      h += '<div class="card"><div class="card-title" style="margin-bottom:8px">📊 Equivalentes del plan (de la calculadora)</div><div style="display:flex;flex-wrap:wrap;gap:6px">';
+      SMAE_GROUPS.forEach(function(g) { if (eq[g.id] && eq[g.id] > 0) h += '<span class="equiv-pill">' + g.icon + ' ' + g.name + ': <strong>' + eq[g.id] + '</strong></span>'; });
+      h += '</div></div>';
+    }
     days.forEach(function(day) {
-      h += '<h3 class="mt-4 mb-2">' + day + '</h3>';
+      h += '<div class="card"><h3 style="margin-bottom:12px">' + day + '</h3>';
       meals.forEach(function(m) {
         var key = day + "_" + m.replace(/ /g, "");
-        var val = pd[key] || "";
+        var eqKey = key + "_eq";
         h += '<div class="meal-time-card"><h4>' + m + '</h4>';
-        h += '<textarea class="form-textarea" name="mp_' + key + '" style="min-height:45px" placeholder="Alimentos y cantidades...">' + val + '</textarea></div>';
+        h += '<div class="form-row">';
+        h += '<div class="form-group"><label class="form-label">Equivalentes</label>';
+        h += '<input class="form-input" name="mp_' + eqKey + '" value="' + (pd[eqKey]||"") + '" placeholder="Ej: 2 cereales, 1 AOA, 1 fruta, 1 grasa"></div>';
+        h += '<div class="form-group"><label class="form-label">Menú sugerido</label>';
+        h += '<input class="form-input" name="mp_' + key + '" value="' + (pd[key]||"") + '" placeholder="Ej: 2 tortillas, pechuga, ensalada, aguacate"></div>';
+        h += '</div>';
+        h += '<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px">';
+        SMAE_GROUPS.forEach(function(g) {
+          h += '<span class="equiv-pill" style="cursor:pointer;font-size:.65rem" onclick="MealPlan.addEq(this,'+Q+'mp_' + eqKey + Q+')">' + g.icon + '</span>';
+        });
+        h += '</div></div>';
       });
+      h += '</div>';
     });
-    h += UI.fg("mp_recs", "Recomendaciones generales", "textarea", pd.recs || "", {placeholder:"Hidratación, horarios, tips..."});
+    h += '<div class="card"><div class="card-title" style="margin-bottom:8px">💡 Recomendaciones</div>';
+    h += '<textarea class="form-textarea" name="mp_recs" placeholder="Hidratación, horarios, tips...">' + (pd.recs||"") + '</textarea></div>';
     h += '<div class="flex gap-3 mt-4">';
     h += '<button class="btn btn-primary btn-lg" style="flex:1" onclick="MealPlan.saveDraft()">💾 Guardar borrador</button>';
-    if (p) h += '<button class="btn btn-secondary btn-lg" onclick="MealPlan.sendToPatient()">📤 Enviar al paciente</button>';
+    if (p) h += '<button class="btn btn-secondary btn-lg" onclick="MealPlan.sendToPatient()">📤 Enviar</button>';
+    if (p) h += '<button class="btn btn-outline btn-lg" onclick="Router.nav(' + Q + 'grocery' + Q + ',{patientId:' + Q + '' + "' + p.id + '" + '' + Q + '})">🛒 Lista súper</button>';
     h += '</div>';
     main.innerHTML = h;
   },
+  addEq: function(el, inputName) {
+    var inp = document.querySelector("[name=" + inputName + "]");
+    if (!inp) return;
+    var gName = el.textContent.trim();
+    if (inp.value) inp.value = inp.value + ", 1 " + gName;
+    else inp.value = "1 " + gName;
+  },
   collectPlan: function() {
     var data = {};
-    document.querySelectorAll("[name^=mp_]").forEach(function(el) {
-      var key = el.name.replace("mp_", "");
-      if (el.value) data[key] = el.value;
-    });
+    document.querySelectorAll("[name^=mp_]").forEach(function(el) { if (el.value) data[el.name.replace("mp_","")] = el.value; });
     return data;
   },
   saveDraft: function() {
     var data = this.collectPlan();
-    if (this.p) {
-      DB.save(this.p.id, { mealPlanDraft: data }).then(function() { UI.toast("Borrador guardado ✓"); });
-    } else { UI.toast("Selecciona un paciente primero", "warning"); }
+    if (this.p) DB.save(this.p.id, { mealPlanDraft: data }).then(function() { UI.toast("Borrador guardado ✓"); });
+    else UI.toast("Selecciona paciente", "warning");
   },
   sendToPatient: function() {
     if (!this.p) { UI.toast("Selecciona paciente", "warning"); return; }
     var data = this.collectPlan();
-    var planText = "PLAN DE ALIMENTACIÓN — Healthy Josa 🌿\n";
-    planText += "Paciente: " + (this.p.name || this.p.email) + "\n";
-    planText += "Fecha: " + UI.todayStr() + "\n\n";
-    Object.keys(data).forEach(function(key) {
-      if (key !== "recs" && data[key]) planText += key.replace(/_/g, " ") + ": " + data[key] + "\n";
+    var t = "PLAN DE ALIMENTACIÓN — Healthy Josa\n";
+    t += "Paciente: " + (this.p.name || this.p.email) + "\nFecha: " + UI.todayStr() + "\n\n";
+    ["Lunes","Martes","Miércoles","Jueves","Viernes"].forEach(function(day) {
+      t += "═══ " + day.toUpperCase() + " ═══\n";
+      ["Desayuno","SnackAM","Comida","SnackPM","Cena"].forEach(function(m) {
+        var k = day+"_"+m, ek = k+"_eq";
+        if (data[k] || data[ek]) {
+          t += m + ":\n";
+          if (data[ek]) t += "  Equivalentes: " + data[ek] + "\n";
+          if (data[k]) t += "  Menú: " + data[k] + "\n";
+        }
+      });
+      t += "\n";
     });
-    if (data.recs) planText += "\nRecomendaciones:\n" + data.recs;
-    DB.save(this.p.id, { assignedPlan: planText, planDate: UI.todayISO(), mealPlanDraft: data }).then(function() {
-      UI.toast("Plan enviado al paciente ✓");
-    });
+    if (data.recs) t += "RECOMENDACIONES:\n" + data.recs;
+    DB.save(this.p.id, { assignedPlan: t, planDate: UI.todayISO(), mealPlanDraft: data }).then(function() { UI.toast("Plan enviado ✓"); });
   }
 };
 
-// === RECOMMENDATIONS (includes exercise) ===
 var Recs = {
   p: null,
   render: function(params) {
