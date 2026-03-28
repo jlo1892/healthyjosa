@@ -360,21 +360,17 @@ a{color:var(--sage-dark);text-decoration:none}img{max-width:100%;display:block}
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
 
   <script>
-// === FIREBASE CONFIG ===
-// Firebase Configuration — Healthy Josa
-// Reemplaza con los valores de tu proyecto Firebase
 const FIREBASE_CONFIG = {
-  apiKey: "TU_API_KEY",
-  authDomain: "TU_PROYECTO.firebaseapp.com",
-  projectId: "TU_PROYECTO",
-  storageBucket: "TU_PROYECTO.appspot.com",
-  messagingSenderId: "TU_SENDER_ID",
-  appId: "TU_APP_ID"
+  apiKey: "AIzaSyCgaqbjXFOOSAIksqGAm_xAb79-N8-3pgQ",
+  authDomain: "healthy-josa.firebaseapp.com",
+  projectId: "healthy-josa",
+  storageBucket: "healthy-josa.firebasestorage.app",
+  messagingSenderId: "500290725910",
+  appId: "1:500290725910:web:dcf98fa23c457520456d37"
 };
 
-// Correos autorizados como nutriólogos/admin
 const AUTHORIZED_NUTRITIONISTS = [
-  "tu-correo@gmail.com"  // Cambia por tu correo real
+  "larocquemariejose@gmail.com"
 ];
 
 firebase.initializeApp(FIREBASE_CONFIG);
@@ -382,10 +378,8 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 const storage = firebase.storage();
 auth.languageCode = 'es';
-
   </script>
   <script>
-// === FOOD EQUIVALENTS DATA (SMAE) ===
 // Sistema Mexicano de Alimentos Equivalentes (SMAE)
 // Basado en Pérez Lizaur AB y cols. SMAE 4a ed. y Guía SSA
 const FOOD_EQUIVALENTS = {
@@ -528,7 +522,6 @@ function searchFoods(query) {
 
   </script>
   <script>
-// === UI COMPONENTS ===
 // UI Components — Healthy Josa
 const UI = {
   toast(msg, type='success', dur=3500) {
@@ -592,7 +585,6 @@ const UI = {
 
   </script>
   <script>
-// === AUTH MODULE ===
 // Authentication Module — Healthy Josa
 const Auth = {
   currentUser: null,
@@ -717,7 +709,6 @@ const Auth = {
 
   </script>
   <script>
-// === ROUTER ===
 // Router — Healthy Josa SPA
 const Router = {
   currentView: null,
@@ -814,7 +805,6 @@ const Router = {
 
   </script>
   <script>
-// === VIEWS ===
 // Dashboard Nutrióloga — Healthy Josa
 const DashboardNutritionistView = {
   async render() {
@@ -1876,7 +1866,6 @@ const CalculatorsView = {
 
   </script>
   <script>
-// === APP ENTRY POINT ===
 /**
  * App Entry Point — Healthy Josa
  * Inicializa la aplicación, event listeners y arranque
