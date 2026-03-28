@@ -629,36 +629,38 @@ const Calc={
   render(){
     const p=App.activePatient||{};
     const w=p.currentWeight||'',h=p.height||'',age=p.birthdate?Math.floor((Date.now()-new Date(p.birthdate))/(365.25*24*60*60*1000)):'',sex=p.sex||'F';
-    return`<div class="mb-6"><h1>Calculadora Nutricional</h1><p class="text-muted">Datos pre-cargados del paciente activo</p></div>
-      ${p.name?UI.ctxBar():''}
-      <div class="grid-2">
-        ${UI.card('Requerimiento Energético',`
-          <div class="form-row">${UI.fg('cw','Peso (kg)','number',w,{step:'0.1'})}${UI.fg('ch','Talla (cm)','number',h)}</div>
-          <div class="form-row">${UI.fg('cage','Edad','number',age)}${UI.fg('csex','Sexo','select',sex,{options:[{value:'F',label:'Femenino'},{value:'M',label:'Masculino'}]})}</div>
-          ${UI.fg('caf','Factor actividad','select','1.2',{options:[{value:'1.2',label:'Sedentario (1.2)'},{value:'1.375',label:'Ligera (1.375)'},{value:'1.55',label:'Moderada (1.55)'},{value:'1.725',label:'Intensa (1.725)'},{value:'1.9',label:'Muy intensa (1.9)'}]})}
-          ${UI.fg('cadj','Ajuste kcal (+ subir, - bajar)','number','',{placeholder:'-500 o +300',hint:'Kcal a sumar/restar del GET'})}
-          <button class="btn btn-primary w-full" onclick="Calc.energy()">🧮 Calcular</button><div id="eres" class="mt-4"></div>
-        ','Mifflin-St Jeor / Harris-Benedict')}
-        ${UI.card('Distribución de Macros',`
-          <div class="form-row">${UI.fg('mkcal','Kcal totales','number','',{placeholder:'Del GET'})}${UI.fg('mw','Peso (kg)','number',w)}</div>
-          <div class="form-row-3">${UI.fg('mprot','Prot g/kg','number','1.2',{step:'0.1'})}${UI.fg('mfat','% Lípidos','number','30')}${UI.fg('mcho','% HCO','number','',{placeholder:'Auto',hint:'Vacío = automático'})}</div>
-          <button class="btn btn-primary w-full" onclick="Calc.macros()">📊 Calcular</button><div id="mres" class="mt-4"></div>
-        `)}
-      </div>
-      <div class="grid-2 mt-4">
-        ${UI.card('IMC + Peso saludable',`
-          <div class="form-row">${UI.fg('iw','Peso','number',w)}${UI.fg('ih','Talla','number',h)}</div>
-          <button class="btn btn-secondary w-full" onclick="Calc.imc()">Calcular</button><div id="ires" class="mt-4"></div>`)}
-        ${UI.card('Req. Hídrico',`${UI.fg('hw','Peso','number',w)}<button class="btn btn-secondary w-full" onclick="Calc.water()">Calcular</button><div id="wres" class="mt-4"></div>`,'30-35 ml/kg')}
-      </div>
-      <div class="mt-4">
-        ${UI.card('Distribución de Equivalentes',`
-          ${UI.infoBox('Calcula equivalentes SMAE según kcal. Puedes <strong>editar manualmente</strong> cada grupo. Se muestran gramos de macros por grupo.','info')}
-          <div class="form-row">${UI.fg('eqkcal','Kcal del plan','number','',{placeholder:'Usa el GET calculado'})}
-          <button class="btn btn-primary" style="align-self:end;margin-bottom:18px" onclick="Calc.equiv()">Calcular</button></div>
-          <div id="eqres"></div>
-        ','SMAE — Editable con macros')}
-      </div>`;
+    let html='<div class="mb-6"><h1>Calculadora Nutricional</h1><p class="text-muted">Datos pre-cargados del paciente activo</p></div>';
+    if(p.name)html+=UI.ctxBar();
+    // Energy card
+    html+='<div class="grid-2">';
+    html+='<div class="card"><div class="card-header"><div><div class="card-title">Requerimiento Energético</div><div class="card-subtitle">Mifflin-St Jeor / Harris-Benedict</div></div></div>';
+    html+='<div class="form-row">'+UI.fg('cw','Peso (kg)','number',w,{step:'0.1'})+UI.fg('ch','Talla (cm)','number',h)+'</div>';
+    html+='<div class="form-row">'+UI.fg('cage','Edad','number',age)+UI.fg('csex','Sexo','select',sex,{options:[{value:'F',label:'Femenino'},{value:'M',label:'Masculino'}]})+'</div>';
+    html+=UI.fg('caf','Factor actividad','select','1.2',{options:[{value:'1.2',label:'Sedentario (1.2)'},{value:'1.375',label:'Ligera (1.375)'},{value:'1.55',label:'Moderada (1.55)'},{value:'1.725',label:'Intensa (1.725)'},{value:'1.9',label:'Muy intensa (1.9)'}]});
+    html+=UI.fg('cadj','Ajuste kcal (+ o -)','number','',{placeholder:'-500 o +300'});
+    html+='<button class="btn btn-primary w-full" onclick="Calc.energy()">🧮 Calcular</button><div id="eres" class="mt-4"></div></div>';
+    // Macros card
+    html+='<div class="card"><div class="card-header"><div><div class="card-title">Distribución de Macros</div></div></div>';
+    html+='<div class="form-row">'+UI.fg('mkcal','Kcal totales','number','',{placeholder:'Del GET'})+UI.fg('mw','Peso (kg)','number',w)+'</div>';
+    html+='<div class="form-row-3">'+UI.fg('mprot','Prot g/kg','number','1.2',{step:'0.1'})+UI.fg('mfat','% Lípidos','number','30')+UI.fg('mcho','% HCO','number','',{placeholder:'Auto'})+'</div>';
+    html+='<button class="btn btn-primary w-full" onclick="Calc.macros()">📊 Calcular</button><div id="mres" class="mt-4"></div></div>';
+    html+='</div>'; // close grid-2
+    // IMC + Water
+    html+='<div class="grid-2 mt-4">';
+    html+='<div class="card"><div class="card-header"><div><div class="card-title">IMC + Peso saludable</div></div></div>';
+    html+='<div class="form-row">'+UI.fg('iw','Peso','number',w)+UI.fg('ih','Talla','number',h)+'</div>';
+    html+='<button class="btn btn-secondary w-full" onclick="Calc.imc()">Calcular</button><div id="ires" class="mt-4"></div></div>';
+    html+='<div class="card"><div class="card-header"><div><div class="card-title">Req. Hídrico</div><div class="card-subtitle">30-35 ml/kg</div></div></div>';
+    html+=UI.fg('hw','Peso','number',w);
+    html+='<button class="btn btn-secondary w-full" onclick="Calc.water()">Calcular</button><div id="wres" class="mt-4"></div></div>';
+    html+='</div>';
+    // Equivalents
+    html+='<div class="mt-4"><div class="card"><div class="card-header"><div><div class="card-title">Distribución de Equivalentes</div><div class="card-subtitle">SMAE — Editable con macros</div></div></div>';
+    html+='<div class="info-box info">Calcula equivalentes SMAE según kcal. Puedes <strong>editar manualmente</strong> cada grupo. Se muestran gramos de macros por grupo.</div>';
+    html+='<div class="form-row"><div class="form-group"><label class="form-label">Kcal del plan</label><input class="form-input" type="number" name="eqkcal" placeholder="Usa el GET calculado"></div>';
+    html+='<button class="btn btn-primary" style="align-self:end;margin-bottom:18px" onclick="Calc.equiv()">Calcular</button></div>';
+    html+='<div id="eqres"></div></div></div>';
+    return html;
   },
   energy(){
     const w=+document.querySelector('[name=cw]').value,h=+document.querySelector('[name=ch]').value,age=+document.querySelector('[name=cage]').value,sex=document.querySelector('[name=csex]').value,af=+document.querySelector('[name=caf]').value,adj=+document.querySelector('[name=cadj]').value||0;
@@ -803,11 +805,11 @@ const PatDash={
           ${UI.fg('cih','¿Hambre fuera de comidas?','select',ci?.hunger||'',{options:[{value:'',label:'Selecciona'},{value:'no',label:'No'},{value:'poca',label:'Un poco'},{value:'si',label:'Sí'},{value:'mucha',label:'Mucha'}]})}
           ${UI.fg('cin','Notas del día','textarea',ci?.notes||'',{placeholder:'¿Cómo te fue hoy?'})}
           <button class="btn btn-primary w-full" onclick="PatDash.saveCI()">💾 Guardar</button><div id="ci-ok" class="mt-2"></div>
-        ','Tu registro diario')}
+        `,'Tu registro diario')}
         ${UI.card('Hábitos del día',`
           ${hList.map((h,i)=>`<div class="checklist-item"><div class="checklist-check ${checked.includes(i)?'checked':''}" data-i="${i}" onclick="PatDash.toggleH(${i},this)">${checked.includes(i)?'✓':''}</div><span>${h}</span></div>`).join('')}
           <div class="mt-4">${UI.pbar(done/5*100,'green')}<p class="text-xs text-muted mt-2">${done}/5 completados</p></div>
-        ','Marca lo que cumpliste')}
+        `,'Marca lo que cumpliste')}
       </div>`;
   },
   async saveCI(){const d={weight:document.querySelector('[name=ciw]')?.value,water:document.querySelector('[name=ciwa]')?.value,energy:document.querySelector('[name=cie]')?.value,hunger:document.querySelector('[name=cih]')?.value,notes:document.querySelector('[name=cin]')?.value};if(await DB.saveCheckin(d)){document.getElementById('ci-ok').innerHTML='<span class="save-indicator">✓ Guardado</span>';UI.toast('Check-in guardado ✓')}},
