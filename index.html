@@ -18,7 +18,6 @@ h1,h2,h3,h4{font-family:var(--font-d);font-weight:400;color:var(--g900);line-hei
 h1{font-size:2rem}h2{font-size:1.5rem}h3{font-size:1.2rem}h4{font-size:1.05rem}
 a{color:var(--sage-dark);text-decoration:none}img{max-width:100%;display:block}
 .hidden{display:none!important}
-/* Loading */
 .loading-screen{position:fixed;inset:0;z-index:9999;background:var(--cream);display:flex;align-items:center;justify-content:center}
 .loading-content{text-align:center}
 .loading-logo h1{font-family:var(--font-d);font-size:2.4rem;color:var(--sage-dark);margin-top:12px}
@@ -28,7 +27,6 @@ a{color:var(--sage-dark);text-decoration:none}img{max-width:100%;display:block}
 .loading-bar-fill{height:100%;width:30%;background:var(--sage-dark);border-radius:3px;animation:ldg 1.2s ease-in-out infinite}
 @keyframes ldg{0%{transform:translateX(-100%)}100%{transform:translateX(600%)}}
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
-/* Auth */
 .auth-screen{position:fixed;inset:0;z-index:9000;background:var(--cream)}
 .auth-container{display:flex;height:100vh}
 .auth-left{flex:1;display:flex;flex-direction:column;justify-content:center;padding:64px;background:linear-gradient(135deg,var(--sage-dark),#4A6342,#3D5535);color:#fff;position:relative;overflow:hidden}
@@ -37,14 +35,13 @@ a{color:var(--sage-dark);text-decoration:none}img{max-width:100%;display:block}
 .auth-brand h1{font-family:var(--font-d);font-size:3rem;color:#fff;margin-bottom:8px}
 .auth-tagline{font-size:1.15rem;opacity:.85;font-weight:300}
 .auth-features{position:relative;z-index:1;margin-top:48px;display:flex;flex-direction:column;gap:16px}
-.auth-feature{display:flex;align-items:center;gap:12px}.auth-feature span{color:var(--earth-light);font-size:.75rem}.auth-feature p{font-size:.95rem;opacity:.9}
+.auth-feature{display:flex;align-items:center;gap:12px}.auth-feature span{color:var(--earth-light)}.auth-feature p{font-size:.95rem;opacity:.9}
 .auth-right{flex:1;display:flex;align-items:center;justify-content:center;padding:32px}
 .auth-card{max-width:380px;width:100%;text-align:center}
 .auth-card h2{font-size:2rem;margin-bottom:8px}.auth-subtitle{color:var(--g500);margin-bottom:32px}
 .btn-google{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;padding:14px 24px;border:2px solid var(--g200);border-radius:var(--r-lg);background:#fff;font-family:var(--font-b);font-size:1rem;font-weight:500;color:var(--g800);cursor:pointer;transition:var(--tr)}
 .btn-google:hover{border-color:var(--sage);background:var(--sage-50);transform:translateY(-1px);box-shadow:var(--shadow-md)}
 .auth-privacy{font-size:.75rem;color:var(--g400);margin-top:24px;line-height:1.5}
-/* App Shell */
 .app-shell{display:flex;min-height:100vh}
 .sidebar{width:var(--sidebar-w);height:100vh;position:fixed;left:0;top:0;z-index:100;background:#fff;border-right:1px solid var(--g100);display:flex;flex-direction:column;transition:var(--tr)}
 .sidebar-header{display:flex;align-items:center;justify-content:space-between;padding:20px;border-bottom:1px solid var(--g100)}
@@ -74,170 +71,129 @@ a{color:var(--sage-dark);text-decoration:none}img{max-width:100%;display:block}
 .mobile-logo{font-family:var(--font-d);font-size:1.1rem;color:var(--sage-dark)}
 .mobile-avatar{width:32px;height:32px;border-radius:var(--r-full);cursor:pointer}
 .main-content{margin-left:var(--sidebar-w);flex:1;min-height:100vh;padding:32px 32px 64px}
-/* Cards */
 .card{background:#fff;border-radius:var(--r-lg);border:1px solid var(--g100);padding:24px;box-shadow:var(--shadow-sm);transition:var(--tr);margin-bottom:20px}
 .card:hover{box-shadow:var(--shadow-md)}
-.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:8px}
 .card-title{font-family:var(--font-d);font-size:1.15rem}.card-subtitle{font-size:.8rem;color:var(--g500);margin-top:4px}
 .stat-card{background:#fff;border-radius:var(--r-lg);border:1px solid var(--g100);padding:20px;display:flex;align-items:flex-start;gap:16px;box-shadow:var(--shadow-sm);transition:var(--tr)}
 .stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
 .stat-icon{width:44px;height:44px;border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
 .stat-icon.green{background:var(--sage-50)}.stat-icon.blue{background:#EEF4F8}.stat-icon.amber{background:#FEF5E7}.stat-icon.rose{background:#FEF1F1}
-.stat-info h3{font-family:var(--font-b);font-size:1.75rem;font-weight:700;color:var(--g900);line-height:1}
-.stat-info p{font-size:.8rem;color:var(--g500);margin-top:4px}
-/* Buttons */
+.stat-info h3{font-family:var(--font-b);font-size:1.6rem;font-weight:700;color:var(--g900);line-height:1}
+.stat-info p{font-size:.78rem;color:var(--g500);margin-top:4px}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:var(--r-md);font-family:var(--font-b);font-size:.88rem;font-weight:600;border:none;cursor:pointer;transition:var(--tr);white-space:nowrap}
 .btn-primary{background:var(--sage-dark);color:#fff}.btn-primary:hover{background:#4A6342;transform:translateY(-1px);box-shadow:var(--shadow-md)}
 .btn-secondary{background:var(--sage-50);color:var(--sage-dark)}.btn-secondary:hover{background:var(--sage-light)}
 .btn-outline{background:transparent;border:1.5px solid var(--g200);color:var(--g700)}.btn-outline:hover{border-color:var(--sage);color:var(--sage-dark)}
-.btn-danger{background:var(--danger);color:#fff}
-.btn-sm{padding:7px 14px;font-size:.8rem}.btn-lg{padding:14px 28px;font-size:1rem}
-.btn:disabled{opacity:.5;cursor:not-allowed;transform:none!important}
-/* Forms */
-.form-group{margin-bottom:20px}
-.form-label{display:block;font-size:.82rem;font-weight:600;color:var(--g700);margin-bottom:8px}
+.btn-danger{background:var(--danger);color:#fff}.btn-sm{padding:7px 14px;font-size:.8rem}.btn-lg{padding:14px 28px;font-size:1rem}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.form-group{margin-bottom:18px}
+.form-label{display:block;font-size:.82rem;font-weight:600;color:var(--g700);margin-bottom:6px}
 .form-input,.form-select,.form-textarea{width:100%;padding:10px 14px;border:1.5px solid var(--g200);border-radius:var(--r-md);font-family:var(--font-b);font-size:.9rem;color:var(--g800);background:#fff;transition:var(--tr);outline:none}
 .form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--sage);box-shadow:0 0 0 3px var(--sage-50)}
-.form-textarea{min-height:80px;resize:vertical}
-.form-hint{font-size:.75rem;color:var(--g400);margin-top:4px;font-style:italic}
+.form-textarea{min-height:70px;resize:vertical}
+.form-hint{font-size:.73rem;color:var(--g400);margin-top:4px;font-style:italic}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
-.form-example{font-size:.72rem;color:var(--info);background:#EEF4F8;padding:4px 8px;border-radius:4px;display:inline-block;margin-top:4px}
-.form-required::after{content:" *";color:var(--danger)}
 .field-empty{font-size:.82rem;color:var(--g400);font-style:italic;padding:8px 12px;background:var(--g50);border-radius:var(--r-sm);border:1px dashed var(--g200)}
-/* Tables */
 .table-wrapper{overflow-x:auto;border-radius:var(--r-lg);border:1px solid var(--g100)}
 .data-table{width:100%;border-collapse:collapse}
-.data-table th{padding:12px 16px;text-align:left;font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--g500);background:var(--g50);border-bottom:1px solid var(--g100)}
-.data-table td{padding:12px 16px;font-size:.88rem;border-bottom:1px solid var(--g100)}
+.data-table th{padding:10px 14px;text-align:left;font-size:.73rem;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--g500);background:var(--g50);border-bottom:1px solid var(--g100)}
+.data-table td{padding:10px 14px;font-size:.85rem;border-bottom:1px solid var(--g100)}
 .data-table tbody tr:hover{background:var(--sage-50)}
-/* Badges */
+.data-table input[type=number]{width:70px;padding:4px 8px;border:1px solid var(--g200);border-radius:4px;font-size:.85rem;text-align:center}
 .badge{display:inline-flex;padding:3px 10px;border-radius:var(--r-full);font-size:.72rem;font-weight:600}
 .badge-green{background:#E8F5E9;color:#2E7D32}.badge-amber{background:#FFF8E1;color:#F57F17}
 .badge-red{background:#FFEBEE;color:#C62828}.badge-blue{background:#E3F2FD;color:#1565C0}.badge-gray{background:var(--g100);color:var(--g600)}
-/* Tabs */
 .tabs{display:flex;gap:4px;border-bottom:1px solid var(--g200);margin-bottom:24px;overflow-x:auto}
-.tab{padding:12px 20px;font-size:.88rem;font-weight:500;color:var(--g500);cursor:pointer;border-bottom:2px solid transparent;transition:var(--tr);white-space:nowrap}
+.tab{padding:10px 16px;font-size:.85rem;font-weight:500;color:var(--g500);cursor:pointer;border-bottom:2px solid transparent;transition:var(--tr);white-space:nowrap}
 .tab:hover{color:var(--g800)}.tab.active{color:var(--sage-dark);border-bottom-color:var(--sage-dark);font-weight:600}
-/* Search */
 .search-box{display:flex;align-items:center;gap:8px;padding:12px 16px;background:#fff;border:1.5px solid var(--g200);border-radius:var(--r-lg);transition:var(--tr)}
 .search-box:focus-within{border-color:var(--sage);box-shadow:0 0 0 3px var(--sage-50)}
 .search-box input{border:none;outline:none;flex:1;font-family:var(--font-b);font-size:.9rem;background:transparent}
-/* Grids */
 .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
 .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.grid-5{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
 .grid-auto{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
-/* Progress */
 .progress-bar{height:8px;background:var(--g100);border-radius:var(--r-full);overflow:hidden}
 .progress-fill{height:100%;border-radius:var(--r-full);transition:width .6s ease}
 .progress-fill.green{background:var(--success)}.progress-fill.amber{background:var(--warning)}.progress-fill.red{background:var(--danger)}
-/* Completion indicator */
-.completion-ring{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0}
-.completion-ring.low{background:#FFEBEE;color:var(--danger)}.completion-ring.mid{background:#FFF8E1;color:var(--warning)}.completion-ring.high{background:#E8F5E9;color:var(--success)}
-/* Toast */
 .toast-container{position:fixed;top:20px;right:20px;z-index:10000;display:flex;flex-direction:column;gap:12px}
-.toast{padding:16px 20px;border-radius:var(--r-md);background:#fff;box-shadow:var(--shadow-lg);border-left:4px solid var(--sage-dark);font-size:.88rem;animation:slideIn .3s ease;max-width:380px;display:flex;align-items:center;gap:12px}
+.toast{padding:14px 18px;border-radius:var(--r-md);background:#fff;box-shadow:var(--shadow-lg);border-left:4px solid var(--sage-dark);font-size:.85rem;animation:slideIn .3s ease;max-width:360px;display:flex;align-items:center;gap:10px}
 .toast.success{border-left-color:var(--success)}.toast.error{border-left-color:var(--danger)}.toast.warning{border-left-color:var(--warning)}
 @keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
-/* Modal */
 .modal-overlay{position:fixed;inset:0;z-index:5000;background:rgba(0,0,0,.4);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:20px}
-.modal-content{background:#fff;border-radius:var(--r-xl);max-width:700px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,.1);animation:modalIn .25s ease}
-.modal-header{padding:24px 24px 16px;display:flex;align-items:center;justify-content:space-between}
-.modal-header h2{font-size:1.3rem}.modal-body{padding:0 24px 24px}
+.modal-content{background:#fff;border-radius:var(--r-xl);max-width:800px;width:100%;max-height:92vh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,.1);animation:modalIn .25s ease}
+.modal-header{padding:24px 24px 12px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff;z-index:1;border-bottom:1px solid var(--g100)}
+.modal-header h2{font-size:1.2rem}.modal-body{padding:16px 24px 24px}
 @keyframes modalIn{from{transform:scale(.95);opacity:0}to{transform:scale(1);opacity:1}}
-/* Empty */
-.empty-state{text-align:center;padding:48px 32px}
-.empty-state .empty-icon{font-size:3rem;margin-bottom:16px;display:block;opacity:.8}
-.empty-state h3{font-size:1.2rem;margin-bottom:8px;color:var(--g700)}
-.empty-state p{color:var(--g500);max-width:400px;margin:0 auto 20px;font-size:.9rem}
-/* Patient card */
+.empty-state{text-align:center;padding:40px 24px}
+.empty-state .empty-icon{font-size:2.5rem;margin-bottom:12px;display:block;opacity:.8}
+.empty-state h3{font-size:1.1rem;margin-bottom:8px;color:var(--g700)}
+.empty-state p{color:var(--g500);max-width:380px;margin:0 auto 16px;font-size:.88rem}
 .patient-card{background:#fff;border-radius:var(--r-lg);border:1px solid var(--g100);padding:20px;cursor:pointer;transition:var(--tr);display:flex;align-items:center;gap:16px}
 .patient-card:hover{border-color:var(--sage);box-shadow:var(--shadow-md);transform:translateY(-2px)}
-.patient-avatar{width:48px;height:48px;border-radius:var(--r-full);background:var(--sage-50);display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:700;color:var(--sage-dark);flex-shrink:0}
-.patient-info{flex:1;min-width:0}.patient-name{font-weight:600;font-size:.95rem;color:var(--g800)}
-.patient-meta{font-size:.78rem;color:var(--g500);margin-top:2px}
-.patient-tags{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
-/* Semaforo */
-.semaforo{display:inline-flex;align-items:center;gap:8px;font-size:.82rem;font-weight:600}
+.patient-avatar{width:44px;height:44px;border-radius:var(--r-full);background:var(--sage-50);display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:700;color:var(--sage-dark);flex-shrink:0}
+.patient-info{flex:1;min-width:0}.patient-name{font-weight:600;font-size:.93rem;color:var(--g800)}
+.patient-meta{font-size:.76rem;color:var(--g500);margin-top:2px}
+.patient-tags{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.semaforo{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;font-weight:600}
 .semaforo-dot{width:10px;height:10px;border-radius:50%}
 .semaforo-dot.green{background:var(--success)}.semaforo-dot.amber{background:var(--warning)}.semaforo-dot.red{background:var(--danger)}
-/* Food tags */
-.food-tag{display:inline-flex;padding:4px 10px;border-radius:var(--r-full);font-size:.75rem;font-weight:600}
+.food-tag{display:inline-flex;padding:3px 8px;border-radius:var(--r-full);font-size:.72rem;font-weight:600}
 .food-tag.verduras{background:#E8F5E9;color:#2E7D32}.food-tag.frutas{background:#FFF3E0;color:#E65100}
 .food-tag.cereales{background:#FFF8E1;color:#F57F17}.food-tag.aoa{background:#FFEBEE;color:#C62828}
 .food-tag.leche{background:#E3F2FD;color:#1565C0}.food-tag.leguminosas{background:#F3E5F5;color:#6A1B9A}
 .food-tag.grasas{background:#FBE9E7;color:#BF360C}.food-tag.azucares{background:#FCE4EC;color:#AD1457}
-/* Quick actions */
-.quick-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px}
-.quick-action{display:flex;align-items:center;gap:8px;padding:12px 16px;background:#fff;border:1px solid var(--g100);border-radius:var(--r-full);font-size:.82rem;font-weight:500;color:var(--g700);cursor:pointer;transition:var(--tr)}
+.quick-actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px}
+.quick-action{display:flex;align-items:center;gap:8px;padding:10px 16px;background:#fff;border:1px solid var(--g100);border-radius:var(--r-full);font-size:.82rem;font-weight:500;color:var(--g700);cursor:pointer;transition:var(--tr)}
 .quick-action:hover{border-color:var(--sage);color:var(--sage-dark);background:var(--sage-50)}
-/* Greeting */
-.greeting{margin-bottom:32px}.greeting h1{font-size:1.8rem;margin-bottom:4px}.greeting p{color:var(--g500);font-size:.95rem}
-.greeting .date{font-size:.82rem;color:var(--g400);margin-top:4px}
-/* Wizard */
-.wizard-steps{display:flex;gap:8px;margin-bottom:32px}
-.wizard-step{flex:1;text-align:center;padding:12px}
-.wizard-step-number{width:32px;height:32px;border-radius:50%;background:var(--g100);color:var(--g500);display:inline-flex;align-items:center;justify-content:center;font-size:.82rem;font-weight:700;margin-bottom:8px;transition:var(--tr)}
+.greeting{margin-bottom:28px}.greeting h1{font-size:1.7rem;margin-bottom:4px}.greeting p{color:var(--g500);font-size:.93rem}
+.greeting .date{font-size:.8rem;color:var(--g400);margin-top:4px}
+.wizard-steps{display:flex;gap:8px;margin-bottom:28px}
+.wizard-step{flex:1;text-align:center;padding:8px}
+.wizard-step-number{width:32px;height:32px;border-radius:50%;background:var(--g100);color:var(--g500);display:inline-flex;align-items:center;justify-content:center;font-size:.82rem;font-weight:700;margin-bottom:6px;transition:var(--tr)}
 .wizard-step.active .wizard-step-number{background:var(--sage-dark);color:#fff}
 .wizard-step.completed .wizard-step-number{background:var(--success);color:#fff}
-.wizard-step-label{font-size:.72rem;color:var(--g500);font-weight:500}
+.wizard-step-label{font-size:.7rem;color:var(--g500);font-weight:500}
 .wizard-step.active .wizard-step-label{color:var(--sage-dark);font-weight:600}
-/* Checklist */
-.checklist-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--g100)}
+.checklist-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--g100)}
 .checklist-item:last-child{border-bottom:none}
 .checklist-check{width:24px;height:24px;border-radius:6px;border:2px solid var(--g300);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--tr);flex-shrink:0;font-size:.75rem}
 .checklist-check.checked{background:var(--sage-dark);border-color:var(--sage-dark);color:#fff}
-/* Timeline */
-.timeline{position:relative;padding-left:32px}
-.timeline::before{content:'';position:absolute;left:12px;top:0;bottom:0;width:2px;background:var(--g200)}
-.timeline-item{position:relative;padding-bottom:24px}
-.timeline-dot{position:absolute;left:-26px;width:12px;height:12px;border-radius:50%;background:var(--sage);border:2px solid #fff;box-shadow:0 0 0 2px var(--sage-light)}
-.timeline-date{font-size:.72rem;color:var(--g400);margin-bottom:4px}
-.timeline-content{font-size:.88rem}
-/* Chart placeholder */
-.chart-container{width:100%;height:200px;background:var(--g50);border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;color:var(--g400);font-size:.88rem;border:1px dashed var(--g200)}
-/* Equiv */
-.equiv-card{background:#fff;border-radius:var(--r-lg);border:1px solid var(--g100);overflow:hidden;transition:var(--tr)}
-.equiv-card:hover{box-shadow:var(--shadow-md)}
-.equiv-card-header{padding:16px 20px;border-bottom:1px solid var(--g100);display:flex;align-items:center;justify-content:space-between}
-.equiv-macros{display:flex;gap:16px}
-.equiv-macro{text-align:center}.equiv-macro span{display:block;font-size:.65rem;color:var(--g500);text-transform:uppercase;letter-spacing:.5px}
-.equiv-macro strong{font-size:.88rem;color:var(--g800)}
-/* Info box */
-.info-box{padding:16px;border-radius:var(--r-md);font-size:.85rem;line-height:1.6;margin-bottom:20px}
+.info-box{padding:14px 16px;border-radius:var(--r-md);font-size:.84rem;line-height:1.6;margin-bottom:16px}
 .info-box.tip{background:#E8F5E9;border:1px solid #C8E6C9;color:#2E7D32}
 .info-box.warn{background:#FFF8E1;border:1px solid #FFE082;color:#F57F17}
 .info-box.info{background:#E3F2FD;border:1px solid #90CAF9;color:#1565C0}
 .info-box strong{font-weight:700}
-/* Section completion */
-.section-status{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:var(--r-md);margin-bottom:16px;font-size:.85rem}
-.section-status.complete{background:#E8F5E9;color:#2E7D32}
-.section-status.incomplete{background:#FFF8E1;color:#F57F17}
-.section-status.empty{background:#FFEBEE;color:#C62828}
-/* Photo upload */
 .photo-upload-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.photo-upload-box{border:2px dashed var(--g200);border-radius:var(--r-lg);padding:24px;text-align:center;cursor:pointer;transition:var(--tr);min-height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.photo-upload-box{border:2px dashed var(--g200);border-radius:var(--r-lg);padding:20px;text-align:center;cursor:pointer;transition:var(--tr);min-height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden}
 .photo-upload-box:hover{border-color:var(--sage);background:var(--sage-50)}
-.photo-upload-box img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:var(--r-lg)}
-.photo-upload-box .upload-icon{font-size:2rem;margin-bottom:8px}
+.photo-upload-box img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:calc(var(--r-lg) - 2px)}
+.photo-upload-box .upload-icon{font-size:1.8rem;margin-bottom:6px}
 .photo-upload-box .upload-label{font-size:.82rem;font-weight:600;color:var(--g600)}
-.photo-upload-box .upload-hint{font-size:.72rem;color:var(--g400);margin-top:4px}
+.photo-upload-box .upload-hint{font-size:.7rem;color:var(--g400);margin-top:4px}
 .photo-upload-box input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer}
-/* Saved indicator */
-.save-indicator{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;color:var(--success);font-weight:500;animation:fadeIn .3s ease}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-/* Responsive */
-@media(max-width:1024px){.grid-4{grid-template-columns:repeat(2,1fr)}.grid-3{grid-template-columns:repeat(2,1fr)}}
+.save-indicator{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;color:var(--success);font-weight:500}
+.context-bar{background:#fff;border:1px solid var(--sage-light);border-radius:var(--r-lg);padding:12px 20px;margin-bottom:20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.context-bar .ctx-name{font-weight:700;color:var(--sage-dark);font-size:.95rem}
+.context-bar .ctx-detail{font-size:.8rem;color:var(--g500)}
+.context-bar .btn{margin-left:auto}
+.meal-time-card{background:var(--sage-50);border-radius:var(--r-md);padding:16px;margin-bottom:12px}
+.meal-time-card h4{font-family:var(--font-b);font-weight:600;font-size:.9rem;margin-bottom:10px;color:var(--sage-dark)}
+.meal-time-card textarea{min-height:50px}
+.equiv-pill{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:var(--r-full);font-size:.72rem;font-weight:600;background:var(--sage-50);color:var(--sage-dark);margin:2px}
+.chart-container{width:100%;height:180px;background:var(--g50);border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;color:var(--g400);font-size:.85rem;border:1px dashed var(--g200)}
+@media(max-width:1024px){.grid-4,.grid-5{grid-template-columns:repeat(2,1fr)}.grid-3{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:768px){
 .sidebar{transform:translateX(-100%);z-index:200}.sidebar.open{transform:translateX(0)}.sidebar-close{display:block}
-.mobile-header{display:flex}.main-content{margin-left:0;padding:calc(var(--header-h) + 20px) 16px 48px}
-.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}.form-row,.form-row-3{grid-template-columns:1fr}
+.mobile-header{display:flex}.main-content{margin-left:0;padding:calc(var(--header-h) + 16px) 16px 48px}
+.grid-2,.grid-3,.grid-4,.grid-5{grid-template-columns:1fr}.form-row,.form-row-3{grid-template-columns:1fr}
 .auth-container{flex-direction:column}.auth-left{padding:32px 24px;flex:none}.auth-features{display:none}.auth-brand h1{font-size:2rem}
-.photo-upload-grid{grid-template-columns:1fr}
+.photo-upload-grid{grid-template-columns:1fr}.wizard-step-label{display:none}
+.context-bar{flex-direction:column;align-items:flex-start}.context-bar .btn{margin-left:0}
 }
-@media(max-width:480px){html{font-size:14px}.stat-card{flex-direction:column;align-items:center;text-align:center}.quick-actions{flex-direction:column}}
-/* Utils */
 .text-center{text-align:center}.text-sm{font-size:.82rem}.text-xs{font-size:.72rem}.text-muted{color:var(--g500)}
 .mt-2{margin-top:8px}.mt-4{margin-top:16px}.mt-6{margin-top:24px}.mb-4{margin-bottom:16px}.mb-6{margin-bottom:24px}
 .flex{display:flex}.flex-wrap{flex-wrap:wrap}.items-center{align-items:center}.justify-between{justify-content:space-between}.w-full{width:100%}.gap-3{gap:12px}
@@ -303,935 +259,697 @@ a{color:var(--sage-dark);text-decoration:none}img{max-width:100%;display:block}
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
 <script>
 // =============================================
-// HEALTHY JOSA v2 — Complete App
-// Firebase Config + Auth + Router + All Views
+// HEALTHY JOSA v3 — Complete Integrated App
 // =============================================
 
-// === FIREBASE CONFIG ===
-const FIREBASE_CONFIG = {
-  apiKey: "AIzaSyCgaqbjXFOOSAIksqGAm_xAb79-N8-3pgQ",
-  authDomain: "healthy-josa.firebaseapp.com",
-  projectId: "healthy-josa",
-  storageBucket: "healthy-josa.firebasestorage.app",
-  messagingSenderId: "500290725910",
-  appId: "1:500290725910:web:dcf98fa23c457520456d37"
-};
-const AUTHORIZED_NUTRITIONISTS = ["larocquemariejose@gmail.com"];
-firebase.initializeApp(FIREBASE_CONFIG);
-const auth = firebase.auth();
-const db = firebase.firestore();
-const storage = firebase.storage();
-auth.languageCode = 'es';
+const FIREBASE_CONFIG={apiKey:"AIzaSyCgaqbjXFOOSAIksqGAm_xAb79-N8-3pgQ",authDomain:"healthy-josa.firebaseapp.com",projectId:"healthy-josa",storageBucket:"healthy-josa.firebasestorage.app",messagingSenderId:"500290725910",appId:"1:500290725910:web:dcf98fa23c457520456d37"};
+const AUTHORIZED_NUTRITIONISTS=["larocquemariejose@gmail.com"];
+firebase.initializeApp(FIREBASE_CONFIG);const auth=firebase.auth();const db=firebase.firestore();const storage=firebase.storage();auth.languageCode='es';
 
-// === FOOD EQUIVALENTS (SMAE) ===
-const FOOD_EQUIVALENTS = {
-  groups: [
-    {id:"verduras",name:"Verduras",color:"#4CAF50",cssClass:"verduras",energy:25,protein:2,fat:0,carbs:4,subgroups:[
-      {id:"v1",name:"Verduras I",foods:[{name:"Acelga cocida",portion:"1/2 taza"},{name:"Apio crudo",portion:"2 tazas"},{name:"Champiñón cocido",portion:"1 taza"},{name:"Col cruda",portion:"1 1/2 taza"},{name:"Coliflor cocida",portion:"1 taza"},{name:"Espinaca cocida",portion:"1/2 taza"},{name:"Espinaca cruda",portion:"2 tazas"},{name:"Lechuga",portion:"3 tazas"},{name:"Nopal cocido",portion:"1 taza"},{name:"Pepino rebanado",portion:"1 1/2 taza"},{name:"Pimiento morrón",portion:"1 pieza"}]},
-      {id:"v2",name:"Verduras II",foods:[{name:"Brócoli cocido",portion:"1/2 taza"},{name:"Calabacita cocida",portion:"1/2 taza"},{name:"Cebolla blanca cruda",portion:"1/2 taza"},{name:"Chayote cocido",portion:"1/2 pieza"},{name:"Jicama picada",portion:"1/2 taza"},{name:"Jitomate bola",portion:"1 pieza"},{name:"Zanahoria cruda",portion:"3/4 taza"},{name:"Zanahoria cocida",portion:"1/2 taza"},{name:"Betabel rallado",portion:"1/4 taza"}]}
-    ]},
-    {id:"frutas",name:"Frutas",color:"#FF9800",cssClass:"frutas",energy:60,protein:0,fat:0,carbs:15,subgroups:[
-      {id:"f1",name:"Frutas",foods:[{name:"Manzana chica",portion:"1 pieza"},{name:"Fresa rebanada",portion:"1 taza"},{name:"Papaya",portion:"1 taza"},{name:"Melón picado",portion:"1 taza"},{name:"Sandía picada",portion:"1 taza"},{name:"Naranja en gajos",portion:"1 taza"},{name:"Plátano tabasco",portion:"1/2 pieza"},{name:"Mango ataulfo",portion:"1/2 pieza"},{name:"Guayaba",portion:"3 piezas"},{name:"Piña picada",portion:"3/4 taza"},{name:"Uva",portion:"15 piezas"},{name:"Pera",portion:"1/2 pieza"},{name:"Kiwi",portion:"1 1/2 piezas"},{name:"Toronja",portion:"1 pieza"},{name:"Durazno chico",portion:"2 piezas"},{name:"Mandarina chica",portion:"2 piezas"}]}
-    ]},
-    {id:"cereales",name:"Cereales y Tubérculos",color:"#FFC107",cssClass:"cereales",energy:70,protein:2,fat:0,carbs:15,subgroups:[
-      {id:"csg",name:"Sin grasa",energy:70,protein:2,fat:0,carbs:15,foods:[{name:"Tortilla de maíz",portion:"1 pieza"},{name:"Arroz cocido",portion:"1/2 taza"},{name:"Avena en hojuelas",portion:"1/3 taza"},{name:"Pan integral",portion:"1 rebanada"},{name:"Pasta cocida",portion:"1/2 taza"},{name:"Papa cocida",portion:"1/2 pieza"},{name:"Bolillo sin migajón",portion:"1/2 pieza"},{name:"Galleta María",portion:"5 piezas"},{name:"Tortilla de harina",portion:"1/2 pieza"},{name:"Elote cocido",portion:"1 1/2 pieza"},{name:"Cereal sin azúcar",portion:"1/2 taza"},{name:"Palomitas naturales",portion:"3 tazas"}]},
-      {id:"ccg",name:"Con grasa",energy:115,protein:2,fat:5,carbs:15,foods:[{name:"Pan dulce (concha)",portion:"1 pieza"},{name:"Granola",portion:"1/2 pieza"},{name:"Papas fritas",portion:"6 piezas"},{name:"Tamal",portion:"1/4 pieza"},{name:"Waffle",portion:"1 pieza"}]}
-    ]},
-    {id:"aoa",name:"Alimentos de Origen Animal",color:"#F44336",cssClass:"aoa",energy:40,protein:7,fat:1,carbs:0,subgroups:[
-      {id:"amb",name:"Muy bajo en grasa",energy:40,protein:7,fat:1,carbs:0,foods:[{name:"Pechuga de pollo",portion:"30g"},{name:"Atún en agua",portion:"1/4 lata"},{name:"Bistec de res",portion:"30g"},{name:"Clara de huevo",portion:"2 piezas"},{name:"Filete de pescado",portion:"40g"},{name:"Queso cottage",portion:"3 cdas"},{name:"Camarón cocido",portion:"5 piezas"}]},
-      {id:"ab",name:"Bajo en grasa",energy:55,protein:7,fat:3,carbs:0,foods:[{name:"Queso panela",portion:"40g"},{name:"Queso fresco",portion:"40g"},{name:"Jamón de pavo",portion:"2 rebanadas"},{name:"Salmón",portion:"30g"},{name:"Carne de cerdo",portion:"40g"}]},
-      {id:"amod",name:"Moderado en grasa",energy:75,protein:7,fat:5,carbs:0,foods:[{name:"Huevo entero",portion:"1 pieza"},{name:"Queso mozzarella",portion:"30g"},{name:"Sardina en aceite",portion:"3 piezas"}]},
-      {id:"aa",name:"Alto en grasa",energy:100,protein:7,fat:8,carbs:0,foods:[{name:"Queso Oaxaca",portion:"30g"},{name:"Queso manchego",portion:"25g"},{name:"Salchicha",portion:"3/4 pieza"}]}
-    ]},
-    {id:"leche",name:"Leche y Sustitutos",color:"#2196F3",cssClass:"leche",energy:95,protein:9,fat:2,carbs:12,subgroups:[
-      {id:"ld",name:"Descremada",energy:95,protein:9,fat:2,carbs:12,foods:[{name:"Leche descremada",portion:"1 taza"},{name:"Yogurt light",portion:"3/4 taza"},{name:"Leche de soya light",portion:"1 taza"}]},
-      {id:"le",name:"Entera",energy:150,protein:9,fat:8,carbs:12,foods:[{name:"Leche entera",portion:"1 taza"},{name:"Yogurt natural",portion:"1 taza"}]}
-    ]},
-    {id:"leguminosas",name:"Leguminosas",color:"#9C27B0",cssClass:"leguminosas",energy:120,protein:8,fat:1,carbs:20,subgroups:[
-      {id:"lg",name:"Leguminosas",foods:[{name:"Frijol cocido",portion:"1/2 taza"},{name:"Lentejas cocidas",portion:"1/2 taza"},{name:"Garbanzos cocidos",portion:"1/2 taza"},{name:"Habas cocidas",portion:"1/2 taza"}]}
-    ]},
-    {id:"grasas",name:"Aceites y Grasas",color:"#FF5722",cssClass:"grasas",energy:45,protein:0,fat:5,carbs:0,subgroups:[
-      {id:"gsp",name:"Sin proteína",energy:45,protein:0,fat:5,carbs:0,foods:[{name:"Aceite de oliva",portion:"1 cdita"},{name:"Aceite vegetal",portion:"1 cdita"}]},
-      {id:"gcp",name:"Con proteína",energy:70,protein:3,fat:5,carbs:3,foods:[{name:"Aguacate",portion:"1/3 pieza"},{name:"Almendras",portion:"10 piezas"},{name:"Nuez",portion:"3 piezas"},{name:"Cacahuates",portion:"14 piezas"},{name:"Aceitunas",portion:"6 piezas"}]}
-    ]},
-    {id:"azucares",name:"Azúcares",color:"#E91E63",cssClass:"azucares",energy:40,protein:0,fat:0,carbs:10,subgroups:[
-      {id:"asg",name:"Sin grasa",energy:40,protein:0,fat:0,carbs:10,foods:[{name:"Azúcar",portion:"2 1/2 cditas"},{name:"Miel",portion:"2 cditas"},{name:"Mermelada",portion:"2 1/2 cditas"}]},
-      {id:"acg",name:"Con grasa",energy:85,protein:0,fat:5,carbs:10,foods:[{name:"Chocolate",portion:"1/3 pieza"},{name:"Helado",portion:"1/3 taza"}]}
-    ]}
-  ],
-  freeEnergyFoods:[{name:"Agua mineral",portion:"1 taza"},{name:"Café descafeinado",portion:"1 taza"},{name:"Té sin azúcar",portion:"libre"},{name:"Limón",portion:"1/2 pieza"},{name:"Canela",portion:"1 cdita"},{name:"Flor de jamaica",portion:"1 taza"},{name:"Mostaza",portion:"1 cdita"},{name:"Vinagre",portion:"1 cdita"}]
-};
-function searchFoods(q){const r=[];q=q.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");FOOD_EQUIVALENTS.groups.forEach(g=>{g.subgroups.forEach(s=>{s.foods.forEach(f=>{if(f.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").includes(q))r.push({...f,group:g.name,groupId:g.id,subgroup:s.name,energy:s.energy||g.energy,protein:s.protein!==undefined?s.protein:g.protein,fat:s.fat!==undefined?s.fat:g.fat,carbs:s.carbs!==undefined?s.carbs:g.carbs,cssClass:g.cssClass})})})});return r}
+// === SMAE DATA ===
+const SMAE={groups:[
+{id:"verduras",name:"Verduras",icon:"🥬",css:"verduras",e:25,p:2,l:0,h:4,subs:[{id:"v1",name:"Verduras",foods:["Acelga cocida|1/2 taza","Apio crudo|2 tazas","Champiñón cocido|1 taza","Coliflor cocida|1 taza","Espinaca cocida|1/2 taza","Espinaca cruda|2 tazas","Lechuga|3 tazas","Nopal cocido|1 taza","Pepino|1 1/2 taza","Pimiento morrón|1 pieza","Brócoli cocido|1/2 taza","Calabacita cocida|1/2 taza","Chayote cocido|1/2 pieza","Jitomate|1 pieza","Zanahoria cocida|1/2 taza","Jicama picada|1/2 taza"]}]},
+{id:"frutas",name:"Frutas",icon:"🍎",css:"frutas",e:60,p:0,l:0,h:15,subs:[{id:"f1",name:"Frutas",foods:["Manzana chica|1 pieza","Fresa rebanada|1 taza","Papaya|1 taza","Melón picado|1 taza","Sandía picada|1 taza","Naranja gajos|1 taza","Plátano|1/2 pieza","Mango|1/2 pieza","Guayaba|3 piezas","Piña picada|3/4 taza","Uvas|15 piezas","Pera|1/2 pieza","Kiwi|1 1/2 piezas","Toronja|1 pieza","Durazno|2 piezas","Mandarina|2 piezas"]}]},
+{id:"cereales",name:"Cereales y Tubérculos",icon:"🌾",css:"cereales",e:70,p:2,l:0,h:15,subs:[{id:"csg",name:"Sin grasa",e:70,p:2,l:0,h:15,foods:["Tortilla maíz|1 pieza","Arroz cocido|1/2 taza","Avena hojuelas|1/3 taza","Pan integral|1 rebanada","Pasta cocida|1/2 taza","Papa cocida|1/2 pieza","Bolillo s/migajón|1/2 pieza","Galleta María|5 piezas","Elote|1 1/2 pieza","Palomitas natural|3 tazas","Cereal s/azúcar|1/2 taza"]},{id:"ccg",name:"Con grasa",e:115,p:2,l:5,h:15,foods:["Pan dulce|1 pieza","Granola|1/2 pieza","Papas fritas|6 piezas","Tamal|1/4 pieza","Waffle|1 pieza"]}]},
+{id:"aoa",name:"Alimento Origen Animal",icon:"🥩",css:"aoa",e:40,p:7,l:1,h:0,subs:[{id:"amb",name:"Muy bajo grasa",e:40,p:7,l:1,h:0,foods:["Pechuga pollo|30g","Atún en agua|1/4 lata","Bistec res|30g","Clara huevo|2 piezas","Filete pescado|40g","Queso cottage|3 cdas","Camarón cocido|5 piezas"]},{id:"ab",name:"Bajo grasa",e:55,p:7,l:3,h:0,foods:["Queso panela|40g","Queso fresco|40g","Jamón pavo|2 reb","Salmón|30g","Cerdo|40g"]},{id:"amod",name:"Moderado grasa",e:75,p:7,l:5,h:0,foods:["Huevo|1 pieza","Queso mozzarella|30g","Sardina aceite|3 piezas"]},{id:"aa",name:"Alto grasa",e:100,p:7,l:8,h:0,foods:["Queso Oaxaca|30g","Queso manchego|25g","Salchicha|3/4 pieza"]}]},
+{id:"leche",name:"Leche y Sustitutos",icon:"🥛",css:"leche",e:95,p:9,l:2,h:12,subs:[{id:"ld",name:"Descremada",e:95,p:9,l:2,h:12,foods:["Leche descremada|1 taza","Yogurt light|3/4 taza","Leche soya light|1 taza"]},{id:"le",name:"Entera",e:150,p:9,l:8,h:12,foods:["Leche entera|1 taza","Yogurt natural|1 taza"]}]},
+{id:"leguminosas",name:"Leguminosas",icon:"🫘",css:"leguminosas",e:120,p:8,l:1,h:20,subs:[{id:"lg",name:"Leguminosas",foods:["Frijol cocido|1/2 taza","Lentejas cocidas|1/2 taza","Garbanzos|1/2 taza","Habas cocidas|1/2 taza"]}]},
+{id:"grasas",name:"Grasas",icon:"🥑",css:"grasas",e:45,p:0,l:5,h:0,subs:[{id:"gsp",name:"Sin proteína",e:45,p:0,l:5,h:0,foods:["Aceite oliva|1 cdita","Aceite vegetal|1 cdita"]},{id:"gcp",name:"Con proteína",e:70,p:3,l:5,h:3,foods:["Aguacate|1/3 pieza","Almendras|10 piezas","Nuez|3 piezas","Cacahuates|14 piezas","Aceitunas|6 piezas"]}]},
+{id:"azucares",name:"Azúcares",icon:"🍬",css:"azucares",e:40,p:0,l:0,h:10,subs:[{id:"asg",name:"Sin grasa",e:40,p:0,l:0,h:10,foods:["Azúcar|2 1/2 cditas","Miel|2 cditas","Mermelada|2 1/2 cditas"]},{id:"acg",name:"Con grasa",e:85,p:0,l:5,h:10,foods:["Chocolate|1/3 pieza","Helado|1/3 taza"]}]}
+]};
+function searchFoods(q){const r=[];q=q.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");SMAE.groups.forEach(g=>{g.subs.forEach(s=>{s.foods.forEach(f=>{const[n,p]=f.split('|');if(n.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").includes(q))r.push({name:n,portion:p,group:g.name,groupId:g.id,e:s.e||g.e,p:s.p!==undefined?s.p:g.p,l:s.l!==undefined?s.l:g.l,h:s.h!==undefined?s.h:g.h,css:g.css})})})});return r}
 
-// === UI COMPONENTS ===
+// === UI ===
 const UI={
-  toast(m,t='success',d=3500){const c=document.getElementById('toast-container');const icons={success:'✓',error:'✕',warning:'⚠',info:'ℹ'};const el=document.createElement('div');el.className='toast '+t;el.innerHTML=`<span>${icons[t]||'•'}</span><span>${m}</span>`;c.appendChild(el);setTimeout(()=>{el.style.opacity='0';el.style.transform='translateX(100%)';setTimeout(()=>el.remove(),300)},d)},
+  toast(m,t='success',d=3e3){const c=document.getElementById('toast-container');const el=document.createElement('div');el.className='toast '+t;el.innerHTML=`<span>${{success:'✓',error:'✕',warning:'⚠',info:'ℹ'}[t]||'•'}</span><span>${m}</span>`;c.appendChild(el);setTimeout(()=>{el.style.opacity='0';setTimeout(()=>el.remove(),300)},d)},
   toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('sidebar-overlay').classList.toggle('hidden')},
   closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sidebar-overlay').classList.add('hidden')},
-  openModal(h,o={}){const ov=document.getElementById('modal-overlay'),c=document.getElementById('modal-content');c.innerHTML=h;c.style.maxWidth=o.wide?'800px':'700px';ov.classList.remove('hidden');document.body.style.overflow='hidden'},
+  openModal(h){const o=document.getElementById('modal-overlay'),c=document.getElementById('modal-content');c.innerHTML=h;o.classList.remove('hidden');document.body.style.overflow='hidden'},
   closeModal(){document.getElementById('modal-overlay').classList.add('hidden');document.body.style.overflow=''},
   greeting(){const h=new Date().getHours();return h<12?'Buenos días':h<18?'Buenas tardes':'Buenas noches'},
   todayStr(){return new Date().toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long',year:'numeric'})},
   todayISO(){return new Date().toISOString().split('T')[0]},
-  formatDate(d){if(!d)return'—';const dt=d.toDate?d.toDate():new Date(d);return dt.toLocaleDateString('es-MX',{day:'numeric',month:'short',year:'numeric'})},
-  avatar(n){const i=(n||'?').split(' ').map(x=>x[0]).join('').substring(0,2).toUpperCase();return`<div class="patient-avatar">${i}</div>`},
+  fmtDate(d){if(!d)return'—';const dt=d.toDate?d.toDate():new Date(d);return dt.toLocaleDateString('es-MX',{day:'numeric',month:'short',year:'numeric'})},
+  avatar(n){return`<div class="patient-avatar">${(n||'?').split(' ').map(x=>x[0]).join('').substring(0,2).toUpperCase()}</div>`},
   badge(t,c='gray'){return`<span class="badge badge-${c}">${t}</span>`},
   semaforo(l){const c={alta:{c:'green',t:'Alta'},media:{c:'amber',t:'Media'},baja:{c:'red',t:'Baja'}}[l]||{c:'amber',t:'Media'};return`<span class="semaforo"><span class="semaforo-dot ${c.c}"></span>${c.t}</span>`},
-  progressBar(p,c='green'){return`<div class="progress-bar"><div class="progress-fill ${c}" style="width:${Math.min(100,p)}%"></div></div>`},
+  pbar(p,c='green'){return`<div class="progress-bar"><div class="progress-fill ${c}" style="width:${Math.min(100,p)}%"></div></div>`},
   spinner(){return'<div style="text-align:center;padding:40px"><div style="font-size:2rem;animation:pulse 1s infinite">🌿</div><p class="text-muted mt-2">Cargando...</p></div>'},
-  statCard(i,v,l,c='green'){return`<div class="stat-card"><div class="stat-icon ${c}"><span>${i}</span></div><div class="stat-info"><h3>${v}</h3><p>${l}</p></div></div>`},
+  stat(i,v,l,c='green'){return`<div class="stat-card"><div class="stat-icon ${c}"><span>${i}</span></div><div class="stat-info"><h3>${v}</h3><p>${l}</p></div></div>`},
   card(t,ct,s='',r=''){return`<div class="card"><div class="card-header"><div><div class="card-title">${t}</div>${s?'<div class="card-subtitle">'+s+'</div>':''}</div>${r?'<div>'+r+'</div>':''}</div>${ct}</div>`},
-  emptyState(i,t,m,a=''){return`<div class="empty-state"><span class="empty-icon">${i}</span><h3>${t}</h3><p>${m}</p>${a}</div>`},
+  empty(i,t,m,a=''){return`<div class="empty-state"><span class="empty-icon">${i}</span><h3>${t}</h3><p>${m}</p>${a}</div>`},
   tabs(a,act,fn){return`<div class="tabs">${a.map(t=>`<div class="tab ${t.id===act?'active':''}" onclick="${fn}('${t.id}')">${t.label}</div>`).join('')}</div>`},
   fg(n,l,t='text',v='',o={}){
-    const req=o.required?'required':'',ph=o.placeholder||'',hint=o.hint?`<div class="form-hint">💡 ${o.hint}</div>`:'',ex=o.example?`<div class="form-example">Ejemplo: ${o.example}</div>`:'',lbl=o.required?`<label class="form-label form-required">${l}</label>`:`<label class="form-label">${l}</label>`;
-    if(t==='textarea')return`<div class="form-group">${lbl}<textarea class="form-textarea" name="${n}" placeholder="${ph}" ${req}>${v}</textarea>${hint}${ex}</div>`;
-    if(t==='select'&&o.options)return`<div class="form-group">${lbl}<select class="form-select" name="${n}" ${req}>${o.options.map(x=>`<option value="${x.value}" ${x.value==v?'selected':''}>${x.label}</option>`).join('')}</select>${hint}</div>`;
-    return`<div class="form-group">${lbl}<input class="form-input" type="${t}" name="${n}" value="${v}" placeholder="${ph}" ${req} ${o.step?'step="'+o.step+'"':''}>${hint}${ex}</div>`
-  },
-  searchBox(ph,fn){return`<div class="search-box"><span>🔍</span><input type="text" placeholder="${ph}" oninput="${fn}(this.value)"></div>`},
-  infoBox(msg,type='tip'){return`<div class="info-box ${type}">${msg}</div>`}
+    const req=o.required?'required':'',ph=o.placeholder||'',hint=o.hint?`<div class="form-hint">💡 ${o.hint}</div>`:'',lc=o.required?'form-label form-required':'form-label';
+    if(t==='textarea')return`<div class="form-group"><label class="${lc}">${l}</label><textarea class="form-textarea" name="${n}" placeholder="${ph}" ${req}>${v}</textarea>${hint}</div>`;
+    if(t==='select'&&o.options)return`<div class="form-group"><label class="${lc}">${l}</label><select class="form-select" name="${n}" ${req}>${o.options.map(x=>`<option value="${x.value}" ${x.value==v?'selected':''}>${x.label}</option>`).join('')}</select>${hint}</div>`;
+    return`<div class="form-group"><label class="${lc}">${l}</label><input class="form-input" type="${t}" name="${n}" value="${v}" placeholder="${ph}" ${req} ${o.step?'step="'+o.step+'"':''}>${hint}</div>`},
+  infoBox(m,t='tip'){return`<div class="info-box ${t}">${m}</div>`},
+  ctxBar(){const p=App.activePatient;if(!p)return'';return`<div class="context-bar"><span>👤</span><span class="ctx-name">${p.name||p.email}</span><span class="ctx-detail">Peso: ${p.currentWeight||'—'}kg · Talla: ${p.height||'—'}cm · IMC: ${p.currentWeight&&p.height?((p.currentWeight)/((p.height/100)**2)).toFixed(1):'—'}</span><button class="btn btn-outline btn-sm" onclick="Router.nav('patient-record',{patientId:'${p.id}'})">Ver expediente</button></div>`}
 };
 
-// === FIRESTORE HELPERS ===
-const DB = {
-  async savePatientField(patientId, field, value) {
-    const id = patientId || auth.currentUser?.uid;
-    if (!id) return;
-    try {
-      await db.collection('patients').doc(id).set({[field]: value, updatedAt: firebase.firestore.FieldValue.serverTimestamp()}, {merge: true});
-      return true;
-    } catch(e) { console.error('Save error:', e); return false; }
-  },
-  async savePatientData(patientId, data) {
-    const id = patientId || auth.currentUser?.uid;
-    if (!id) return;
-    try {
-      await db.collection('patients').doc(id).set({...data, updatedAt: firebase.firestore.FieldValue.serverTimestamp()}, {merge: true});
-      return true;
-    } catch(e) { console.error('Save error:', e); UI.toast('Error al guardar: '+e.message,'error'); return false; }
-  },
-  async getPatient(patientId) {
-    try {
-      const doc = await db.collection('patients').doc(patientId).get();
-      return doc.exists ? {id: doc.id, ...doc.data()} : null;
-    } catch(e) { console.error('Read error:', e); return null; }
-  },
-  async getAllPatients() {
-    try {
-      const snap = await db.collection('patients').orderBy('createdAt','desc').get();
-      return snap.docs.map(d => ({id: d.id, ...d.data()}));
-    } catch(e) { console.error('Read patients error:', e); return []; }
-  },
-  async addSubDoc(patientId, subcol, data) {
-    try {
-      await db.collection('patients').doc(patientId).collection(subcol).add({...data, createdAt: firebase.firestore.FieldValue.serverTimestamp()});
-      return true;
-    } catch(e) { console.error('SubDoc error:', e); return false; }
-  },
-  async getSubDocs(patientId, subcol, orderField='createdAt', dir='desc') {
-    try {
-      const snap = await db.collection('patients').doc(patientId).collection(subcol).orderBy(orderField, dir).get();
-      return snap.docs.map(d => ({id: d.id, ...d.data()}));
-    } catch(e) { console.error('Read subdocs error:', e); return []; }
-  },
-  async saveCheckin(data) {
-    const uid = auth.currentUser?.uid;
-    if (!uid) return;
-    const today = UI.todayISO();
-    try {
-      await db.collection('patients').doc(uid).collection('checkins').doc(today).set({...data, date: today, updatedAt: firebase.firestore.FieldValue.serverTimestamp()}, {merge: true});
-      return true;
-    } catch(e) { console.error('Checkin error:', e); return false; }
-  },
-  async getCheckin(patientId, date) {
-    try {
-      const doc = await db.collection('patients').doc(patientId).collection('checkins').doc(date).get();
-      return doc.exists ? doc.data() : null;
-    } catch(e) { return null; }
-  },
-  async saveHabits(habits) {
-    const uid = auth.currentUser?.uid;
-    if (!uid) return;
-    const today = UI.todayISO();
-    try {
-      await db.collection('patients').doc(uid).collection('habits').doc(today).set({habits, date: today, updatedAt: firebase.firestore.FieldValue.serverTimestamp()});
-      return true;
-    } catch(e) { console.error('Habits error:', e); return false; }
-  },
-  async getHabits(patientId, date) {
-    try {
-      const doc = await db.collection('patients').doc(patientId).collection('habits').doc(date).get();
-      return doc.exists ? doc.data() : null;
-    } catch(e) { return null; }
-  }
+// === DB HELPERS ===
+const DB={
+  async save(pid,data){const id=pid||auth.currentUser?.uid;if(!id)return;try{await db.collection('patients').doc(id).set({...data,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});return true}catch(e){console.error('Save:',e);UI.toast('Error: '+e.message,'error');return false}},
+  async get(pid){try{const d=await db.collection('patients').doc(pid).get();return d.exists?{id:d.id,...d.data()}:null}catch(e){console.error(e);return null}},
+  async getAll(){try{const s=await db.collection('patients').orderBy('createdAt','desc').get();return s.docs.map(d=>({id:d.id,...d.data()}))}catch(e){console.error(e);return[]}},
+  async addSub(pid,col,data){try{await db.collection('patients').doc(pid).collection(col).add({...data,createdAt:firebase.firestore.FieldValue.serverTimestamp()});return true}catch(e){console.error(e);return false}},
+  async getSubs(pid,col){try{const s=await db.collection('patients').doc(pid).collection(col).orderBy('createdAt','desc').get();return s.docs.map(d=>({id:d.id,...d.data()}))}catch(e){console.error(e);return[]}},
+  async saveCheckin(data){const uid=auth.currentUser?.uid;if(!uid)return;const t=UI.todayISO();try{await db.collection('patients').doc(uid).collection('checkins').doc(t).set({...data,date:t,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});return true}catch(e){return false}},
+  async getCheckin(pid,date){try{const d=await db.collection('patients').doc(pid).collection('checkins').doc(date).get();return d.exists?d.data():null}catch(e){return null}},
+  async saveHabits(h){const uid=auth.currentUser?.uid;if(!uid)return;const t=UI.todayISO();try{await db.collection('patients').doc(uid).collection('habits').doc(t).set({habits:h,date:t},{merge:true});return true}catch(e){return false}},
+  async getHabits(pid,date){try{const d=await db.collection('patients').doc(pid).collection('habits').doc(date).get();return d.exists?d.data():null}catch(e){return null}},
+  async uploadFile(pid,path,file){try{const ref=storage.ref().child(`patients/${pid}/${path}/${Date.now()}_${file.name}`);await ref.put(file);return await ref.getDownloadURL()}catch(e){console.error(e);throw e}}
 };
 
-// === AUTH MODULE ===
-const Auth = {
-  currentUser: null, userProfile: null, role: null,
-  init() {
-    document.getElementById('btn-google-login').addEventListener('click', () => this.signInWithGoogle());
-    document.getElementById('btn-logout').addEventListener('click', () => this.signOut());
-    auth.onAuthStateChanged(async (user) => {
-      document.getElementById('loading-screen').classList.add('hidden');
-      if (user) {
-        this.currentUser = user;
-        await this.loadOrCreateProfile(user);
-        this.showApp();
-      } else { this.currentUser=null; this.userProfile=null; this.role=null; this.showAuth(); }
-    });
+// === APP STATE ===
+const App={activePatient:null,setPatient(p){this.activePatient=p}};
+
+// === AUTH ===
+const Auth={
+  currentUser:null,userProfile:null,role:null,
+  init(){
+    document.getElementById('btn-google-login').addEventListener('click',()=>this.signIn());
+    document.getElementById('btn-logout').addEventListener('click',()=>this.signOut());
+    auth.onAuthStateChanged(async u=>{document.getElementById('loading-screen').classList.add('hidden');if(u){this.currentUser=u;await this.loadProfile(u);this.showApp()}else{this.currentUser=null;this.role=null;this.showAuth()}});
   },
-  async signInWithGoogle() {
-    try { await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()); }
-    catch(e) { if(e.code!=='auth/popup-closed-by-user') UI.toast('Error: '+e.message,'error'); }
+  async signIn(){try{await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())}catch(e){if(e.code!=='auth/popup-closed-by-user')UI.toast('Error: '+e.message,'error')}},
+  async signOut(){await auth.signOut();UI.toast('Sesión cerrada','info')},
+  async loadProfile(u){
+    try{
+      const isNut=AUTHORIZED_NUTRITIONISTS.includes(u.email);this.role=isNut?'nutritionist':'patient';
+      const ref=db.collection('users').doc(u.uid),doc=await ref.get();
+      if(doc.exists){this.userProfile=doc.data();if(this.userProfile.role!==this.role)await ref.update({role:this.role})}
+      else{const p={uid:u.uid,email:u.email,displayName:u.displayName||'',photoURL:u.photoURL||'',role:this.role,onboardingComplete:isNut,createdAt:firebase.firestore.FieldValue.serverTimestamp()};await ref.set(p);this.userProfile=p;
+        if(!isNut){await db.collection('patients').doc(u.uid).set({uid:u.uid,email:u.email,name:u.displayName||'',photoURL:u.photoURL||'',status:'new',onboardingComplete:false,adherence:'media',tags:[],createdAt:firebase.firestore.FieldValue.serverTimestamp(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()});console.log('Patient created:',u.email)}}
+    }catch(e){console.error('Auth:',e);UI.toast('Error perfil: '+e.message,'error')}
   },
-  async signOut() { try{await auth.signOut();UI.toast('Sesión cerrada','info')}catch(e){UI.toast('Error','error')} },
-  async loadOrCreateProfile(user) {
-    try {
-      const isNut = AUTHORIZED_NUTRITIONISTS.includes(user.email);
-      this.role = isNut ? 'nutritionist' : 'patient';
-      const docRef = db.collection('users').doc(user.uid);
-      const doc = await docRef.get();
-      if (doc.exists) {
-        this.userProfile = doc.data();
-        if (this.userProfile.role !== this.role) {
-          await docRef.update({role: this.role, updatedAt: firebase.firestore.FieldValue.serverTimestamp()});
-          this.userProfile.role = this.role;
-        }
-      } else {
-        const profile = { uid:user.uid, email:user.email, displayName:user.displayName||'', photoURL:user.photoURL||'', role:this.role, onboardingComplete:isNut, createdAt:firebase.firestore.FieldValue.serverTimestamp(), updatedAt:firebase.firestore.FieldValue.serverTimestamp() };
-        await docRef.set(profile);
-        this.userProfile = profile;
-        if (!isNut) {
-          console.log('Creating patient:', user.email);
-          await db.collection('patients').doc(user.uid).set({ uid:user.uid, email:user.email, name:user.displayName||'', photoURL:user.photoURL||'', status:'new', onboardingComplete:false, adherence:'media', tags:[], createdAt:firebase.firestore.FieldValue.serverTimestamp(), updatedAt:firebase.firestore.FieldValue.serverTimestamp() });
-          console.log('Patient created OK');
-        }
-      }
-    } catch(e) { console.error('Profile error:', e); UI.toast('Error al crear perfil: '+e.message,'error'); }
-  },
-  showAuth() { document.getElementById('auth-screen').classList.remove('hidden'); document.getElementById('app-shell').classList.add('hidden'); },
-  showApp() {
-    document.getElementById('auth-screen').classList.add('hidden');
-    document.getElementById('app-shell').classList.remove('hidden');
-    const u=this.currentUser;
-    const av=u.photoURL||"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'><rect fill='%238BA888' width='40' height='40' rx='20'/><text x='20' y='26' text-anchor='middle' fill='white' font-size='16'>"+(u.displayName||'U')[0]+"</text></svg>";
-    document.getElementById('user-avatar').src=av;
-    document.getElementById('mobile-avatar').src=av;
+  showAuth(){document.getElementById('auth-screen').classList.remove('hidden');document.getElementById('app-shell').classList.add('hidden')},
+  showApp(){
+    document.getElementById('auth-screen').classList.add('hidden');document.getElementById('app-shell').classList.remove('hidden');
+    const u=this.currentUser,av=u.photoURL||'';
+    document.getElementById('user-avatar').src=av;document.getElementById('mobile-avatar').src=av;
     document.getElementById('user-name').textContent=u.displayName||u.email;
     document.getElementById('user-role').textContent=this.role==='nutritionist'?'Nutrióloga':'Paciente';
     Router.buildNav();
-    if(this.role==='patient'&&this.userProfile&&!this.userProfile.onboardingComplete) Router.navigate('onboarding');
-    else Router.navigate(this.role==='nutritionist'?'dashboard':'patient-dashboard');
+    if(this.role==='patient'&&!this.userProfile?.onboardingComplete)Router.nav('onboarding');
+    else Router.nav(this.role==='nutritionist'?'dashboard':'pat-dashboard');
   }
 };
 
 // === ROUTER ===
-const Router = {
-  currentView: null,
-  navConfig: {
-    nutritionist: [
-      {section:'Principal',items:[{id:'dashboard',label:'Dashboard',icon:'📊'},{id:'patients',label:'Pacientes',icon:'👥'}]},
-      {section:'Herramientas',items:[{id:'equivalents',label:'Equivalentes',icon:'🥑'},{id:'calculators',label:'Calculadora',icon:'🧮'},{id:'meal-plans',label:'Planes de Menú',icon:'📋'}]}
-    ],
-    patient: [
-      {section:'Mi Espacio',items:[{id:'patient-dashboard',label:'Mi Dashboard',icon:'🏠'},{id:'patient-progress',label:'Mi Progreso',icon:'📈'},{id:'patient-plan',label:'Mi Plan',icon:'🥗'},{id:'patient-photos',label:'Mis Fotos',icon:'📸'},{id:'onboarding',label:'Info para consulta',icon:'📝'}]}
-    ]
-  },
-  views: {
-    'dashboard':()=>NutDashboard.render(),'patients':()=>PatientsView.render(),'patient-record':(p)=>PatientRecord.render(p),
-    'equivalents':()=>EquivalentsView.render(),'calculators':()=>CalcView.render(),'meal-plans':()=>MealPlansView.render(),
-    'patient-dashboard':()=>PatDashboard.render(),'patient-progress':()=>PatProgress.render(),'patient-plan':()=>PatPlan.render(),
-    'patient-photos':()=>PatPhotos.render(),'onboarding':()=>Onboarding.render(),
-    'nut-history':(p)=>NutHistory.render(p),'evolution-notes':(p)=>EvoNotes.render(p)
-  },
-  buildNav(){
-    const nav=document.getElementById('sidebar-nav');
-    const cfg=this.navConfig[Auth.role]||[];
-    nav.innerHTML=cfg.map(s=>`<div class="nav-section"><div class="nav-section-title">${s.section}</div>${s.items.map(i=>`<div class="nav-item" data-view="${i.id}" onclick="Router.navigate('${i.id}')">`+`<span class="nav-icon">${i.icon}</span><span>${i.label}</span></div>`).join('')}</div>`).join('');
-  },
-  navigate(viewId,params={}){
-    this.currentView=viewId;
-    document.querySelectorAll('.nav-item').forEach(el=>el.classList.toggle('active',el.dataset.view===viewId));
-    UI.closeSidebar();
-    const main=document.getElementById('main-content');
-    const fn=this.views[viewId];
-    if(fn){main.innerHTML=UI.spinner();try{const r=fn(params);if(typeof r==='string')main.innerHTML=r;else if(r&&typeof r.then==='function')r.then(h=>{if(typeof h==='string')main.innerHTML=h}).catch(e=>{console.error(e);main.innerHTML=UI.emptyState('⚠️','Error',e.message)})}catch(e){console.error(e);main.innerHTML=UI.emptyState('⚠️','Error',e.message)}}
-    else main.innerHTML=UI.emptyState('🚧','En construcción','Próximamente.');
+const Router={
+  current:null,
+  navNut:[{section:'Principal',items:[{id:'dashboard',label:'Dashboard',icon:'📊'},{id:'patients',label:'Pacientes',icon:'👥'}]},{section:'Herramientas',items:[{id:'equivalents',label:'Equivalentes',icon:'🥑'},{id:'calculators',label:'Calculadora',icon:'🧮'},{id:'meal-plans',label:'Planes de Menú',icon:'📋'}]}],
+  navPat:[{section:'Mi Espacio',items:[{id:'pat-dashboard',label:'Mi Dashboard',icon:'🏠'},{id:'pat-progress',label:'Mi Progreso',icon:'📈'},{id:'pat-plan',label:'Mi Plan',icon:'🥗'},{id:'pat-photos',label:'Mis Fotos',icon:'📸'},{id:'pat-exercise',label:'Ejercicio',icon:'🏃'},{id:'onboarding',label:'Info para consulta',icon:'📝'}]}],
+  views:{'dashboard':()=>NutDash.render(),'patients':()=>Patients.render(),'patient-record':p=>PatRec.render(p),'nut-history':p=>NutHist.render(p),'evo-notes':p=>EvoNotes.render(p),'recall24':p=>Recall24.render(p),'equivalents':()=>Equiv.render(),'calculators':()=>Calc.render(),'meal-plans':p=>MealPlan.render(p),'recommendations':p=>Recs.render(p),'grocery':p=>Grocery.render(p),'pat-dashboard':()=>PatDash.render(),'pat-progress':()=>PatProg.render(),'pat-plan':()=>PatPlanV.render(),'pat-photos':()=>PatPhotos.render(),'pat-exercise':()=>PatExercise.render(),'onboarding':()=>Onboard.render()},
+  buildNav(){const nav=document.getElementById('sidebar-nav'),cfg=Auth.role==='nutritionist'?this.navNut:this.navPat;nav.innerHTML=cfg.map(s=>`<div class="nav-section"><div class="nav-section-title">${s.section}</div>${s.items.map(i=>`<div class="nav-item" data-view="${i.id}" onclick="Router.nav('${i.id}')"><span class="nav-icon">${i.icon}</span><span>${i.label}</span></div>`).join('')}</div>`).join('')},
+  nav(id,params={}){
+    this.current=id;document.querySelectorAll('.nav-item').forEach(el=>el.classList.toggle('active',el.dataset.view===id));UI.closeSidebar();
+    const main=document.getElementById('main-content'),fn=this.views[id];
+    if(fn){main.innerHTML=UI.spinner();try{const r=fn(params);if(typeof r==='string')main.innerHTML=r;else if(r&&r.then)r.then(h=>{if(typeof h==='string')main.innerHTML=h}).catch(e=>{console.error(e);main.innerHTML=UI.empty('⚠️','Error',e.message)})}catch(e){console.error(e);main.innerHTML=UI.empty('⚠️','Error',e.message)}}
+    else main.innerHTML=UI.empty('🚧','En construcción','Próximamente.');
   }
 };
 
 // === NUTRITIONIST DASHBOARD ===
-const NutDashboard = {
+const NutDash={
   async render(){
-    const main=document.getElementById('main-content');
-    const name=Auth.currentUser?.displayName?.split(' ')[0]||'Nutrióloga';
-    const patients=await DB.getAllPatients();
-    const newP=patients.filter(p=>p.status==='new').length;
-    const pending=patients.filter(p=>!p.onboardingComplete).length;
-    main.innerHTML=`
-      <div class="greeting"><h1>${UI.greeting()}, ${name} 🌿</h1><p>Resumen de tu consulta</p><div class="date">${UI.todayStr()}</div></div>
-      <div class="quick-actions">
-        <div class="quick-action" onclick="Router.navigate('patients')"><span>➕</span> Nuevo paciente</div>
-        <div class="quick-action" onclick="Router.navigate('equivalents')"><span>🥑</span> Equivalentes</div>
-        <div class="quick-action" onclick="Router.navigate('calculators')"><span>🧮</span> Calculadora</div>
-        <div class="quick-action" onclick="Router.navigate('meal-plans')"><span>📋</span> Crear plan</div>
-      </div>
-      <div class="grid-4 mb-6">${UI.statCard('👥',patients.length,'Pacientes totales','green')}${UI.statCard('🆕',newP,'Nuevos','blue')}${UI.statCard('📝',pending,'Pendientes perfil','amber')}${UI.statCard('📅','0','Consultas hoy','rose')}</div>
-      <div class="grid-2">
-        ${UI.card('Pacientes recientes',patients.length?patients.slice(0,5).map(p=>`
-          <div class="patient-card" onclick="Router.navigate('patient-record',{patientId:'${p.id}'})">
-            ${UI.avatar(p.name||p.email)}
-            <div class="patient-info">
-              <div class="patient-name">${p.name||p.email||'Sin nombre'}</div>
-              <div class="patient-meta">${p.email||''}</div>
-              <div class="patient-tags">${UI.badge(p.onboardingComplete?'Perfil completo':'Pendiente',p.onboardingComplete?'green':'amber')} ${UI.semaforo(p.adherence||'media')}</div>
-            </div>
-          </div>`).join(''):UI.emptyState('👥','Sin pacientes','Invita a tu primer paciente para comenzar.'),'Últimos registrados')}
-        ${UI.card('Resumen de equivalentes SMAE',`
-          <div class="grid-4" style="gap:8px">${FOOD_EQUIVALENTS.groups.slice(0,4).map(g=>`<div style="text-align:center;padding:12px;background:var(--sage-50);border-radius:var(--r-md)"><div style="font-size:1.3rem">${{verduras:'🥬',frutas:'🍎',cereales:'🌾',aoa:'🥩'}[g.id]}</div><div style="font-weight:600;font-size:.8rem">${g.name}</div><div style="font-size:.72rem;color:var(--g500)">${g.energy} kcal/eq</div></div>`).join('')}</div>
-          <div class="mt-4 text-center"><button class="btn btn-secondary btn-sm" onclick="Router.navigate('equivalents')">Ver sistema completo →</button></div>
-        `,'')}
-      </div>`;
+    const main=document.getElementById('main-content'),n=Auth.currentUser?.displayName?.split(' ')[0]||'Nutrióloga';
+    const pts=await DB.getAll(),newP=pts.filter(p=>p.status==='new').length;
+    main.innerHTML=`<div class="greeting"><h1>${UI.greeting()}, ${n} 🌿</h1><p>Tu consulta por telemedicina</p><div class="date">${UI.todayStr()}</div></div>
+      <div class="quick-actions"><div class="quick-action" onclick="Router.nav('patients')"><span>👥</span> Pacientes</div><div class="quick-action" onclick="Router.nav('equivalents')"><span>🥑</span> Equivalentes</div><div class="quick-action" onclick="Router.nav('calculators')"><span>🧮</span> Calculadora</div><div class="quick-action" onclick="Router.nav('meal-plans')"><span>📋</span> Nuevo plan</div></div>
+      <div class="grid-4 mb-6">${UI.stat('👥',pts.length,'Total pacientes','green')}${UI.stat('🆕',newP,'Nuevos','blue')}${UI.stat('📝',pts.filter(p=>!p.onboardingComplete).length,'Pendientes perfil','amber')}${UI.stat('📅','0','Consultas hoy','rose')}</div>
+      ${pts.length?'<h3 class="mb-4">Pacientes recientes</h3><div class="grid-auto">'+pts.slice(0,8).map(p=>`<div class="patient-card" onclick="Router.nav('patient-record',{patientId:'${p.id}'})">${UI.avatar(p.name||p.email)}<div class="patient-info"><div class="patient-name">${p.name||p.email||'Sin nombre'}</div><div class="patient-meta">${p.email||''}</div><div class="patient-tags">${UI.badge(p.onboardingComplete?'Completo':'Pendiente',p.onboardingComplete?'green':'amber')} ${UI.semaforo(p.adherence||'media')}</div></div></div>`).join('')+'</div>':UI.empty('👥','Sin pacientes','Los pacientes aparecen al registrarse con su Gmail.')}`;
   }
 };
 
 // === PATIENTS LIST ===
-const PatientsView = {
-  patients:[],
-  async render(){
-    const main=document.getElementById('main-content');
-    main.innerHTML=UI.spinner();
-    this.patients=await DB.getAllPatients();
-    main.innerHTML=`
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;flex-wrap:wrap;gap:16px">
-        <div><h1>Pacientes</h1><p class="text-muted">${this.patients.length} pacientes registrados</p></div>
-        <button class="btn btn-primary" onclick="PatientsView.showInvite()">➕ Invitar paciente</button>
-      </div>
-      ${UI.searchBox('Buscar paciente...','PatientsView.search')}
-      <div id="patients-list" class="mt-4">${this.renderList(this.patients)}</div>`;
-  },
-  renderList(list){
-    if(!list.length)return UI.emptyState('👥','Sin pacientes','Los pacientes aparecen aquí cuando se registran con su Gmail en tu app.','<button class="btn btn-primary" onclick="PatientsView.showInvite()">➕ Invitar</button>');
-    return'<div class="grid-auto">'+list.map(p=>`<div class="patient-card" onclick="Router.navigate('patient-record',{patientId:'${p.id}'})">
-      ${UI.avatar(p.name||p.email)}<div class="patient-info"><div class="patient-name">${p.name||p.email||'Sin nombre'}</div>
-      <div class="patient-meta">${p.email||''}</div><div class="patient-tags">${UI.badge(p.onboardingComplete?'Perfil completo':'Pendiente',p.onboardingComplete?'green':'amber')} ${UI.semaforo(p.adherence||'media')}</div></div></div>`).join('')+'</div>';
-  },
-  search(t){const f=this.patients.filter(p=>(p.name||'').toLowerCase().includes(t.toLowerCase())||(p.email||'').toLowerCase().includes(t.toLowerCase()));document.getElementById('patients-list').innerHTML=this.renderList(f)},
-  showInvite(){UI.openModal(`<div class="modal-header"><h2>Invitar paciente</h2><button class="btn-icon" onclick="UI.closeModal()">✕</button></div><div class="modal-body">
-    ${UI.infoBox('<strong>Comparte el enlace de tu app con tu paciente.</strong> Al registrarse con su Gmail, aparecerá automáticamente aquí.','info')}
-    <div class="form-group"><label class="form-label">Enlace de tu app</label><div class="flex gap-3"><input class="form-input" value="${location.origin}" readonly id="inv-link"><button class="btn btn-secondary" onclick="navigator.clipboard.writeText(document.getElementById('inv-link').value);UI.toast('Enlace copiado')">📋 Copiar</button></div></div>
-    <hr style="border:none;border-top:1px solid var(--g100);margin:20px 0"><p class="text-sm text-muted mb-4">O crea un paciente manualmente:</p>
-    ${UI.fg('m_name','Nombre completo','text','',{placeholder:'Nombre del paciente',required:true})}
-    ${UI.fg('m_email','Correo electrónico','email','',{placeholder:'paciente@email.com'})}
-    <button class="btn btn-primary w-full" onclick="PatientsView.createManual()">Crear paciente</button></div>`)}
-  ,
-  async createManual(){
-    const n=document.querySelector('[name="m_name"]').value,e=document.querySelector('[name="m_email"]').value;
-    if(!n){UI.toast('Ingresa un nombre','warning');return}
-    try{await db.collection('patients').add({name:n,email:e||'',status:'new',onboardingComplete:false,adherence:'media',tags:[],manuallyCreated:true,createdBy:Auth.currentUser.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()});UI.closeModal();UI.toast('Paciente creado');this.render()}catch(e){UI.toast('Error: '+e.message,'error')}
-  }
+const Patients={
+  pts:[],
+  async render(){const main=document.getElementById('main-content');main.innerHTML=UI.spinner();this.pts=await DB.getAll();
+    main.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px"><div><h1>Pacientes</h1><p class="text-muted">${this.pts.length} registrados</p></div><button class="btn btn-primary" onclick="Patients.invite()">➕ Invitar</button></div>
+      ${UI.searchBox?`<div class="search-box mb-4"><span>🔍</span><input placeholder="Buscar..." oninput="Patients.search(this.value)"></div>`:''}
+      <div id="pts-list">${this.list(this.pts)}</div>`;},
+  list(l){return l.length?'<div class="grid-auto">'+l.map(p=>`<div class="patient-card" onclick="Router.nav('patient-record',{patientId:'${p.id}'})">${UI.avatar(p.name||p.email)}<div class="patient-info"><div class="patient-name">${p.name||p.email||'Sin nombre'}</div><div class="patient-meta">${p.email||''}</div><div class="patient-tags">${UI.badge(p.onboardingComplete?'Completo':'Pendiente',p.onboardingComplete?'green':'amber')}</div></div></div>`).join('')+'</div>':UI.empty('👥','Sin pacientes','Comparte el link de tu app.')},
+  search(q){const f=this.pts.filter(p=>(p.name||'').toLowerCase().includes(q.toLowerCase())||(p.email||'').toLowerCase().includes(q.toLowerCase()));document.getElementById('pts-list').innerHTML=this.list(f)},
+  invite(){UI.openModal(`<div class="modal-header"><h2>Invitar paciente</h2><button class="btn-icon" onclick="UI.closeModal()">✕</button></div><div class="modal-body">
+    ${UI.infoBox('Comparte el enlace con tu paciente. Al registrarse con Gmail aparece aquí automáticamente.','info')}
+    <div class="flex gap-3 mb-6"><input class="form-input" value="${location.origin}" readonly id="inv-lnk"><button class="btn btn-secondary" onclick="navigator.clipboard.writeText(document.getElementById('inv-lnk').value);UI.toast('Enlace copiado')">📋</button></div>
+    <hr style="border:none;border-top:1px solid var(--g100);margin:16px 0"><p class="text-sm text-muted mb-4">O crea manualmente:</p>
+    ${UI.fg('mn','Nombre','text','',{required:true,placeholder:'Nombre completo'})}${UI.fg('me','Correo','email','',{placeholder:'paciente@email.com'})}
+    <button class="btn btn-primary w-full" onclick="Patients.createManual()">Crear paciente</button></div>`)}
+  ,async createManual(){const n=document.querySelector('[name=mn]').value;if(!n){UI.toast('Nombre requerido','warning');return}try{await db.collection('patients').add({name:n,email:document.querySelector('[name=me]')?.value||'',status:'new',onboardingComplete:false,adherence:'media',tags:[],manuallyCreated:true,createdBy:Auth.currentUser.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()});UI.closeModal();UI.toast('Paciente creado ✓');this.render()}catch(e){UI.toast('Error','error')}}
 };
 
-// === PATIENT RECORD (Nutritionist view) ===
-const PatientRecord = {
-  p:null, activeTab:'general',
-  async render(params){
-    const main=document.getElementById('main-content');
-    main.innerHTML=UI.spinner();
-    if(!params?.patientId){main.innerHTML=UI.emptyState('⚠️','Sin paciente','');return}
-    this.p=await DB.getPatient(params.patientId);
-    if(!this.p){main.innerHTML=UI.emptyState('🔍','No encontrado','');return}
-    this.show();
-  },
-  show(){
-    const p=this.p,main=document.getElementById('main-content');
+// === PATIENT RECORD (Nutritionist - Integrated Hub) ===
+const PatRec={
+  p:null,tab:'overview',
+  async render(params){const main=document.getElementById('main-content');main.innerHTML=UI.spinner();if(!params?.patientId)return;
+    this.p=await DB.get(params.patientId);if(!this.p){main.innerHTML=UI.empty('🔍','No encontrado','');return}
+    App.setPatient(this.p);this.show()},
+  show(){const p=this.p,main=document.getElementById('main-content');
+    const imc=p.currentWeight&&p.height?((p.currentWeight)/((p.height/100)**2)).toFixed(1):'—';
+    const icc=p.waistCirc&&p.hipCirc?(p.waistCirc/p.hipCirc).toFixed(2):'—';
     main.innerHTML=`
-      <div class="flex items-center gap-3 mb-6" style="flex-wrap:wrap">
-        <button class="btn btn-outline btn-sm" onclick="Router.navigate('patients')">← Volver</button>
-        <div style="flex:1"><h1 style="font-size:1.5rem">${p.name||'Sin nombre'}</h1>
-        <p class="text-sm text-muted">${p.email||''} · ${UI.badge(p.onboardingComplete?'Perfil completo':'Pendiente',p.onboardingComplete?'green':'amber')} ${UI.semaforo(p.adherence||'media')}</p></div>
-        <button class="btn btn-primary btn-sm" onclick="Router.navigate('evolution-notes',{patientId:'${p.id}'})">📝 Notas de evolución</button>
-        <button class="btn btn-secondary btn-sm" onclick="Router.navigate('nut-history',{patientId:'${p.id}'})">🍽️ Historia nutricional</button>
+      <div class="flex items-center gap-3 mb-4" style="flex-wrap:wrap">
+        <button class="btn btn-outline btn-sm" onclick="Router.nav('patients')">← Pacientes</button>
+        <div style="flex:1"><h1 style="font-size:1.4rem">${p.name||'Sin nombre'}</h1><p class="text-sm text-muted">${p.email||''} · ${UI.badge(p.onboardingComplete?'Completo':'Pendiente',p.onboardingComplete?'green':'amber')}</p></div>
       </div>
-      ${UI.tabs([{id:'general',label:'Datos generales'},{id:'clinical',label:'Historia clínica'},{id:'anthro',label:'Antropometría'},{id:'labs',label:'Labs y archivos'},{id:'plan',label:'Plan asignado'},{id:'progress',label:'Progreso'}],this.activeTab,'PatientRecord.switchTab')}
-      <div id="rec-content">${this.renderTab()}</div>`;
+      <div class="grid-5 mb-4" style="gap:10px">
+        ${UI.stat('⚖️',p.currentWeight?p.currentWeight+'kg':'—','Peso','green')}
+        ${UI.stat('📏',p.height?p.height+'cm':'—','Talla','blue')}
+        ${UI.stat('📊',imc,'IMC','amber')}
+        ${UI.stat('📐',icc,'ICC','rose')}
+        ${UI.stat('🎯',p.goals?'✓':'—','Objetivos',p.goals?'green':'amber')}
+      </div>
+      <div class="quick-actions" style="margin-bottom:16px">
+        <div class="quick-action" onclick="Router.nav('nut-history',{patientId:'${p.id}'})">🍽️ Historia nutricional</div>
+        <div class="quick-action" onclick="Router.nav('recall24',{patientId:'${p.id}'})">📝 Recordatorio 24h</div>
+        <div class="quick-action" onclick="Router.nav('evo-notes',{patientId:'${p.id}'})">📋 Notas evolución</div>
+        <div class="quick-action" onclick="Router.nav('calculators')">🧮 Calculadora</div>
+        <div class="quick-action" onclick="Router.nav('meal-plans',{patientId:'${p.id}'})">🥗 Crear plan</div>
+        <div class="quick-action" onclick="Router.nav('recommendations',{patientId:'${p.id}'})">💡 Recomendaciones</div>
+        <div class="quick-action" onclick="Router.nav('grocery',{patientId:'${p.id}'})">🛒 Lista del súper</div>
+      </div>
+      ${UI.tabs([{id:'overview',label:'Resumen'},{id:'clinical',label:'Historia clínica'},{id:'anthro',label:'Antropometría'},{id:'labs',label:'Labs / Archivos'},{id:'photos',label:'Fotos'}],this.tab,'PatRec.switchTab')}
+      <div id="rec-ct">${this.renderTab()}</div>`;
   },
-  switchTab(t){this.activeTab=t;document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',el.textContent.toLowerCase().startsWith(t.substring(0,3))));document.getElementById('rec-content').innerHTML=this.renderTab()},
+  switchTab(t){this.tab=t;this.show()},
   renderTab(){
-    const p=this.p,v=(f)=>p[f]||'',empty=(f)=>p[f]?p[f]:`<span class="field-empty">Aún no completado por el paciente</span>`;
-    switch(this.activeTab){
-      case 'general': return `<div class="grid-2">
-        ${UI.card('Datos personales',`<div class="form-row">${UI.fg('name','Nombre','text',v('name'))}</div><div class="form-row">${UI.fg('birthdate','Fecha nacimiento','date',v('birthdate'))}${UI.fg('sex','Sexo','select',v('sex'),{options:[{value:'',label:'—'},{value:'F',label:'Femenino'},{value:'M',label:'Masculino'}]})}</div><div class="form-row">${UI.fg('phone','Teléfono','tel',v('phone'))}${UI.fg('occupation','Ocupación','text',v('occupation'))}</div>${UI.fg('consultReason','Motivo de consulta','textarea',v('consultReason'))}<button class="btn btn-primary" onclick="PatientRecord.saveFields()">💾 Guardar cambios</button>`)}
-        ${UI.card('Contacto y estado',`<p><strong>Email:</strong> ${p.email||'—'}</p><p><strong>Teléfono:</strong> ${empty('phone')}</p><p><strong>Estado:</strong> ${UI.badge(p.status==='active'?'Activo':'Nuevo',p.status==='active'?'green':'blue')}</p><p><strong>Adherencia:</strong> ${UI.semaforo(p.adherence||'media')}</p><p class="text-xs text-muted mt-4">Última actualización: ${UI.formatDate(p.updatedAt)}</p>`)}
-      </div>`;
-      case 'clinical': return `
-        ${UI.infoBox('Esta información la llena el <strong>paciente</strong> desde su portal. Aquí puedes revisarla.','info')}
-        ${UI.card('Antecedentes heredofamiliares',`<p>${empty('familyHistory')}</p>`)}
-        ${UI.card('Antecedentes personales patológicos',`<p>${empty('pathologicalHistory')}</p>`)}
-        ${UI.card('Alergias',`<p>${empty('allergies')}</p>`)}
-        ${UI.card('Medicamentos',`<p>${empty('medications')}</p>`)}
-        ${UI.card('Suplementos',`<p>${empty('supplements')}</p>`)}
-        ${UI.card('Tabaquismo',`<p>${empty('smoking')}</p>`)}
-        ${UI.card('Alcohol',`<p>${empty('alcohol')}</p>`)}
-        ${UI.card('Toxicomanías',`<p>${empty('substances')}</p>`)}`;
-      case 'anthro': return `
-        ${UI.infoBox('Medidas capturadas por el <strong>paciente</strong> en casa (telemedicina).','info')}
-        ${UI.card('Última medición',`<div class="grid-4" style="gap:12px">
-          ${UI.statCard('⚖️',v('currentWeight')?v('currentWeight')+' kg':'—','Peso actual','green')}
-          ${UI.statCard('📏',v('height')?v('height')+' cm':'—','Talla','blue')}
-          ${UI.statCard('📊',v('currentWeight')&&v('height')?((v('currentWeight')/((v('height')/100)**2)).toFixed(1)):'—','IMC','amber')}
-          ${UI.statCard('📐',v('waistCirc')?v('waistCirc')+' cm':'—','Cintura','rose')}
-        </div>`)}`;
-      case 'labs': return `
-        ${UI.card('Laboratorios y archivos',`${UI.emptyState('📁','Archivos del paciente','Los laboratorios que suba el paciente aparecerán aquí.')}`)}`;
-      case 'plan': return `
-        ${UI.card('Plan asignado',`${UI.emptyState('🥗','Sin plan asignado','Ve a Planes de Menú para crear y asignar uno.','<button class="btn btn-primary" onclick="Router.navigate(\'meal-plans\')">📋 Crear plan</button>')}`)}`;
-      case 'progress': return `
-        ${UI.card('Progreso del paciente',`${UI.emptyState('📈','Sin registros de progreso','El paciente registrará su progreso desde su portal.')}`)}`;
-      default: return '';
+    const p=this.p,v=f=>p[f]||'',em=f=>p[f]||'<span class="field-empty">Aún no completado</span>';
+    switch(this.tab){
+      case 'overview': return`
+        <div class="grid-2">
+          ${UI.card('Datos personales',`
+            ${UI.fg('name','Nombre','text',v('name'))}
+            <div class="form-row">${UI.fg('birthdate','Nacimiento','date',v('birthdate'))}${UI.fg('sex','Sexo','select',v('sex'),{options:[{value:'',label:'—'},{value:'F',label:'Femenino'},{value:'M',label:'Masculino'}]})}</div>
+            <div class="form-row">${UI.fg('phone','Teléfono','tel',v('phone'))}${UI.fg('occupation','Ocupación','text',v('occupation'))}</div>
+            ${UI.fg('consultReason','Motivo de consulta','textarea',v('consultReason'))}
+            <button class="btn btn-primary btn-sm" onclick="PatRec.saveFields()">💾 Guardar</button>
+          `,'')}
+          ${UI.card('Objetivos y barreras',`<p><strong>Objetivos:</strong></p><p>${em('goals')}</p><p class="mt-4"><strong>Barreras:</strong></p><p>${em('barriers')}</p><p class="mt-4"><strong>Expectativas:</strong></p><p>${em('expectations')}</p>`,'')}
+        </div>`;
+      case 'clinical': return`
+        ${UI.infoBox('Puedes editar la historia clínica que llenó el paciente. Los cambios se guardan en su expediente.','info')}
+        ${UI.card('Antecedentes heredofamiliares',`${UI.fg('familyHistory','','textarea',v('familyHistory'),{placeholder:'Diabetes, HTA, obesidad, cáncer, tiroides...'})}<button class="btn btn-sm btn-primary" onclick="PatRec.saveFields()">💾 Guardar</button>`)}
+        ${UI.card('Antecedentes personales patológicos',`
+          ${UI.infoBox('Enfermedades diagnosticadas del paciente','tip')}
+          ${UI.fg('pathologicalHistory','Enfermedades actuales y pasadas','textarea',v('pathologicalHistory'),{placeholder:'Hipotiroidismo, diabetes, gastritis, SOPQ...'})}
+          ${UI.fg('surgeries','Cirugías','text',v('surgeries'),{placeholder:'Tipo y fecha'})}
+          <button class="btn btn-sm btn-primary" onclick="PatRec.saveFields()">💾 Guardar</button>`)}
+        ${UI.card('Medicamentos y suplementos',`${UI.fg('medications','Medicamentos','textarea',v('medications'),{placeholder:'Nombre, dosis, frecuencia'})}${UI.fg('supplements','Suplementos','textarea',v('supplements'),{placeholder:'Nombre, dosis, frecuencia'})}<button class="btn btn-sm btn-primary" onclick="PatRec.saveFields()">💾 Guardar</button>`)}
+        ${UI.card('Hábitos',`
+          <div class="form-row">${UI.fg('smokingStatus','Tabaquismo','select',v('smokingStatus'),{options:[{value:'',label:'—'},{value:'nunca',label:'Nunca'},{value:'si',label:'Fuma'},{value:'ex',label:'Ex fumador'}]})}${UI.fg('smokingAmount','Cigarros/día','number',v('smokingAmount'))}</div>
+          ${v('smokingAmount')&&v('smokingYears')?`<p class="text-sm mb-4"><strong>Índice tabáquico:</strong> ${(v('smokingAmount')*v('smokingYears')/20).toFixed(1)} paquetes/año</p>`:''}
+          <div class="form-row">${UI.fg('alcoholFreq','Alcohol frecuencia','select',v('alcoholFreq'),{options:[{value:'',label:'—'},{value:'nunca',label:'Nunca'},{value:'social',label:'Social'},{value:'1-2_mes',label:'1-2/mes'},{value:'1-2_sem',label:'1-2/sem'},{value:'3+_sem',label:'3+/sem'}]})}${UI.fg('alcoholType','Tipo bebida','text',v('alcoholType'))}</div>
+          ${UI.fg('substances','Otras sustancias','textarea',v('substances'),{placeholder:'Confidencial'})}
+          <button class="btn btn-sm btn-primary" onclick="PatRec.saveFields()">💾 Guardar</button>`)}
+        ${UI.card('Alergias e intolerancias',`${UI.fg('allergies','Alergias','text',v('allergies'))}${UI.fg('foodIntolerances','Intolerancias alimentarias','text',v('foodIntolerances'))}<button class="btn btn-sm btn-primary" onclick="PatRec.saveFields()">💾 Guardar</button>`)}`;
+      case 'anthro':
+        const imc=p.currentWeight&&p.height?((p.currentWeight)/((p.height/100)**2)).toFixed(1):'—';
+        const hm=p.height?p.height/100:1.65;
+        const pesoMin=(18.5*hm*hm).toFixed(1),pesoMax=(24.9*hm*hm).toFixed(1);
+        const icc=p.waistCirc&&p.hipCirc?(p.waistCirc/p.hipCirc).toFixed(2):'—';
+        const pctCambio=p.currentWeight&&p.usualWeight?(((p.usualWeight-p.currentWeight)/p.usualWeight)*100).toFixed(1):'—';
+        return`
+        ${UI.infoBox('Medidas capturadas por el paciente en casa (telemedicina). Puedes editar si es necesario.','info')}
+        <div class="grid-4 mb-4" style="gap:10px">
+          ${UI.stat('⚖️',v('currentWeight')?v('currentWeight')+' kg':'—','Peso actual','green')}
+          ${UI.stat('📏',v('height')?v('height')+' cm':'—','Talla','blue')}
+          ${UI.stat('📊',imc,'IMC','amber')}
+          ${UI.stat('📐',icc,'Índice cintura-cadera','rose')}
+        </div>
+        <div class="grid-4 mb-4" style="gap:10px">
+          ${UI.stat('🎯',pesoMin+'–'+pesoMax+' kg','Rango peso saludable','green')}
+          ${UI.stat('📉',pctCambio!=='—'?pctCambio+'%':'—','% Cambio peso','blue')}
+          ${UI.stat('📏',v('waistCirc')?v('waistCirc')+' cm':'—','Cintura','amber')}
+          ${UI.stat('📏',v('hipCirc')?v('hipCirc')+' cm':'—','Cadera','rose')}
+        </div>
+        ${UI.card('Editar medidas',`
+          <div class="form-row">${UI.fg('currentWeight','Peso actual (kg)','number',v('currentWeight'),{step:'0.1'})}${UI.fg('height','Talla (cm)','number',v('height'))}</div>
+          <div class="form-row">${UI.fg('usualWeight','Peso habitual últimos 5 años (kg)','number',v('usualWeight'),{step:'0.1'})}${UI.fg('waistCirc','Cintura (cm)','number',v('waistCirc'))}</div>
+          <div class="form-row">${UI.fg('hipCirc','Cadera (cm)','number',v('hipCirc'))}${UI.fg('bicepCirc','Bíceps (cm)','number',v('bicepCirc'))}</div>
+          ${UI.fg('thighCirc','Muslo (cm)','number',v('thighCirc'))}
+          <button class="btn btn-primary" onclick="PatRec.saveFields()">💾 Guardar medidas</button>
+        `)}`;
+      case 'labs': return`
+        ${UI.card('Laboratorios y archivos',`
+          ${UI.infoBox('Los archivos que suba el paciente aparecen aquí. También puedes subir tú.','info')}
+          <div class="photo-upload-box" style="margin-bottom:16px"><div class="upload-icon">📄</div><div class="upload-label">Subir archivo</div><div class="upload-hint">PDF, fotos, capturas</div><input type="file" accept="image/*,.pdf" onchange="PatRec.uploadFile(this)"></div>
+          <div id="files-list">${UI.spinner()}</div>
+        `)}`;
+      case 'photos': return`
+        ${UI.card('Fotos de progreso',`
+          <div id="photos-list">${UI.spinner()}</div>
+        `)}`;
+      default:return '';
     }
   },
-  async saveFields(){
-    const data={};document.querySelectorAll('#rec-content .form-input,#rec-content .form-textarea,#rec-content .form-select').forEach(el=>{if(el.name&&el.value)data[el.name]=el.value});
-    if(await DB.savePatientData(this.p.id,data)){UI.toast('Datos guardados ✓');Object.assign(this.p,data)}else UI.toast('Error al guardar','error');
-  }
+  async saveFields(){const data={};document.querySelectorAll('#rec-ct .form-input,#rec-ct .form-textarea,#rec-ct .form-select').forEach(el=>{if(el.name&&el.value!==undefined)data[el.name]=el.value});if(await DB.save(this.p.id,data)){UI.toast('Guardado ✓');Object.assign(this.p,data);App.setPatient(this.p)}},
+  async uploadFile(input){const file=input.files[0];if(!file)return;try{UI.toast('Subiendo...','info');const url=await DB.uploadFile(this.p.id,'files',file);await DB.addSub(this.p.id,'files',{url,name:file.name,type:file.type,date:UI.todayISO()});UI.toast('Archivo subido ✓')}catch(e){UI.toast('Error: '+e.message,'error')}}
 };
 
 // === NUTRITIONAL HISTORY (Nutritionist only) ===
-const NutHistory = {
+const NutHist={
   p:null,
-  async render(params){
-    const main=document.getElementById('main-content');main.innerHTML=UI.spinner();
-    if(!params?.patientId){main.innerHTML=UI.emptyState('⚠️','Selecciona un paciente','');return}
-    this.p=await DB.getPatient(params.patientId);
-    if(!this.p){main.innerHTML=UI.emptyState('🔍','No encontrado','');return}
-    const nh=this.p.nutritionHistory||{};
+  async render(params){const main=document.getElementById('main-content');main.innerHTML=UI.spinner();
+    this.p=await DB.get(params?.patientId||App.activePatient?.id);if(!this.p)return;App.setPatient(this.p);
+    const n=this.p.nutritionHistory||{};
     main.innerHTML=`
-      <div class="flex items-center gap-3 mb-6"><button class="btn btn-outline btn-sm" onclick="Router.navigate('patient-record',{patientId:'${this.p.id}'})">← Volver al expediente</button><div><h1 style="font-size:1.5rem">Historia Nutricional</h1><p class="text-sm text-muted">${this.p.name||this.p.email} — Solo visible para la nutrióloga</p></div></div>
-      ${UI.infoBox('<strong>Esta sección la llenas TÚ como nutrióloga durante la consulta.</strong> El paciente NO puede ver ni editar esto.','warn')}
-      ${UI.card('Hábitos de alimentación',`
-        ${UI.fg('nh_mealSchedule','Horarios de comida','textarea',nh.mealSchedule||'',{placeholder:'Registra los horarios habituales del paciente'})}
-        ${UI.fg('nh_recall24h','Recordatorio de 24 horas','textarea',nh.recall24h||'',{placeholder:'Registra todo lo que comió ayer el paciente',hint:'Este recordatorio es la BASE para diseñar un plan de alimentación adherente'})}
-        ${UI.fg('nh_weekendChanges','¿Cambia su alimentación en fin de semana?','textarea',nh.weekendChanges||'',{placeholder:'Describe qué cambia'})}
-        ${UI.fg('nh_ultraprocessed','Frecuencia de ultraprocesados','select',nh.ultraprocessed||'',{options:[{value:'',label:'Selecciona'},{value:'diario',label:'Diario'},{value:'3-5_semana',label:'3-5 veces/semana'},{value:'1-2_semana',label:'1-2 veces/semana'},{value:'rara_vez',label:'Rara vez'},{value:'nunca',label:'Nunca'}]})}
-        <div class="form-row">${UI.fg('nh_eatingOut','Frecuencia de comer fuera','select',nh.eatingOut||'',{options:[{value:'',label:'Selecciona'},{value:'diario',label:'Diario'},{value:'3-5',label:'3-5 veces/semana'},{value:'1-2',label:'1-2 veces/semana'},{value:'rara',label:'Rara vez'}]})}${UI.fg('nh_sweetDrinks','Bebidas azucaradas','select',nh.sweetDrinks||'',{options:[{value:'',label:'Selecciona'},{value:'diario',label:'Diario'},{value:'3-5',label:'3-5/semana'},{value:'1-2',label:'1-2/semana'},{value:'nunca',label:'Nunca'}]})}</div>
-        ${UI.fg('nh_hungerMoment','¿En qué momento del día siente más hambre/antojo?','text',nh.hungerMoment||'',{placeholder:'Ej: media mañana, noche'})}
+      <div class="flex items-center gap-3 mb-4"><button class="btn btn-outline btn-sm" onclick="Router.nav('patient-record',{patientId:'${this.p.id}'})">← Expediente</button><div><h1 style="font-size:1.4rem">Historia Nutricional</h1><p class="text-sm text-muted">${this.p.name||this.p.email} — Solo nutrióloga</p></div></div>
+      ${UI.ctxBar()}
+      ${UI.infoBox('<strong>Solo tú</strong> puedes ver y editar esta sección. El paciente no tiene acceso.','warn')}
+      ${UI.card('Hábitos alimentarios',`
+        ${UI.fg('nh_recall24h','Recordatorio 24 horas','textarea',n.recall24h||'',{placeholder:'Todo lo que comió ayer',hint:'Base para diseñar su plan'})}
+        ${UI.fg('nh_mealSchedule','Horarios de comida','text',n.mealSchedule||'',{placeholder:'Desayuno 8am, Comida 2pm...'})}
+        ${UI.fg('nh_weekendChanges','Cambios fin de semana','textarea',n.weekendChanges||'',{placeholder:'¿Qué cambia en fines de semana?'})}
+        <div class="form-row">${UI.fg('nh_ultraprocessed','Ultraprocesados','select',n.ultraprocessed||'',{options:[{value:'',label:'—'},{value:'diario',label:'Diario'},{value:'3-5/sem',label:'3-5/sem'},{value:'1-2/sem',label:'1-2/sem'},{value:'rara',label:'Rara vez'},{value:'nunca',label:'Nunca'}]})}${UI.fg('nh_eatingOut','Comer fuera','select',n.eatingOut||'',{options:[{value:'',label:'—'},{value:'diario',label:'Diario'},{value:'3-5/sem',label:'3-5/sem'},{value:'1-2/sem',label:'1-2/sem'},{value:'rara',label:'Rara vez'}]})}</div>
+        <div class="form-row">${UI.fg('nh_sweetDrinks','Bebidas azucaradas','select',n.sweetDrinks||'',{options:[{value:'',label:'—'},{value:'diario',label:'Diario'},{value:'3-5',label:'3-5/sem'},{value:'1-2',label:'1-2/sem'},{value:'nunca',label:'Nunca'}]})}${UI.fg('nh_hungerMoment','Momento de más hambre/antojo','text',n.hungerMoment||'',{placeholder:'Media mañana, noche...'})}</div>
       `)}
-      ${UI.card('Hambre emocional y ansiedad',`
-        ${UI.fg('nh_anxietyEating','¿Come por ansiedad o estrés?','select',nh.anxietyEating||'',{options:[{value:'',label:'Selecciona'},{value:'si_frecuente',label:'Sí, frecuentemente'},{value:'si_aveces',label:'Sí, a veces'},{value:'rara_vez',label:'Rara vez'},{value:'no',label:'No'}]})}
-        ${UI.fg('nh_guiltEating','¿Siente culpa al comer ciertos alimentos?','select',nh.guiltEating||'',{options:[{value:'',label:'Selecciona'},{value:'si',label:'Sí'},{value:'aveces',label:'A veces'},{value:'no',label:'No'}]})}
-        ${UI.fg('nh_emotionalEating','¿Come por emociones?','textarea',nh.emotionalEating||'',{placeholder:'Describe el patrón'})}
-        ${UI.fg('nh_stressLevel','Nivel de estrés','select',nh.stressLevel||'',{options:[{value:'',label:'Selecciona'},{value:'1-3',label:'Bajo (1-3)'},{value:'4-6',label:'Moderado (4-6)'},{value:'7-10',label:'Alto (7-10)'}]})}
+      ${UI.card('Hambre emocional',`
+        <div class="form-row">${UI.fg('nh_anxietyEating','¿Come por ansiedad/estrés?','select',n.anxietyEating||'',{options:[{value:'',label:'—'},{value:'si_freq',label:'Sí, frecuente'},{value:'si_aveces',label:'A veces'},{value:'rara',label:'Rara vez'},{value:'no',label:'No'}]})}${UI.fg('nh_guiltEating','¿Siente culpa al comer?','select',n.guiltEating||'',{options:[{value:'',label:'—'},{value:'si',label:'Sí'},{value:'aveces',label:'A veces'},{value:'no',label:'No'}]})}</div>
+        ${UI.fg('nh_emotionalEating','Patrón emocional','textarea',n.emotionalEating||'',{placeholder:'Describe patrón de alimentación emocional'})}
+        ${UI.fg('nh_stressLevel','Nivel de estrés (1-10)','select',n.stressLevel||'',{options:[{value:'',label:'—'},...[1,2,3,4,5,6,7,8,9,10].map(x=>({value:''+x,label:''+x}))]})}
       `)}
-      ${UI.card('Sueño y actividad física',`
-        <div class="form-row">${UI.fg('nh_sleepTime','Hora de dormir','time',nh.sleepTime||'')}${UI.fg('nh_wakeTime','Hora de despertar','time',nh.wakeTime||'')}</div>
-        <div class="form-row">${UI.fg('nh_exerciseType','Tipo de actividad','text',nh.exerciseType||'',{placeholder:'Caminar, gym, correr...'})}${UI.fg('nh_exerciseFreq','Frecuencia','select',nh.exerciseFreq||'',{options:[{value:'',label:'Selecciona'},{value:'sedentario',label:'Sedentario'},{value:'1-2',label:'1-2/semana'},{value:'3-4',label:'3-4/semana'},{value:'5+',label:'5+/semana'}]})}</div>
-        <div class="form-row">${UI.fg('nh_exerciseIntensity','Intensidad','select',nh.exerciseIntensity||'',{options:[{value:'',label:'Selecciona'},{value:'baja',label:'Baja'},{value:'moderada',label:'Moderada'},{value:'alta',label:'Alta'}]})}${UI.fg('nh_exerciseDuration','Duración','text',nh.exerciseDuration||'',{placeholder:'30 min, 1 hora...'})}</div>
+      ${UI.card('Sueño y ejercicio',`
+        <div class="form-row">${UI.fg('nh_sleepTime','Hora dormir','time',n.sleepTime||'')}${UI.fg('nh_wakeTime','Hora despertar','time',n.wakeTime||'')}</div>
+        <div class="form-row">${UI.fg('nh_exType','Tipo ejercicio','text',n.exType||'',{placeholder:'Gym, caminar, yoga...'})}${UI.fg('nh_exFreq','Frecuencia','select',n.exFreq||'',{options:[{value:'',label:'—'},{value:'sedentario',label:'Sedentario'},{value:'1-2',label:'1-2/sem'},{value:'3-4',label:'3-4/sem'},{value:'5+',label:'5+/sem'}]})}</div>
+        <div class="form-row">${UI.fg('nh_exIntensity','Intensidad','select',n.exIntensity||'',{options:[{value:'',label:'—'},{value:'baja',label:'Baja'},{value:'moderada',label:'Moderada'},{value:'alta',label:'Alta'}]})}${UI.fg('nh_exDuration','Duración','text',n.exDuration||'',{placeholder:'30 min, 1 hora...'})}</div>
       `)}
       ${UI.card('Historial y compromiso',`
-        ${UI.fg('nh_previousDiets','¿Ha seguido planes de alimentación antes?','select',nh.previousDiets||'',{options:[{value:'',label:'Selecciona'},{value:'si',label:'Sí'},{value:'no',label:'No'}]})}
-        ${UI.fg('nh_whyQuit','¿Por qué lo dejó?','textarea',nh.whyQuit||'',{placeholder:'Razones por las que dejó el plan anterior'})}
-        ${UI.fg('nh_hardSituations','Situaciones difíciles para seguir un plan','textarea',nh.hardSituations||'',{placeholder:'Fiestas, viajes, estrés...'})}
-        ${UI.fg('nh_goals3to6','¿Qué quiere lograr en 3-6 meses?','textarea',nh.goals3to6||'',{placeholder:'Metas del paciente'})}
-        ${UI.fg('nh_commitment','Nivel de compromiso (1-10)','select',nh.commitment||'',{options:[{value:'',label:'Selecciona'},...[1,2,3,4,5,6,7,8,9,10].map(n=>({value:String(n),label:String(n)}))]})}
+        ${UI.fg('nh_prevDiets','¿Ha seguido planes antes?','select',n.prevDiets||'',{options:[{value:'',label:'—'},{value:'si',label:'Sí'},{value:'no',label:'No'}]})}
+        ${UI.fg('nh_whyQuit','¿Por qué dejó el plan?','textarea',n.whyQuit||'')}
+        ${UI.fg('nh_hardSituations','Situaciones difíciles','textarea',n.hardSituations||'',{placeholder:'Fiestas, viajes, estrés...'})}
+        ${UI.fg('nh_goals3to6','Metas 3-6 meses','textarea',n.goals3to6||'')}
+        ${UI.fg('nh_commitment','Compromiso (1-10)','select',n.commitment||'',{options:[{value:'',label:'—'},...[1,2,3,4,5,6,7,8,9,10].map(x=>({value:''+x,label:''+x}))]})}
       `)}
-      <button class="btn btn-primary btn-lg w-full" onclick="NutHistory.save()">💾 Guardar historia nutricional</button>`;
+      <button class="btn btn-primary btn-lg w-full" onclick="NutHist.save()">💾 Guardar historia nutricional</button>`;
   },
-  async save(){
-    const data={};document.querySelectorAll('.form-input,.form-textarea,.form-select').forEach(el=>{if(el.name&&el.name.startsWith('nh_'))data[el.name.replace('nh_','')]=el.value});
-    if(await DB.savePatientData(this.p.id,{nutritionHistory:data})){UI.toast('Historia nutricional guardada ✓')}else UI.toast('Error','error');
-  }
+  async save(){const d={};document.querySelectorAll('.form-input,.form-textarea,.form-select').forEach(el=>{if(el.name?.startsWith('nh_'))d[el.name.replace('nh_','')]=el.value});if(await DB.save(this.p.id,{nutritionHistory:d}))UI.toast('Historia nutricional guardada ✓')}
+};
+
+// === 24H RECALL WITH QUANTIFICATION ===
+const Recall24={
+  p:null,
+  async render(params){const main=document.getElementById('main-content');main.innerHTML=UI.spinner();
+    this.p=await DB.get(params?.patientId||App.activePatient?.id);if(!this.p)return;App.setPatient(this.p);
+    const r=this.p.recall24||{};
+    main.innerHTML=`
+      <div class="flex items-center gap-3 mb-4"><button class="btn btn-outline btn-sm" onclick="Router.nav('patient-record',{patientId:'${this.p.id}'})">← Expediente</button><h1 style="font-size:1.4rem">Recordatorio de 24 Horas</h1></div>
+      ${UI.ctxBar()}
+      ${UI.infoBox('<strong>Registra lo que el paciente comió ayer.</strong> El sistema estimará calorías y macros para que puedas comparar con sus requerimientos y diseñar un plan basado en sus hábitos reales.','tip')}
+      ${['Desayuno','Snack AM','Comida','Snack PM','Cena'].map(t=>`
+        <div class="meal-time-card"><h4>${t}</h4>
+        ${UI.fg('r_'+t.replace(/ /g,''),'Alimentos consumidos','textarea',r[t.replace(/ /g,'')]||'',{placeholder:'Describe todo lo que comió en este tiempo de comida con cantidades aproximadas'})}
+        </div>`).join('')}
+      ${UI.fg('r_extras','Otros alimentos/bebidas fuera de horarios','textarea',r.extras||'',{placeholder:'Agua, café, refrescos, snacks, etc.'})}
+      <button class="btn btn-primary btn-lg w-full mt-4" onclick="Recall24.save()">💾 Guardar recordatorio</button>
+      <div class="card mt-6">
+        <div class="card-header"><div class="card-title">Estimación nutrimental del día</div><div class="card-subtitle">Basada en el recordatorio capturado</div></div>
+        ${UI.infoBox('La cuantificación automática es una <strong>estimación aproximada</strong>. Usa tu criterio profesional para ajustar.','warn')}
+        <div class="grid-4" style="gap:12px">
+          ${UI.stat('🔥','—','Kcal estimadas','green')}
+          ${UI.stat('🥩','—','Proteínas (g)','blue')}
+          ${UI.stat('🧈','—','Lípidos (g)','amber')}
+          ${UI.stat('🌾','—','HCO (g)','rose')}
+        </div>
+        <p class="text-xs text-muted mt-4">Tip: Compara estos valores con el GET calculado del paciente para identificar déficit o exceso.</p>
+        <button class="btn btn-secondary mt-4" onclick="Router.nav('calculators')">🧮 Ir a calculadora (con datos del paciente)</button>
+      </div>`;
+  },
+  async save(){const d={};document.querySelectorAll('[name^=r_]').forEach(el=>{if(el.name&&el.value)d[el.name.replace('r_','')]=el.value});if(await DB.save(this.p.id,{recall24:d}))UI.toast('Recordatorio guardado ✓')}
 };
 
 // === EVOLUTION NOTES ===
-const EvoNotes = {
-  p:null, notes:[],
-  async render(params){
-    const main=document.getElementById('main-content');main.innerHTML=UI.spinner();
-    if(!params?.patientId){main.innerHTML='Selecciona paciente';return}
-    this.p=await DB.getPatient(params.patientId);
-    this.notes=await DB.getSubDocs(params.patientId,'evolutionNotes');
+const EvoNotes={
+  p:null,notes:[],
+  async render(params){const main=document.getElementById('main-content');main.innerHTML=UI.spinner();
+    this.p=await DB.get(params?.patientId||App.activePatient?.id);if(!this.p)return;
+    this.notes=await DB.getSubs(this.p.id,'evolutionNotes');
     main.innerHTML=`
-      <div class="flex items-center gap-3 mb-6"><button class="btn btn-outline btn-sm" onclick="Router.navigate('patient-record',{patientId:'${this.p.id}'})">← Volver</button><div><h1 style="font-size:1.5rem">Notas de Evolución</h1><p class="text-sm text-muted">${this.p.name||this.p.email}</p></div><button class="btn btn-primary" onclick="EvoNotes.showNew()">➕ Nueva nota</button></div>
-      ${this.notes.length?this.notes.map(n=>`<div class="card"><div class="card-header"><div class="card-title">Consulta: ${UI.formatDate(n.createdAt)}</div></div>
-        <p><strong>Antropometría:</strong> ${n.anthro||'—'}</p><p><strong>Sentir con el plan:</strong> ${n.planFeeling||'—'}</p>
-        <p><strong>Hambre/ansiedad:</strong> ${n.anxietyHunger||'—'}</p><p><strong>Fin de semana:</strong> ${n.weekend||'—'}</p>
-        <p><strong>PA:</strong> ${n.bloodPressure||'—'} | <strong>Glucosa:</strong> ${n.glucose||'—'}</p>
-        <p><strong>Notas:</strong> ${n.notes||'—'}</p></div>`).join(''):UI.emptyState('📝','Sin notas de evolución','Agrega una nota de seguimiento.')}`;
+      <div class="flex items-center gap-3 mb-4"><button class="btn btn-outline btn-sm" onclick="Router.nav('patient-record',{patientId:'${this.p.id}'})">← Expediente</button><h1 style="font-size:1.4rem">Notas de Evolución</h1><button class="btn btn-primary" onclick="EvoNotes.newNote()">➕ Nueva nota</button></div>
+      ${UI.ctxBar()}
+      ${this.notes.length?this.notes.map(n=>`<div class="card"><div class="card-header"><div class="card-title">Consulta: ${UI.fmtDate(n.createdAt)}</div></div>
+        <div class="grid-2"><div><p><strong>Peso:</strong> ${n.weight||'—'} kg</p><p><strong>Cintura:</strong> ${n.waist||'—'} cm</p><p><strong>PA:</strong> ${n.bp||'—'}</p><p><strong>Glucosa:</strong> ${n.glucose||'—'} mg/dL</p></div>
+        <div><p><strong>Sentir con plan:</strong> ${n.planFeeling||'—'}</p><p><strong>Hambre/ansiedad:</strong> ${n.anxiety||'—'}</p><p><strong>Fin de semana:</strong> ${n.weekend||'—'}</p></div></div>
+        <p class="mt-4"><strong>Notas:</strong> ${n.notes||'—'}</p></div>`).join(''):'<div class="card">'+UI.empty('📝','Sin notas','Agrega tu primera nota de seguimiento.')+'</div>'}`;
   },
-  showNew(){
-    UI.openModal(`<div class="modal-header"><h2>Nueva nota de evolución</h2><button class="btn-icon" onclick="UI.closeModal()">✕</button></div><div class="modal-body">
-      ${UI.fg('evo_anthro','Medidas antropométricas de esta consulta','textarea','',{placeholder:'Peso, cintura, etc.'})}
-      ${UI.fg('evo_planFeeling','¿Cómo se sintió con su plan?','textarea','',{placeholder:'¿Lo siguió? ¿Le gustó?'})}
-      ${UI.fg('evo_anxietyHunger','¿Sintió hambre o ansiedad? ¿En qué momento?','textarea','',{placeholder:'Mañana, tarde, noche...'})}
-      ${UI.fg('evo_weekend','¿Cómo fue su alimentación el fin de semana?','textarea','')}
-      ${UI.fg('evo_important','¿Algo importante que quiera contar?','textarea','')}
-      <div class="form-row">${UI.fg('evo_bp','Presión arterial','text','',{placeholder:'120/80'})}${UI.fg('evo_glucose','Glucosa (mg/dL)','number','',{placeholder:'95'})}</div>
-      ${UI.fg('evo_notes','Notas adicionales de la nutrióloga','textarea','')}
-      <button class="btn btn-primary w-full" onclick="EvoNotes.saveNew()">💾 Guardar nota</button></div>`,{wide:true});
-  },
-  async saveNew(){
-    const d={anthro:document.querySelector('[name=evo_anthro]')?.value||'',planFeeling:document.querySelector('[name=evo_planFeeling]')?.value||'',anxietyHunger:document.querySelector('[name=evo_anxietyHunger]')?.value||'',weekend:document.querySelector('[name=evo_weekend]')?.value||'',important:document.querySelector('[name=evo_important]')?.value||'',bloodPressure:document.querySelector('[name=evo_bp]')?.value||'',glucose:document.querySelector('[name=evo_glucose]')?.value||'',notes:document.querySelector('[name=evo_notes]')?.value||''};
-    if(await DB.addSubDoc(this.p.id,'evolutionNotes',d)){UI.closeModal();UI.toast('Nota guardada ✓');this.render({patientId:this.p.id})}
-  }
+  newNote(){UI.openModal(`<div class="modal-header"><h2>Nueva nota de evolución</h2><button class="btn-icon" onclick="UI.closeModal()">✕</button></div><div class="modal-body">
+    <div class="form-row">${UI.fg('ev_weight','Peso actual (kg)','number','',{step:'0.1'})}${UI.fg('ev_waist','Cintura (cm)','number','')}</div>
+    <div class="form-row">${UI.fg('ev_bp','Presión arterial','text','',{placeholder:'120/80'})}${UI.fg('ev_glucose','Glucosa (mg/dL)','number','')}</div>
+    ${UI.fg('ev_planFeeling','¿Cómo se sintió con su plan?','textarea','',{placeholder:'¿Lo siguió? ¿Le gustó? ¿Qué cambiaría?'})}
+    ${UI.fg('ev_anxiety','¿Sintió hambre o ansiedad? ¿Cuándo?','textarea','')}
+    ${UI.fg('ev_weekend','Alimentación fin de semana','textarea','')}
+    ${UI.fg('ev_important','Algo importante que contar','textarea','')}
+    ${UI.fg('ev_notes','Notas de la nutrióloga','textarea','')}
+    <button class="btn btn-primary w-full" onclick="EvoNotes.saveNote()">💾 Guardar</button></div>`)},
+  async saveNote(){const d={weight:document.querySelector('[name=ev_weight]')?.value,waist:document.querySelector('[name=ev_waist]')?.value,bp:document.querySelector('[name=ev_bp]')?.value,glucose:document.querySelector('[name=ev_glucose]')?.value,planFeeling:document.querySelector('[name=ev_planFeeling]')?.value,anxiety:document.querySelector('[name=ev_anxiety]')?.value,weekend:document.querySelector('[name=ev_weekend]')?.value,important:document.querySelector('[name=ev_important]')?.value,notes:document.querySelector('[name=ev_notes]')?.value};
+    if(await DB.addSub(this.p.id,'evolutionNotes',d)){UI.closeModal();UI.toast('Nota guardada ✓');this.render({patientId:this.p.id})}}
 };
 
-// === PATIENT DASHBOARD ===
-const PatDashboard = {
-  async render(){
-    const main=document.getElementById('main-content');
-    const name=Auth.currentUser?.displayName?.split(' ')[0]||'';
-    const uid=Auth.currentUser?.uid;
-    const today=UI.todayISO();
-    const checkin=await DB.getCheckin(uid,today);
-    const habits=await DB.getHabits(uid,today);
-    const habitsList=['Desayuné según mi plan','Tomé mis 8 vasos de agua','Hice actividad física','Cené según mi plan','Dormí al menos 7 horas'];
-    const checkedH=(habits?.habits||[]);
-    const completedH=checkedH.length;
-    main.innerHTML=`
-      <div class="greeting"><h1>${UI.greeting()}, ${name} 🌿</h1><p>Tu espacio de bienestar personal</p><div class="date">${UI.todayStr()}</div></div>
-      <div class="grid-4 mb-6">
-        ${UI.statCard('⚖️',checkin?.weight?checkin.weight+' kg':'—','Peso de hoy','green')}
-        ${UI.statCard('💧',checkin?.water||'—','Vasos de agua','blue')}
-        ${UI.statCard('🔋',checkin?.energy||'—','Energía (1-5)','amber')}
-        ${UI.statCard('✅',completedH+'/5','Hábitos hoy','rose')}
-      </div>
-      <div class="grid-2">
-        ${UI.card('Check-in de hoy',`
-          ${UI.infoBox('Registra cómo te sientes hoy. Esto ayuda a tu nutrióloga a darte un mejor seguimiento.','tip')}
-          <div class="form-row">
-            ${UI.fg('ci_weight','Peso de hoy (kg)','number',checkin?.weight||'',{placeholder:'Ej: 70.5',step:'0.1',hint:'Pésate por la mañana, antes de desayunar, sin zapatos'})}
-            ${UI.fg('ci_water','Vasos de agua (250ml c/u)','number',checkin?.water||'',{placeholder:'Ej: 8'})}
-          </div>
-          ${UI.fg('ci_energy','¿Cómo te sientes de energía hoy?','select',checkin?.energy||'',{options:[{value:'',label:'Selecciona...'},{value:'5',label:'🔋 Excelente'},{value:'4',label:'😊 Bien'},{value:'3',label:'😐 Normal'},{value:'2',label:'😴 Bajo'},{value:'1',label:'😩 Muy bajo'}]})}
-          ${UI.fg('ci_hunger','¿Sentiste hambre fuera de tus comidas?','select',checkin?.hunger||'',{options:[{value:'',label:'Selecciona...'},{value:'no',label:'No'},{value:'poca',label:'Un poco'},{value:'si',label:'Sí, bastante'},{value:'mucha',label:'Mucha hambre'}]})}
-          ${UI.fg('ci_notes','¿Algo que quieras anotar?','textarea',checkin?.notes||'',{placeholder:'¿Cómo te fue hoy con tu alimentación? ¿Hubo algo difícil?'})}
-          <button class="btn btn-primary w-full" onclick="PatDashboard.saveCheckin()">💾 Guardar check-in</button>
-          <div id="ci-saved" class="mt-2"></div>
-        `,'Tu registro diario')}
-        ${UI.card('Mis hábitos del día',`
-          ${habitsList.map((h,i)=>`<div class="checklist-item"><div class="checklist-check ${checkedH.includes(i)?'checked':''}" onclick="PatDashboard.toggleHabit(${i},this)" data-idx="${i}">${checkedH.includes(i)?'✓':''}</div><span>${h}</span></div>`).join('')}
-          <div class="mt-4">${UI.progressBar(completedH/5*100,'green')}<p class="text-xs text-muted mt-2">${completedH} de 5 completados</p></div>
-        `,'Marca lo que cumpliste hoy')}
-      </div>
-      <div class="mt-4">
-        ${UI.card('💡 Mensaje del día',`<div style="text-align:center;padding:16px"><p style="font-family:var(--font-d);font-size:1.15rem;color:var(--sage-dark);line-height:1.5">"Cada pequeño cambio suma. Tu cuerpo agradece cada decisión saludable que tomas."</p><p class="text-sm text-muted mt-4">— Tu nutrióloga, Healthy Josa 🌿</p></div>`)}
-      </div>`;
-  },
-  async saveCheckin(){
-    const d={weight:document.querySelector('[name=ci_weight]')?.value||'',water:document.querySelector('[name=ci_water]')?.value||'',energy:document.querySelector('[name=ci_energy]')?.value||'',hunger:document.querySelector('[name=ci_hunger]')?.value||'',notes:document.querySelector('[name=ci_notes]')?.value||''};
-    if(await DB.saveCheckin(d)){document.getElementById('ci-saved').innerHTML='<span class="save-indicator">✓ Guardado correctamente</span>';UI.toast('Check-in guardado ✓')}
-  },
-  async toggleHabit(idx,el){
-    el.classList.toggle('checked');el.innerHTML=el.classList.contains('checked')?'✓':'';
-    const checked=[];document.querySelectorAll('.checklist-check').forEach(c=>{if(c.classList.contains('checked'))checked.push(parseInt(c.dataset.idx))});
-    await DB.saveHabits(checked);
-    const bar=document.querySelector('.progress-fill');if(bar)bar.style.width=(checked.length/5*100)+'%';
-  }
-};
-
-// === PATIENT PROGRESS ===
-const PatProgress = {
-  async render(){
-    const uid=Auth.currentUser?.uid;
-    const entries=await DB.getSubDocs(uid,'checkins');
-    return `
-      <div style="margin-bottom:32px"><h1>Mi Progreso</h1><p class="text-muted">Tu evolución a lo largo del tiempo</p></div>
-      <div class="grid-4 mb-6">
-        ${UI.statCard('📊',entries.length,'Registros totales','green')}
-        ${UI.statCard('⚖️',entries.length?entries[0].weight||'—':'—','Último peso','blue')}
-        ${UI.statCard('💧',entries.length?entries[0].water||'—':'—','Último registro agua','amber')}
-        ${UI.statCard('📅','—','Próxima cita','rose')}
-      </div>
-      ${UI.card('Historial de registros',entries.length?`<div class="table-wrapper"><table class="data-table"><thead><tr><th>Fecha</th><th>Peso</th><th>Agua</th><th>Energía</th><th>Notas</th></tr></thead><tbody>${entries.map(e=>`<tr><td>${e.date||'—'}</td><td>${e.weight?e.weight+' kg':'—'}</td><td>${e.water||'—'} vasos</td><td>${e.energy||'—'}/5</td><td>${e.notes||'—'}</td></tr>`).join('')}</tbody></table></div>`:UI.emptyState('📈','Sin registros aún','Haz tu primer check-in desde tu dashboard.'))}
-      ${UI.card('Mis logros 🏅',`<div class="grid-3" style="gap:12px">${[{i:'🏅',t:'Primera consulta'},{i:'💧',t:'7 días de agua'},{i:'🥗',t:'Plan completado'}].map(b=>`<div style="text-align:center;padding:20px;background:var(--sage-50);border-radius:var(--r-md);opacity:.5"><div style="font-size:2rem">${b.i}</div><p class="text-sm mt-2">${b.t}</p></div>`).join('')}</div><p class="text-xs text-muted mt-4 text-center">Los logros se desbloquean conforme avanzas</p>`)}`;
-  }
-};
-
-// === PATIENT PLAN VIEW ===
-const PatPlan = {
-  async render(){
-    const uid=Auth.currentUser?.uid;
-    const p=await DB.getPatient(uid);
-    const plan=p?.assignedPlan;
-    return `
-      <div style="margin-bottom:32px"><h1>Mi Plan Alimenticio</h1><p class="text-muted">Tu plan personalizado de alimentación</p></div>
-      ${plan?UI.card('Tu plan actual',`<div style="white-space:pre-wrap;font-size:.9rem;line-height:1.8">${plan}</div>`,'Asignado por tu nutrióloga'):UI.card('',UI.emptyState('🥗','Tu plan aparecerá aquí','Tu nutrióloga creará y compartirá tu plan alimenticio personalizado después de tu consulta.'))}
-      ${UI.card('¿Cómo funcionan los equivalentes?',`<p class="text-sm mb-4" style="line-height:1.7">Tu plan usa el <strong>Sistema de Equivalentes</strong>. Puedes intercambiar alimentos del mismo grupo sin alterar tu plan. Por ejemplo, si dice "1 fruta", puedes elegir 1 manzana, o 1 taza de fresas, o 2 piezas de tuna — ¡todas son equivalentes!</p>
-        <div class="grid-4" style="gap:8px">${FOOD_EQUIVALENTS.groups.slice(0,4).map(g=>`<div style="text-align:center;padding:12px;background:var(--sage-50);border-radius:var(--r-md)"><div style="font-size:1.2rem">${{verduras:'🥬',frutas:'🍎',cereales:'🌾',aoa:'🥩'}[g.id]}</div><div class="text-xs" style="font-weight:600">${g.name}</div><div class="text-xs text-muted">${g.energy} kcal</div></div>`).join('')}</div>`)}`;
-  }
-};
-
-// === PATIENT PHOTOS ===
-const PatPhotos = {
+// === EQUIVALENTS ===
+const Equiv={
   render(){
-    return `
-      <div style="margin-bottom:32px"><h1>Mis Fotos de Progreso</h1><p class="text-muted">Registro visual de tu avance</p></div>
-      ${UI.infoBox('<strong>¿Cómo tomar tus fotos?</strong> Usa ropa ajustada o de ejercicio. Toma las fotos en el mismo lugar y a la misma hora para mejor comparación. Pide a alguien que te ayude o usa el temporizador de tu celular.','tip')}
-      <div class="card">
-        <div class="card-header"><div class="card-title">📸 Subir fotos</div><div class="card-subtitle">Toma 3 fotos siguiendo las instrucciones</div></div>
-        <div class="photo-upload-grid">
-          <div class="photo-upload-box"><div class="upload-icon">🧍</div><div class="upload-label">De frente</div><div class="upload-hint">Brazos a los lados, mirando a la cámara</div><input type="file" accept="image/*" onchange="PatPhotos.upload(this,'frente')"></div>
-          <div class="photo-upload-box"><div class="upload-icon">🧍‍♂️</div><div class="upload-label">De lado</div><div class="upload-hint">Perfil, con brazos hacia arriba</div><input type="file" accept="image/*" onchange="PatPhotos.upload(this,'lado')"></div>
-          <div class="photo-upload-box"><div class="upload-icon">🔄</div><div class="upload-label">De atrás</div><div class="upload-hint">Espalda, brazos a los lados</div><input type="file" accept="image/*" onchange="PatPhotos.upload(this,'atras')"></div>
-        </div>
-      </div>`;
+    return`<div class="mb-6"><h1>Sistema de Equivalentes SMAE</h1><p class="text-muted">Pérez Lizaur AB y cols. 4ª ed.</p></div>
+      <div class="mb-4"><div class="search-box"><span>🔍</span><input placeholder="Buscar alimento..." oninput="Equiv.search(this.value)"></div></div>
+      <div id="eq-sr" class="mb-4" style="display:none"></div>
+      <div class="grid-4 mb-6" style="gap:10px">${SMAE.groups.map(g=>`<div class="equiv-card" style="cursor:pointer" onclick="Equiv.toggle('${g.id}')"><div class="equiv-card-header" style="border-bottom:3px solid ${g.id==='verduras'?'#4CAF50':g.id==='frutas'?'#FF9800':g.id==='cereales'?'#FFC107':g.id==='aoa'?'#F44336':g.id==='leche'?'#2196F3':g.id==='leguminosas'?'#9C27B0':g.id==='grasas'?'#FF5722':'#E91E63'}"><h4 style="font-family:var(--font-b);font-weight:600;font-size:.85rem">${g.icon} ${g.name}</h4></div><div style="padding:10px 14px"><div class="equiv-macros"><div class="equiv-macro"><span>Kcal</span><strong>${g.e}</strong></div><div class="equiv-macro"><span>P</span><strong>${g.p}g</strong></div><div class="equiv-macro"><span>L</span><strong>${g.l}g</strong></div><div class="equiv-macro"><span>H</span><strong>${g.h}g</strong></div></div></div></div>`).join('')}</div>
+      <div id="eq-det"></div>`;
   },
-  async upload(input, type) {
-    const file = input.files[0];
-    if (!file) return;
-    const uid = Auth.currentUser?.uid;
-    const date = UI.todayISO();
-    try {
-      const ref = storage.ref().child('patients/'+uid+'/photos/'+date+'_'+type+'_'+file.name);
-      UI.toast('Subiendo foto...','info');
-      await ref.put(file);
-      const url = await ref.getDownloadURL();
-      await DB.addSubDoc(uid, 'photos', {type, url, date, fileName: file.name});
-      UI.toast('Foto subida correctamente ✓');
-      // Show preview
-      const box = input.parentElement;
-      box.innerHTML = '<img src="'+url+'" alt="'+type+'">';
-    } catch(e) {
-      UI.toast('Error al subir: '+e.message, 'error');
-    }
-  }
+  toggle(id){const el=document.getElementById('eq-det');const g=SMAE.groups.find(x=>x.id===id);if(!g||el.dataset.open===id){el.innerHTML='';el.dataset.open='';return}el.dataset.open=id;
+    el.innerHTML=`<div class="card">${g.subs.map(s=>`<h4 style="font-family:var(--font-b);font-weight:600;margin-bottom:8px">${s.name} — ${s.e||g.e}kcal | P:${s.p!==undefined?s.p:g.p}g L:${s.l!==undefined?s.l:g.l}g H:${s.h!==undefined?s.h:g.h}g</h4>
+      <div class="table-wrapper mb-4"><table class="data-table"><thead><tr><th>Alimento</th><th>1 equivalente</th></tr></thead><tbody>${s.foods.map(f=>{const[n,p]=f.split('|');return`<tr><td>${n}</td><td>${p}</td></tr>`}).join('')}</tbody></table></div>`).join('')}</div>`;el.scrollIntoView({behavior:'smooth'})},
+  search(q){const c=document.getElementById('eq-sr');if(!q||q.length<2){c.style.display='none';return}const r=searchFoods(q);c.style.display='block';
+    c.innerHTML=r.length?`<div class="card"><div class="table-wrapper"><table class="data-table"><thead><tr><th>Alimento</th><th>Grupo</th><th>Ración</th><th>Kcal</th><th>P</th><th>L</th><th>H</th></tr></thead><tbody>${r.map(x=>`<tr><td><strong>${x.name}</strong></td><td><span class="food-tag ${x.css}">${x.group}</span></td><td>${x.portion}</td><td>${x.e}</td><td>${x.p}g</td><td>${x.l}g</td><td>${x.h}g</td></tr>`).join('')}</tbody></table></div></div>`:`<div class="card"><p class="text-muted">Sin resultados para "${q}"</p></div>`}
 };
 
-// === PATIENT ONBOARDING (Medical History - Patient fills this) ===
-const Onboarding = {
-  step:1, totalSteps:5, data:{},
-  async render(){
-    const uid=Auth.currentUser?.uid;
-    const p=await DB.getPatient(uid);
-    if(p)this.data=p;
-    const main=document.getElementById('main-content');
-    main.innerHTML=this.buildPage();
-  },
-  buildPage(){
-    const steps=[{n:1,l:'Datos personales'},{n:2,l:'Historial médico'},{n:3,l:'Hábitos y estilo'},{n:4,l:'Medidas'},{n:5,l:'Objetivos'}];
-    return`
-      <div style="margin-bottom:32px"><h1>Información para tu consulta</h1><p class="text-muted">Completa esta información para que tu nutrióloga pueda preparar tu consulta. Entre más completa sea, mejor te podrá ayudar.</p></div>
-      ${UI.infoBox('<strong>¿Por qué te pedimos esto?</strong> Esta información es confidencial y ayuda a tu nutrióloga a conocerte mejor, entender tu cuerpo y diseñar un plan personalizado para ti.','info')}
-      <div class="wizard-steps">${steps.map(s=>`<div class="wizard-step ${s.n===this.step?'active':s.n<this.step?'completed':''}"><div class="wizard-step-number">${s.n<this.step?'✓':s.n}</div><div class="wizard-step-label">${s.l}</div></div>`).join('')}</div>
-      <div class="card"><div id="ob-step">${this.renderStep()}</div></div>`;
-  },
-  renderStep(){
-    const d=this.data,v=(f)=>d[f]||'';
-    switch(this.step){
-      case 1:return`<h3 class="mb-4">👤 Datos personales</h3>
-        ${UI.infoBox('Estos datos básicos nos ayudan a identificarte y contactarte.','tip')}
-        <div class="form-row">${UI.fg('name','Nombre completo','text',v('name')||Auth.currentUser?.displayName||'',{required:true})}${UI.fg('phone','Teléfono / WhatsApp','tel',v('phone'),{placeholder:'Ej: 442 123 4567'})}</div>
-        <div class="form-row">${UI.fg('birthdate','Fecha de nacimiento','date',v('birthdate'),{required:true})}${UI.fg('sex','Sexo biológico','select',v('sex'),{required:true,options:[{value:'',label:'Selecciona'},{value:'F',label:'Femenino'},{value:'M',label:'Masculino'}]})}</div>
-        ${UI.fg('occupation','¿A qué te dedicas?','text',v('occupation'),{placeholder:'Ej: Estudiante, oficina, comerciante...'})}
-        ${UI.fg('consultReason','¿Por qué buscas consulta nutricional?','textarea',v('consultReason'),{required:true,placeholder:'Cuéntanos con tus palabras qué te motivó a buscar ayuda nutricional',hint:'No hay respuestas incorrectas. Sé honesto/a.'})}
-        <button class="btn btn-primary w-full" onclick="Onboarding.next()">Siguiente →</button>`;
-
-      case 2:return`<h3 class="mb-4">🏥 Historial médico</h3>
-        ${UI.infoBox('Esta información es <strong>confidencial</strong> y solo la verá tu nutrióloga. Es muy importante para diseñar un plan seguro.','tip')}
-        ${UI.fg('familyHistory','¿Alguien en tu familia (padres, abuelos, hermanos) tiene o tuvo alguna de estas enfermedades?','textarea',v('familyHistory'),{placeholder:'Escribe las que apliquen. Ej: mi mamá tiene diabetes tipo 2, mi abuelo tuvo hipertensión...',hint:'Enfermedades comunes: diabetes, hipertensión, obesidad, colesterol alto, enfermedades del corazón, cáncer, tiroides'})}
-        ${UI.fg('pathologicalHistory','¿Tú tienes o has tenido alguna enfermedad diagnosticada?','textarea',v('pathologicalHistory'),{placeholder:'Ej: Hipotiroidismo desde 2020, gastritis...'})}
-        ${UI.fg('allergies','¿Tienes alergias?','text',v('allergies'),{placeholder:'Ej: Penicilina, mariscos, polen... Escribe "Ninguna" si no tienes'})}
-        <h4 class="mt-6 mb-4">💊 Medicamentos que tomas actualmente</h4>
-        ${UI.infoBox('Si tomas algún medicamento, anota el nombre, dosis y cada cuándo lo tomas.','info')}
-        ${UI.fg('medications','Medicamentos','textarea',v('medications'),{placeholder:'Ej: Levotiroxina 50mcg, 1 pastilla cada mañana en ayunas\nMetformina 850mg, 1 con comida y 1 con cena',example:'Nombre - Dosis - Frecuencia - ¿Para qué lo tomas?'})}
-        <h4 class="mt-6 mb-4">💊 Suplementos</h4>
-        ${UI.fg('supplements','Suplementos, vitaminas o productos naturales','textarea',v('supplements'),{placeholder:'Ej: Vitamina D 1000UI diaria, Omega 3 una cápsula al día...\nEscribe "Ninguno" si no tomas nada',example:'Nombre - Dosis - Frecuencia - ¿Para qué lo tomas?'})}
-        ${UI.fg('surgeries','¿Has tenido cirugías?','text',v('surgeries'),{placeholder:'Ej: Cesárea en 2019, apendicectomía en 2015... Escribe "Ninguna" si no'})}
-        <h4 class="mt-6 mb-4">🚬 Tabaquismo</h4>
-        <div class="form-row">${UI.fg('smokingStatus','¿Fumas?','select',v('smokingStatus'),{options:[{value:'',label:'Selecciona'},{value:'nunca',label:'Nunca he fumado'},{value:'si',label:'Sí, actualmente fumo'},{value:'ex',label:'Ya no fumo (ex fumador)'}]})}${UI.fg('smokingAmount','¿Cuántos cigarros al día?','number',v('smokingAmount'),{placeholder:'Número de cigarros'})}</div>
-        <div class="form-row">${UI.fg('smokingYears','¿Desde hace cuántos años?','number',v('smokingYears'),{placeholder:'Años fumando'})}${UI.fg('smokingQuitYears','Si dejaste de fumar, ¿hace cuántos años?','number',v('smokingQuitYears'),{placeholder:'Años sin fumar'})}</div>
-        <h4 class="mt-6 mb-4">🍺 Consumo de alcohol</h4>
-        <div class="form-row">${UI.fg('alcoholFreq','¿Con qué frecuencia consumes alcohol?','select',v('alcoholFreq'),{options:[{value:'',label:'Selecciona'},{value:'nunca',label:'Nunca'},{value:'social',label:'Solo en reuniones sociales'},{value:'1-2_mes',label:'1-2 veces al mes'},{value:'1-2_semana',label:'1-2 veces por semana'},{value:'3+_semana',label:'3 o más veces por semana'}]})}${UI.fg('alcoholType','¿Qué tipo de bebida?','text',v('alcoholType'),{placeholder:'Ej: Cerveza, vino, tequila...'})}</div>
-        ${UI.fg('alcoholAmount','¿Cuánto tomas en una ocasión?','text',v('alcoholAmount'),{placeholder:'Ej: 2-3 cervezas, 1 copa de vino...'})}
-        <h4 class="mt-6 mb-4">💊 Otras sustancias</h4>
-        ${UI.fg('substances','¿Consumes alguna otra sustancia? (opcional, confidencial)','textarea',v('substances'),{placeholder:'Esta información es estrictamente confidencial. Escribe "No" si no aplica.',hint:'No te juzgamos. Esta información nos ayuda a cuidar tu salud integral.'})}
-        <h4 class="mt-6 mb-4">🔬 Estudios de laboratorio</h4>
-        ${UI.fg('hasRecentLabs','¿Tienes estudios de laboratorio de los últimos 3 meses?','select',v('hasRecentLabs'),{options:[{value:'',label:'Selecciona'},{value:'si',label:'Sí, los tengo'},{value:'no',label:'No tengo'},{value:'viejos',label:'Sí pero tienen más de 3 meses'}]})}
-        ${UI.infoBox('Si tienes estudios recientes, súbelos aquí para que tu nutrióloga los revise antes de tu consulta. Puedes subir fotos o PDFs.','info')}
-        <div class="photo-upload-box" style="margin-bottom:16px"><div class="upload-icon">📄</div><div class="upload-label">Subir laboratorios</div><div class="upload-hint">Acepta PDF, fotos o capturas</div><input type="file" accept="image/*,.pdf" onchange="Onboarding.uploadLab(this)"></div>
-        <div class="flex gap-3"><button class="btn btn-outline" onclick="Onboarding.prev()">← Anterior</button><button class="btn btn-primary" style="flex:1" onclick="Onboarding.next()">Siguiente →</button></div>`;
-
-      case 3:return`<h3 class="mb-4">🍽️ Hábitos de alimentación y estilo de vida</h3>
-        ${UI.infoBox('Cuéntanos cómo comes y vives normalmente. No hay respuestas buenas o malas, solo queremos conocer tu realidad.','tip')}
-        <div class="form-row">${UI.fg('mealsPerDay','¿Cuántas comidas haces al día?','select',v('mealsPerDay'),{options:[{value:'',label:'Selecciona'},{value:'1-2',label:'1-2 comidas'},{value:'3',label:'3 comidas'},{value:'4-5',label:'4-5 comidas'},{value:'irregular',label:'Es irregular / no tengo horario fijo'}]})}${UI.fg('waterGlasses','¿Cuántos vasos de agua tomas al día? (250ml c/u)','number',v('waterGlasses'),{placeholder:'Ej: 6'})}</div>
-        ${UI.fg('mealSchedule','¿A qué hora comes normalmente?','text',v('mealSchedule'),{placeholder:'Ej: Desayuno 8am, Comida 2pm, Cena 8pm'})}
-        ${UI.fg('favFoods','¿Cuáles son tus alimentos favoritos?','textarea',v('favFoods'),{placeholder:'Lista los alimentos que más te gustan y que comes con frecuencia',hint:'Esto nos ayuda a incluir cosas que te gustan en tu plan'})}
-        ${UI.fg('dislikedFoods','¿Qué alimentos NO te gustan o no toleras?','textarea',v('dislikedFoods'),{placeholder:'Lista lo que prefieres evitar'})}
-        ${UI.fg('foodIntolerances','¿Tienes intolerancias alimentarias?','text',v('foodIntolerances'),{placeholder:'Ej: Lactosa, gluten... Escribe "Ninguna" si no'})}
-        <div class="form-row">${UI.fg('exerciseType','¿Haces ejercicio? ¿Cuál?','text',v('exerciseType'),{placeholder:'Ej: Caminar, gym, yoga, ninguno'})}${UI.fg('exerciseFreq','¿Con qué frecuencia?','select',v('exerciseFreq'),{options:[{value:'',label:'Selecciona'},{value:'nunca',label:'No hago ejercicio'},{value:'1-2',label:'1-2 veces/semana'},{value:'3-4',label:'3-4 veces/semana'},{value:'5+',label:'5+ veces/semana'}]})}</div>
-        <div class="form-row">${UI.fg('sleepHours','¿Cuántas horas duermes?','number',v('sleepHours'),{placeholder:'Ej: 7'})}${UI.fg('digestion','¿Cómo es tu digestión?','select',v('digestion'),{options:[{value:'',label:'Selecciona'},{value:'buena',label:'Buena, sin problemas'},{value:'estrenimiento',label:'Tiendo al estreñimiento'},{value:'diarrea',label:'Tiendo a diarrea'},{value:'gases',label:'Muchos gases/inflamación'},{value:'acidez',label:'Acidez/reflujo'},{value:'mixto',label:'Varios problemas'}]})}</div>
-        ${UI.fg('whoPreps','¿Quién compra y prepara tus alimentos?','text',v('whoPreps'),{placeholder:'Ej: Yo mismo, mi mamá, mi pareja...'})}
-        ${UI.fg('budget','¿Cuánto gastas aprox. en comida a la semana?','text',v('budget'),{placeholder:'Ej: $500-$1000'})}
-        <div class="flex gap-3"><button class="btn btn-outline" onclick="Onboarding.prev()">← Anterior</button><button class="btn btn-primary" style="flex:1" onclick="Onboarding.next()">Siguiente →</button></div>`;
-
-      case 4:return`<h3 class="mb-4">📏 Tus medidas corporales</h3>
-        ${UI.infoBox('<strong>Como tu consulta es por telemedicina</strong>, necesitamos que tú tomes tus propias medidas. Sigue estas instrucciones para que sean lo más precisas posible. Si alguien puede ayudarte, ¡mucho mejor!','warn')}
-        <div class="card" style="background:var(--sage-50);border:1px solid var(--sage-light);margin-bottom:20px">
-          <h4 style="font-family:var(--font-b);font-weight:600;margin-bottom:12px">📐 ¿Cómo medirte correctamente?</h4>
-          <ul style="font-size:.88rem;line-height:2;padding-left:20px;color:var(--g700)">
-            <li><strong>Peso:</strong> Pésate por la mañana, sin zapatos, antes de desayunar, con la menor ropa posible.</li>
-            <li><strong>Talla:</strong> Párate derecho/a contra una pared, sin zapatos. Pide que alguien marque tu altura.</li>
-            <li><strong>Cintura:</strong> Mide a la altura del ombligo, sin apretar la cinta, al final de exhalar.</li>
-            <li><strong>Cadera:</strong> Mide la parte más ancha de tus glúteos/caderas.</li>
-            <li><strong>Bíceps:</strong> Mide la parte más ancha de tu brazo con el brazo relajado a un lado.</li>
-            <li><strong>Muslo:</strong> Mide la parte más ancha de tu muslo, parado/a derecho/a.</li>
-          </ul>
-        </div>
-        <div class="form-row">${UI.fg('currentWeight','Tu peso actual (kg)','number',v('currentWeight'),{required:true,placeholder:'Ej: 70.5',step:'0.1'})}${UI.fg('height','Tu estatura (cm)','number',v('height'),{required:true,placeholder:'Ej: 165'})}</div>
-        ${UI.fg('usualWeight','¿Cuál es el peso que has mantenido la mayor parte de los últimos 5 años? (kg)','number',v('usualWeight'),{placeholder:'Ej: 68',hint:'No es tu peso ideal, sino el peso que has tenido de forma más constante en los últimos años'})}
-        <div class="form-row">${UI.fg('waistCirc','Cintura (cm)','number',v('waistCirc'),{placeholder:'Ej: 85',hint:'A la altura del ombligo'})}${UI.fg('hipCirc','Cadera (cm)','number',v('hipCirc'),{placeholder:'Ej: 98',hint:'La parte más ancha'})}</div>
-        <div class="form-row">${UI.fg('bicepCirc','Bíceps (cm) — opcional','number',v('bicepCirc'),{placeholder:'Ej: 30'})}${UI.fg('thighCirc','Muslo (cm) — opcional','number',v('thighCirc'),{placeholder:'Ej: 55'})}</div>
-        <div class="flex gap-3"><button class="btn btn-outline" onclick="Onboarding.prev()">← Anterior</button><button class="btn btn-primary" style="flex:1" onclick="Onboarding.next()">Siguiente →</button></div>`;
-
-      case 5:return`<h3 class="mb-4">🎯 Tus objetivos</h3>
-        ${UI.infoBox('Cuéntanos qué quieres lograr. Tu nutrióloga usará esto para diseñar un plan realista y hecho a tu medida.','tip')}
-        ${UI.fg('goals','¿Qué te gustaría lograr con este proceso?','textarea',v('goals'),{required:true,placeholder:'Ej: Bajar de peso, tener más energía, aprender a comer mejor, controlar mis niveles de azúcar...'})}
-        ${UI.fg('barriers','¿Qué obstáculos has enfrentado antes al intentar cambiar tu alimentación?','textarea',v('barriers'),{placeholder:'Ej: Falta de tiempo, comer fuera, antojos por la noche, viajes...'})}
-        ${UI.fg('expectations','¿Qué esperas de este proceso con tu nutrióloga?','textarea',v('expectations'),{placeholder:'Ej: Un plan que pueda seguir sin sufrir, recetas fáciles, que me ayuden a entender qué comer...'})}
-        <div class="flex gap-3"><button class="btn btn-outline" onclick="Onboarding.prev()">← Anterior</button><button class="btn btn-primary btn-lg" style="flex:1" onclick="Onboarding.complete()">✅ Completar y enviar información</button></div>`;
-      default:return'';
-    }
-  },
-  async collectData(){
-    const d={};document.querySelectorAll('#ob-step .form-input,#ob-step .form-textarea,#ob-step .form-select').forEach(el=>{if(el.name&&el.value)d[el.name]=el.value});
-    Object.assign(this.data,d);
-    await DB.savePatientData(null,d);
-  },
-  async next(){await this.collectData();if(this.step<this.totalSteps){this.step++;document.getElementById('main-content').innerHTML=this.buildPage()}},
-  prev(){if(this.step>1){this.step--;document.getElementById('main-content').innerHTML=this.buildPage()}},
-  async complete(){
-    await this.collectData();
-    await DB.savePatientData(null,{onboardingComplete:true,status:'active'});
-    await db.collection('users').doc(Auth.currentUser.uid).update({onboardingComplete:true});
-    Auth.userProfile.onboardingComplete=true;
-    UI.toast('¡Información enviada! Tu nutrióloga ya puede revisarla 🌿');
-    Router.navigate('patient-dashboard');
-  },
-  async uploadLab(input){
-    const file=input.files[0];if(!file)return;
-    const uid=Auth.currentUser?.uid;
-    try{
-      const ref=storage.ref().child('patients/'+uid+'/labs/'+Date.now()+'_'+file.name);
-      UI.toast('Subiendo archivo...','info');
-      await ref.put(file);const url=await ref.getDownloadURL();
-      await DB.addSubDoc(uid,'files',{type:'lab',url,fileName:file.name,date:UI.todayISO()});
-      UI.toast('Laboratorio subido correctamente ✓');
-    }catch(e){UI.toast('Error: '+e.message,'error')}
-  }
-};
-
-// === EQUIVALENTS VIEW ===
-const EquivalentsView = {
-  activeGroup:null,
+// === CALCULATORS (Auto-populated from active patient) ===
+const Calc={
   render(){
-    const icons={verduras:'🥬',frutas:'🍎',cereales:'🌾',aoa:'🥩',leche:'🥛',leguminosas:'🫘',grasas:'🥑',azucares:'🍬'};
-    return`<div style="margin-bottom:32px"><h1>Sistema de Equivalentes</h1><p class="text-muted">SMAE — Sistema Mexicano de Alimentos Equivalentes · Pérez Lizaur AB 4ª ed.</p></div>
-      <div class="mb-6">${UI.searchBox('Buscar alimento... ej: tortilla, manzana, pollo','EquivalentsView.searchFood')}</div>
-      <div id="eq-search-results" class="mb-6" style="display:none"></div>
-      <div class="grid-4 mb-6" style="gap:12px">${FOOD_EQUIVALENTS.groups.map(g=>`<div class="equiv-card" style="cursor:pointer" onclick="EquivalentsView.toggleGroup('${g.id}')"><div class="equiv-card-header" style="border-bottom:3px solid ${g.color}"><h4 style="font-family:var(--font-b);font-weight:600;font-size:.9rem">${icons[g.id]||''} ${g.name}</h4></div><div style="padding:12px 16px"><div class="equiv-macros"><div class="equiv-macro"><span>Kcal</span><strong>${g.energy}</strong></div><div class="equiv-macro"><span>P</span><strong>${g.protein}g</strong></div><div class="equiv-macro"><span>L</span><strong>${g.fat}g</strong></div><div class="equiv-macro"><span>HCO</span><strong>${g.carbs}g</strong></div></div></div></div>`).join('')}</div>
-      <div id="eq-detail"></div>
-      ${UI.card('Alimentos libres en energía',`<p class="text-sm text-muted mb-4">Solo en la medida indicada son libres (0 kcal).</p><div class="table-wrapper"><table class="data-table"><thead><tr><th>Alimento</th><th>Ración</th></tr></thead><tbody>${FOOD_EQUIVALENTS.freeEnergyFoods.map(f=>`<tr><td>${f.name}</td><td>${f.portion}</td></tr>`).join('')}</tbody></table></div>`,'0 kcal por ración')}`;
-  },
-  toggleGroup(id){
-    if(this.activeGroup===id){this.activeGroup=null;document.getElementById('eq-detail').innerHTML='';return}
-    this.activeGroup=id;const g=FOOD_EQUIVALENTS.groups.find(x=>x.id===id);if(!g)return;
-    document.getElementById('eq-detail').innerHTML=`<div class="card mb-6"><div class="card-header"><div class="card-title">${g.name}</div><button class="btn btn-outline btn-sm" onclick="EquivalentsView.toggleGroup('${id}')">✕</button></div>
-      ${g.subgroups.map(s=>`<div class="mb-4"><h4 style="font-family:var(--font-b);font-weight:600;margin-bottom:12px">${s.name} — ${s.energy||g.energy} kcal | P:${s.protein!==undefined?s.protein:g.protein}g L:${s.fat!==undefined?s.fat:g.fat}g HCO:${s.carbs!==undefined?s.carbs:g.carbs}g</h4>
-      <div class="table-wrapper"><table class="data-table"><thead><tr><th>Alimento</th><th>1 equivalente =</th></tr></thead><tbody>${s.foods.map(f=>`<tr><td>${f.name}</td><td>${f.portion}</td></tr>`).join('')}</tbody></table></div></div>`).join('<hr style="border:none;border-top:1px solid var(--g100);margin:20px 0">')}</div>`;
-    document.getElementById('eq-detail').scrollIntoView({behavior:'smooth'});
-  },
-  searchFood(t){
-    const c=document.getElementById('eq-search-results');
-    if(!t||t.length<2){c.style.display='none';return}
-    const r=searchFoods(t);c.style.display='block';
-    c.innerHTML=r.length?`<div class="card"><div class="card-header"><div class="card-title">Resultados: "${t}"</div><div class="card-subtitle">${r.length} encontrados</div></div><div class="table-wrapper"><table class="data-table"><thead><tr><th>Alimento</th><th>Grupo</th><th>Ración</th><th>Kcal</th><th>P</th><th>L</th><th>HCO</th></tr></thead><tbody>${r.map(x=>`<tr><td><strong>${x.name}</strong></td><td><span class="food-tag ${x.cssClass}">${x.group}</span></td><td>${x.portion}</td><td>${x.energy}</td><td>${x.protein}g</td><td>${x.fat}g</td><td>${x.carbs}g</td></tr>`).join('')}</tbody></table></div></div>`:`<div class="card"><p class="text-muted">No se encontraron alimentos para "${t}"</p></div>`;
-  }
-};
-
-// === CALCULATORS (FIXED) ===
-const CalcView = {
-  render(){
-    return`<div style="margin-bottom:32px"><h1>Calculadora Nutricional</h1><p class="text-muted">Herramientas de cálculo para tu consulta</p></div>
+    const p=App.activePatient||{};
+    const w=p.currentWeight||'',h=p.height||'',age=p.birthdate?Math.floor((Date.now()-new Date(p.birthdate))/(365.25*24*60*60*1000)):'',sex=p.sex||'F';
+    return`<div class="mb-6"><h1>Calculadora Nutricional</h1><p class="text-muted">Datos pre-cargados del paciente activo</p></div>
+      ${p.name?UI.ctxBar():''}
       <div class="grid-2">
         ${UI.card('Requerimiento Energético',`
-          <div class="form-row">${UI.fg('c_w','Peso (kg)','number','',{placeholder:'70'})}${UI.fg('c_h','Talla (cm)','number','',{placeholder:'165'})}</div>
-          <div class="form-row">${UI.fg('c_age','Edad','number','',{placeholder:'30'})}${UI.fg('c_sex','Sexo','select','',{options:[{value:'F',label:'Femenino'},{value:'M',label:'Masculino'}]})}</div>
-          ${UI.fg('c_af','Factor de actividad','select','',{options:[{value:'1.2',label:'Sedentario (1.2)'},{value:'1.375',label:'Ligera (1.375)'},{value:'1.55',label:'Moderada (1.55)'},{value:'1.725',label:'Intensa (1.725)'},{value:'1.9',label:'Muy intensa (1.9)'}]})}
-          ${UI.fg('c_adj','Ajuste calórico (kcal) — positivo para subir, negativo para bajar','number','',{placeholder:'Ej: -500 o +300',hint:'Escribe el número de kcal que quieres sumar o restar al GET'})}
-          <button class="btn btn-primary w-full" onclick="CalcView.calcEnergy()">🧮 Calcular</button>
-          <div id="energy-res" class="mt-4"></div>
-        `,'Mifflin-St Jeor / Harris-Benedict')}
-        ${UI.card('Distribución de Macronutrientes',`
-          <div class="form-row">${UI.fg('m_kcal','Kcal totales','number','',{placeholder:'1800'})}${UI.fg('m_w','Peso del paciente (kg)','number','',{placeholder:'70'})}</div>
-          <div class="form-row-3">${UI.fg('m_prot','Proteínas g/kg','number','',{placeholder:'1.2',step:'0.1'})}${UI.fg('m_fat','% Lípidos','number','',{placeholder:'30'})}${UI.fg('m_cho','% HCO (opc.)','number','',{placeholder:'Auto',hint:'Si lo dejas vacío se calcula automáticamente'})}</div>
-          <button class="btn btn-primary w-full" onclick="CalcView.calcMacros()">📊 Calcular</button>
-          <div id="macro-res" class="mt-4"></div>
-        `,'Distribución manual')}
-      </div>
-      <div class="grid-2 mt-6">
-        ${UI.card('IMC + Rango de peso saludable',`
-          <div class="form-row">${UI.fg('i_w','Peso (kg)','number','')}${UI.fg('i_h','Talla (cm)','number','')}</div>
-          <button class="btn btn-secondary w-full" onclick="CalcView.calcIMC()">Calcular IMC</button>
-          <div id="imc-res" class="mt-4"></div>
+          <div class="form-row">${UI.fg('cw','Peso (kg)','number',w,{step:'0.1'})}${UI.fg('ch','Talla (cm)','number',h)}</div>
+          <div class="form-row">${UI.fg('cage','Edad','number',age)}${UI.fg('csex','Sexo','select',sex,{options:[{value:'F',label:'Femenino'},{value:'M',label:'Masculino'}]})}</div>
+          ${UI.fg('caf','Factor actividad','select','1.2',{options:[{value:'1.2',label:'Sedentario (1.2)'},{value:'1.375',label:'Ligera (1.375)'},{value:'1.55',label:'Moderada (1.55)'},{value:'1.725',label:'Intensa (1.725)'},{value:'1.9',label:'Muy intensa (1.9)'}]})}
+          ${UI.fg('cadj','Ajuste kcal (+ subir, - bajar)','number','',{placeholder:'-500 o +300',hint:'Kcal a sumar/restar del GET'})}
+          <button class="btn btn-primary w-full" onclick="Calc.energy()">🧮 Calcular</button><div id="eres" class="mt-4"></div>
+        ','Mifflin-St Jeor / Harris-Benedict')}
+        ${UI.card('Distribución de Macros',`
+          <div class="form-row">${UI.fg('mkcal','Kcal totales','number','',{placeholder:'Del GET'})}${UI.fg('mw','Peso (kg)','number',w)}</div>
+          <div class="form-row-3">${UI.fg('mprot','Prot g/kg','number','1.2',{step:'0.1'})}${UI.fg('mfat','% Lípidos','number','30')}${UI.fg('mcho','% HCO','number','',{placeholder:'Auto',hint:'Vacío = automático'})}</div>
+          <button class="btn btn-primary w-full" onclick="Calc.macros()">📊 Calcular</button><div id="mres" class="mt-4"></div>
         `)}
-        ${UI.card('Requerimiento Hídrico',`
-          ${UI.fg('h_w','Peso (kg)','number','')}
-          <button class="btn btn-secondary w-full" onclick="CalcView.calcWater()">Calcular</button>
-          <div id="water-res" class="mt-4"></div>
-        `,'30-35 ml/kg/día')}
       </div>
-      <div class="mt-6">
-        ${UI.card('Distribución de Equivalentes por Kilocalorías',`
-          ${UI.infoBox('Calcula la distribución de equivalentes SMAE según las kcal del plan. <strong>Variación máxima: ±10%.</strong>','info')}
-          <div class="form-row">${UI.fg('eq_kcal','Kcal del plan','number','',{placeholder:'1500'})}
-          <button class="btn btn-primary" style="align-self:end;margin-bottom:20px" onclick="CalcView.calcEquiv()">Calcular</button></div>
-          <div id="eq-res"></div>
-        `,'SMAE — Distribución corregida')}
+      <div class="grid-2 mt-4">
+        ${UI.card('IMC + Peso saludable',`
+          <div class="form-row">${UI.fg('iw','Peso','number',w)}${UI.fg('ih','Talla','number',h)}</div>
+          <button class="btn btn-secondary w-full" onclick="Calc.imc()">Calcular</button><div id="ires" class="mt-4"></div>`)}
+        ${UI.card('Req. Hídrico',`${UI.fg('hw','Peso','number',w)}<button class="btn btn-secondary w-full" onclick="Calc.water()">Calcular</button><div id="wres" class="mt-4"></div>`,'30-35 ml/kg')}
+      </div>
+      <div class="mt-4">
+        ${UI.card('Distribución de Equivalentes',`
+          ${UI.infoBox('Calcula equivalentes SMAE según kcal. Puedes <strong>editar manualmente</strong> cada grupo. Se muestran gramos de macros por grupo.','info')}
+          <div class="form-row">${UI.fg('eqkcal','Kcal del plan','number','',{placeholder:'Usa el GET calculado'})}
+          <button class="btn btn-primary" style="align-self:end;margin-bottom:18px" onclick="Calc.equiv()">Calcular</button></div>
+          <div id="eqres"></div>
+        ','SMAE — Editable con macros')}
       </div>`;
   },
-  calcEnergy(){
-    const w=+document.querySelector('[name=c_w]').value,h=+document.querySelector('[name=c_h]').value,age=+document.querySelector('[name=c_age]').value,sex=document.querySelector('[name=c_sex]').value,af=+document.querySelector('[name=c_af]').value,adj=+document.querySelector('[name=c_adj]').value||0;
-    if(!w||!h||!age){UI.toast('Completa los campos','warning');return}
-    let mifflin=sex==='M'?10*w+6.25*h-5*age+5:10*w+6.25*h-5*age-161;
-    let hb=sex==='M'?88.362+13.397*w+4.799*h-5.677*age:447.593+9.247*w+3.098*h-4.330*age;
-    let getMiff=Math.round(mifflin*af+adj),getHB=Math.round(hb*af+adj);
-    document.getElementById('energy-res').innerHTML=`<div class="grid-2" style="gap:12px">
-      ${UI.statCard('🔥',Math.round(mifflin),'TMB Mifflin','green')}${UI.statCard('🔥',Math.round(hb),'TMB Harris-Benedict','blue')}
-      ${UI.statCard('⚡',getMiff,'GET ajustado (Mifflin)','amber')}${UI.statCard('⚡',getHB,'GET ajustado (HB)','rose')}
-    </div><p class="text-xs text-muted mt-2">GET = TMB × ${af} ${adj?'+ ('+adj+') kcal ajuste':''}</p>`;
+  energy(){
+    const w=+document.querySelector('[name=cw]').value,h=+document.querySelector('[name=ch]').value,age=+document.querySelector('[name=cage]').value,sex=document.querySelector('[name=csex]').value,af=+document.querySelector('[name=caf]').value,adj=+document.querySelector('[name=cadj]').value||0;
+    if(!w||!h||!age){UI.toast('Completa campos','warning');return}
+    const miff=sex==='M'?10*w+6.25*h-5*age+5:10*w+6.25*h-5*age-161;
+    const hb=sex==='M'?88.362+13.397*w+4.799*h-5.677*age:447.593+9.247*w+3.098*h-4.330*age;
+    document.getElementById('eres').innerHTML=`<div class="grid-2" style="gap:10px">
+      ${UI.stat('🔥',Math.round(miff),'TMB Mifflin','green')}${UI.stat('⚡',Math.round(miff*af+adj),'GET ajustado','amber')}
+    </div><p class="text-xs text-muted mt-2">HB: TMB=${Math.round(hb)}, GET=${Math.round(hb*af+adj)} · AF=${af} · Ajuste=${adj>0?'+':''}${adj}</p>`;
+    document.querySelector('[name=mkcal]').value=Math.round(miff*af+adj);
+    document.querySelector('[name=eqkcal]').value=Math.round(miff*af+adj);
   },
-  calcMacros(){
-    const kcal=+document.querySelector('[name=m_kcal]').value,pk=+document.querySelector('[name=m_prot]').value,w=+document.querySelector('[name=m_w]').value,fp=+document.querySelector('[name=m_fat]').value,choManual=document.querySelector('[name=m_cho]').value;
-    if(!kcal||!pk||!w){UI.toast('Completa campos','warning');return}
-    const protG=pk*w,protKcal=protG*4,protPct=(protKcal/kcal*100).toFixed(0);
-    const fatKcal=kcal*(fp/100),fatG=fatKcal/9;
-    let choKcal,choPct;
-    if(choManual){choPct=+choManual;choKcal=kcal*(choPct/100)}else{choKcal=kcal-protKcal-fatKcal;choPct=(choKcal/kcal*100).toFixed(0)}
-    const choG=choKcal/4;
-    document.getElementById('macro-res').innerHTML=`<div class="grid-3" style="gap:12px">
-      <div style="text-align:center;padding:16px;background:#E8F5E9;border-radius:var(--r-md)"><div style="font-weight:700;font-size:1.3rem;color:#2E7D32">${Math.round(protG)}g</div><div class="text-xs text-muted">Proteínas (${protPct}%)</div></div>
-      <div style="text-align:center;padding:16px;background:#FFF8E1;border-radius:var(--r-md)"><div style="font-weight:700;font-size:1.3rem;color:#F57F17">${Math.round(fatG)}g</div><div class="text-xs text-muted">Lípidos (${fp}%)</div></div>
-      <div style="text-align:center;padding:16px;background:#E3F2FD;border-radius:var(--r-md)"><div style="font-weight:700;font-size:1.3rem;color:#1565C0">${Math.round(choG)}g</div><div class="text-xs text-muted">HCO (${choPct}%)</div></div>
+  macros(){
+    const kcal=+document.querySelector('[name=mkcal]').value,pk=+document.querySelector('[name=mprot]').value,w=+document.querySelector('[name=mw]').value,fp=+document.querySelector('[name=mfat]').value,chM=document.querySelector('[name=mcho]').value;
+    if(!kcal||!pk||!w){UI.toast('Completa','warning');return}
+    const pG=pk*w,pK=pG*4,fK=kcal*(fp/100),fG=fK/9;let hK,hP;
+    if(chM){hP=+chM;hK=kcal*(hP/100)}else{hK=kcal-pK-fK;hP=(hK/kcal*100).toFixed(0)}const hG=hK/4;
+    document.getElementById('mres').innerHTML=`<div class="grid-3" style="gap:10px">
+      <div style="text-align:center;padding:14px;background:#E8F5E9;border-radius:var(--r-md)"><div style="font-weight:700;font-size:1.3rem;color:#2E7D32">${Math.round(pG)}g</div><div class="text-xs text-muted">Prot (${(pK/kcal*100).toFixed(0)}%)</div></div>
+      <div style="text-align:center;padding:14px;background:#FFF8E1;border-radius:var(--r-md)"><div style="font-weight:700;font-size:1.3rem;color:#F57F17">${Math.round(fG)}g</div><div class="text-xs text-muted">Líp (${fp}%)</div></div>
+      <div style="text-align:center;padding:14px;background:#E3F2FD;border-radius:var(--r-md)"><div style="font-weight:700;font-size:1.3rem;color:#1565C0">${Math.round(hG)}g</div><div class="text-xs text-muted">HCO (${hP}%)</div></div>
     </div>`;
   },
-  calcIMC(){
-    const w=+document.querySelector('[name=i_w]').value,h=+document.querySelector('[name=i_h]').value;
-    if(!w||!h)return;const hm=h/100,imc=(w/(hm*hm)).toFixed(1);
-    let cls='Normal',clr='green';
-    if(imc<18.5){cls='Bajo peso';clr='blue'}else if(imc>=25&&imc<30){cls='Sobrepeso';clr='amber'}else if(imc>=30){cls='Obesidad';clr='red'}
-    const pesoMin=(18.5*hm*hm).toFixed(1),pesoMax=(24.9*hm*hm).toFixed(1);
-    document.getElementById('imc-res').innerHTML=`<div class="grid-3" style="gap:12px">
-      ${UI.statCard('📊',imc,cls+' '+UI.badge(cls,clr),'green')}
-      ${UI.statCard('⬇️',pesoMin+' kg','Peso mín. saludable','blue')}
-      ${UI.statCard('⬆️',pesoMax+' kg','Peso máx. saludable','amber')}
-    </div><p class="text-sm text-muted mt-2"><strong>Rango de peso saludable:</strong> ${pesoMin} – ${pesoMax} kg para tu estatura de ${h} cm</p>`;
+  imc(){
+    const w=+document.querySelector('[name=iw]').value,h=+document.querySelector('[name=ih]').value;if(!w||!h)return;
+    const hm=h/100,imc=(w/(hm*hm)).toFixed(1),mn=(18.5*hm*hm).toFixed(1),mx=(24.9*hm*hm).toFixed(1);
+    let cls='Normal',c='green';if(imc<18.5){cls='Bajo peso';c='blue'}else if(imc>=25&&imc<30){cls='Sobrepeso';c='amber'}else if(imc>=30){cls='Obesidad';c='red'}
+    document.getElementById('ires').innerHTML=`<div class="grid-3" style="gap:10px">${UI.stat('📊',imc,cls+' '+UI.badge(cls,c),'green')}${UI.stat('⬇️',mn+'kg','Peso mín','blue')}${UI.stat('⬆️',mx+'kg','Peso máx','amber')}</div><p class="text-sm text-muted mt-2">Rango saludable: ${mn}–${mx} kg</p>`;
   },
-  calcWater(){
-    const w=+document.querySelector('[name=h_w]').value;if(!w)return;
-    document.getElementById('water-res').innerHTML=UI.statCard('💧',Math.round(w*30)+'–'+Math.round(w*35)+' ml',(w*30/250).toFixed(1)+'–'+(w*35/250).toFixed(1)+' vasos/día','blue');
-  },
-  calcEquiv(){
-    const kcal=+document.querySelector('[name=eq_kcal]').value;if(!kcal)return;
-    // FIXED: Strict distribution with max ±10% variance
-    // Base ratios per 1000 kcal, then scale proportionally
+  water(){const w=+document.querySelector('[name=hw]').value;if(!w)return;document.getElementById('wres').innerHTML=UI.stat('💧',Math.round(w*30)+'–'+Math.round(w*35)+'ml',(w*30/250).toFixed(1)+'–'+(w*35/250).toFixed(1)+' vasos','blue')},
+  equiv(){
+    const kcal=+document.querySelector('[name=eqkcal]').value;if(!kcal)return;
     const base={verduras:3,frutas:2.5,cer_sg:4,cer_cg:0,legum:1,aoa_mb:1.5,aoa_b:1.5,leche_d:1,grasas:3,azucares:0};
-    const kcalPer={verduras:25,frutas:60,cer_sg:70,cer_cg:115,legum:120,aoa_mb:40,aoa_b:55,leche_d:95,grasas:45,azucares:40};
-    const factor=kcal/1500; // scale from 1500 base
-    const dist={};let total=0;
-    Object.keys(base).forEach(k=>{
-      dist[k]=Math.round(base[k]*factor);
-      if(dist[k]<0)dist[k]=0;
-      total+=dist[k]*kcalPer[k];
-    });
-    // Adjust to be within ±10%
-    const diff=kcal-total;
-    if(Math.abs(diff)>kcal*0.1){
-      // Adjust cereals to close the gap
-      const adjEq=Math.round(diff/70);
-      dist.cer_sg=Math.max(0,dist.cer_sg+adjEq);
-      total=Object.keys(dist).reduce((s,k)=>s+dist[k]*kcalPer[k],0);
-    }
-    const labels=[['🥬 Verduras','verduras',25],['🍎 Frutas','frutas',60],['🌾 Cereales s/g','cer_sg',70],['🌾 Cereales c/g','cer_cg',115],['🫘 Leguminosas','legum',120],['🥩 AOA muy bajo','aoa_mb',40],['🥩 AOA bajo','aoa_b',55],['🥛 Leche desc.','leche_d',95],['🥑 Grasas','grasas',45],['🍬 Azúcares','azucares',40]];
-    const finalTotal=labels.reduce((s,r)=>s+(dist[r[1]]||0)*r[2],0);
-    const variance=((finalTotal-kcal)/kcal*100).toFixed(1);
-    document.getElementById('eq-res').innerHTML=`
-      <p class="text-sm mb-4">Distribución para ${kcal} kcal (total real: ${finalTotal} kcal, variación: ${variance}%)</p>
-      <div class="table-wrapper"><table class="data-table"><thead><tr><th>Grupo</th><th>Equivalentes</th><th>Kcal/eq</th><th>Subtotal</th></tr></thead>
-      <tbody>${labels.map(r=>`<tr><td>${r[0]}</td><td><strong>${dist[r[1]]||0}</strong></td><td>${r[2]}</td><td>${(dist[r[1]]||0)*r[2]} kcal</td></tr>`).join('')}
-      <tr style="background:var(--sage-50);font-weight:700"><td>Total</td><td></td><td></td><td>${finalTotal} kcal</td></tr></tbody></table></div>
-      ${Math.abs(+variance)<=10?UI.infoBox('✓ Variación dentro del ±10% permitido.','tip'):UI.infoBox('⚠ Variación fuera del rango. Ajusta manualmente.','warn')}`;
+    const info=[{k:'verduras',n:'🥬 Verduras',e:25,p:2,l:0,h:4},{k:'frutas',n:'🍎 Frutas',e:60,p:0,l:0,h:15},{k:'cer_sg',n:'🌾 Cereales s/g',e:70,p:2,l:0,h:15},{k:'cer_cg',n:'🌾 Cereales c/g',e:115,p:2,l:5,h:15},{k:'legum',n:'🫘 Leguminosas',e:120,p:8,l:1,h:20},{k:'aoa_mb',n:'🥩 AOA muy bajo',e:40,p:7,l:1,h:0},{k:'aoa_b',n:'🥩 AOA bajo',e:55,p:7,l:3,h:0},{k:'leche_d',n:'🥛 Leche desc.',e:95,p:9,l:2,h:12},{k:'grasas',n:'🥑 Grasas',e:45,p:0,l:5,h:0},{k:'azucares',n:'🍬 Azúcares',e:40,p:0,l:0,h:10}];
+    const f=kcal/1500;const dist={};info.forEach(i=>{dist[i.k]=Math.max(0,Math.round((base[i.k]||0)*f))});
+    let tot=info.reduce((s,i)=>s+dist[i.k]*i.e,0);const diff=kcal-tot;if(Math.abs(diff)>10){dist.cer_sg=Math.max(0,dist.cer_sg+Math.round(diff/70));tot=info.reduce((s,i)=>s+dist[i.k]*i.e,0)}
+    document.getElementById('eqres').innerHTML=`
+      <div class="table-wrapper"><table class="data-table"><thead><tr><th>Grupo</th><th>Equiv.</th><th>Kcal/eq</th><th>Prot(g)</th><th>Líp(g)</th><th>HCO(g)</th><th>Subtotal</th></tr></thead>
+      <tbody>${info.map(i=>{const n=dist[i.k]||0;return`<tr><td>${i.n}</td><td><input type="number" value="${n}" min="0" onchange="Calc.updateEqRow(this)" data-key="${i.k}" data-e="${i.e}" data-p="${i.p}" data-l="${i.l}" data-h="${i.h}"></td><td>${i.e}</td><td>${(n*i.p).toFixed(0)}</td><td>${(n*i.l).toFixed(0)}</td><td>${(n*i.h).toFixed(0)}</td><td>${n*i.e} kcal</td></tr>`}).join('')}
+      </tbody><tfoot><tr style="font-weight:700;background:var(--sage-50)"><td>TOTAL</td><td id="eq-tot-n"></td><td></td><td id="eq-tot-p"></td><td id="eq-tot-l"></td><td id="eq-tot-h"></td><td id="eq-tot-kcal">${tot} kcal</td></tr></tfoot></table></div>
+      <p class="text-sm text-muted mt-2">Variación: ${((tot-kcal)/kcal*100).toFixed(1)}% ${Math.abs((tot-kcal)/kcal*100)<=10?'✓':'⚠'}</p>`;
+    Calc.updateTotals();
+  },
+  updateEqRow(el){Calc.updateTotals()},
+  updateTotals(){
+    let tP=0,tL=0,tH=0,tK=0,tN=0;
+    document.querySelectorAll('#eqres input[type=number]').forEach(inp=>{const n=+inp.value,p=+inp.dataset.p,l=+inp.dataset.l,h=+inp.dataset.h,e=+inp.dataset.e;tP+=n*p;tL+=n*l;tH+=n*h;tK+=n*e;tN+=n;
+      const row=inp.closest('tr');row.cells[3].textContent=(n*p).toFixed(0);row.cells[4].textContent=(n*l).toFixed(0);row.cells[5].textContent=(n*h).toFixed(0);row.cells[6].textContent=n*e+' kcal'});
+    const tp=document.getElementById('eq-tot-p'),tl=document.getElementById('eq-tot-l'),th=document.getElementById('eq-tot-h'),tk=document.getElementById('eq-tot-kcal'),tn=document.getElementById('eq-tot-n');
+    if(tp)tp.textContent=tP.toFixed(0)+'g';if(tl)tl.textContent=tL.toFixed(0)+'g';if(th)th.textContent=tH.toFixed(0)+'g';if(tk)tk.textContent=tK+' kcal';if(tn)tn.textContent=tN;
   }
 };
 
 // === MEAL PLANS ===
-const MealPlansView = {
-  render(){
-    return`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;flex-wrap:wrap;gap:16px">
-      <div><h1>Planes de Alimentación</h1><p class="text-muted">Crea y asigna planes a tus pacientes</p></div>
-      <button class="btn btn-primary" onclick="MealPlansView.showCreate()">➕ Nuevo plan</button></div>
-      <div class="grid-3 mb-6">${['1200 kcal','1500 kcal','1800 kcal'].map((p,i)=>`<div class="card" style="cursor:pointer;text-align:center" onclick="MealPlansView.showTemplate(${[1200,1500,1800][i]})"><div style="font-size:2rem;margin-bottom:8px">📋</div><h4>${p}</h4><p class="text-sm text-muted">Plantilla base</p></div>`).join('')}</div>
-      <div id="plan-workspace">${UI.card('',UI.emptyState('🍽️','Selecciona una plantilla o crea un plan','Usa las plantillas de arriba o el botón de nuevo plan.'))}</div>`;
-  },
-  showTemplate(kcal){
-    const meals=['Desayuno','Colación AM','Comida','Colación PM','Cena'];
+const MealPlan={
+  p:null,
+  async render(params){
+    if(params?.patientId){this.p=await DB.get(params.patientId);App.setPatient(this.p)}else{this.p=App.activePatient}
+    const main=document.getElementById('main-content');
+    const meals=['Desayuno','Snack AM','Comida','Snack PM','Cena'];
     const days=['Lunes','Martes','Miércoles','Jueves','Viernes'];
-    document.getElementById('plan-workspace').innerHTML=`<div class="card">
-      <div class="card-header"><div><div class="card-title">Plan de ${kcal} kcal — 5 días</div><div class="card-subtitle">Edita cada tiempo de comida. Usa equivalentes SMAE.</div></div>
-        <div class="flex gap-3"><button class="btn btn-outline btn-sm" onclick="Router.navigate('calculators')">🧮 Calculadora</button><button class="btn btn-outline btn-sm" onclick="Router.navigate('equivalents')">🥑 Equivalentes</button><button class="btn btn-primary btn-sm" onclick="MealPlansView.assignPlan()">📤 Asignar a paciente</button></div></div>
-      ${UI.infoBox('<strong>Tip:</strong> Revisa el recordatorio de 24 horas del paciente para basarte en lo que ya come y mejorar adherencia.','tip')}
-      ${days.map(day=>`<h3 class="mt-6 mb-4">${day}</h3>${meals.map(meal=>`<div style="padding:12px 16px;background:var(--sage-50);border-radius:var(--r-md);margin-bottom:8px">
-        <div class="flex items-center justify-between"><strong style="font-size:.88rem">${meal}</strong><span class="text-xs text-muted">Equivalentes</span></div>
-        <textarea class="form-textarea" style="min-height:50px;margin-top:8px" name="plan_${day}_${meal}" placeholder="Describe el menú para ${meal.toLowerCase()} del ${day.toLowerCase()}..."></textarea>
-      </div>`).join('')}`).join('')}
-      <button class="btn btn-primary btn-lg w-full mt-6" onclick="MealPlansView.savePlan(${kcal})">💾 Guardar plan</button></div>`;
+    main.innerHTML=`<div class="flex items-center gap-3 mb-4" style="flex-wrap:wrap"><div style="flex:1"><h1>Plan de Alimentación</h1><p class="text-muted">Crea, edita y asigna planes</p></div>
+      ${this.p?`<button class="btn btn-primary" onclick="MealPlan.assign()">📤 Enviar a ${this.p.name||'paciente'}</button>`:''}<button class="btn btn-secondary" onclick="Router.nav('calculators')">🧮 Calculadora</button><button class="btn btn-outline" onclick="Router.nav('equivalents')">🥑 Equivalentes</button></div>
+      ${this.p?UI.ctxBar():''}
+      ${UI.infoBox('<strong>Tip:</strong> Revisa el recordatorio de 24 horas del paciente para basarte en lo que ya come. Así mejorarás la adherencia.','tip')}
+      ${days.map(day=>`<h3 class="mt-4 mb-2">${day}</h3>${meals.map(m=>`<div class="meal-time-card"><h4>${m}</h4><textarea class="form-textarea" name="mp_${day}_${m.replace(/ /g,'')}" placeholder="Alimentos y cantidades para ${m.toLowerCase()}..." style="min-height:45px"></textarea></div>`).join('')}`).join('')}
+      <div class="card mt-4">
+        <div class="card-header"><div class="card-title">💡 Recomendaciones generales</div></div>
+        ${UI.fg('mp_recs','','textarea','',{placeholder:'Recomendaciones para el paciente: hidratación, horarios, tips...'})}
+      </div>
+      <div class="flex gap-3 mt-4">
+        <button class="btn btn-primary btn-lg" style="flex:1" onclick="MealPlan.save()">💾 Guardar plan</button>
+        ${this.p?`<button class="btn btn-secondary btn-lg" onclick="MealPlan.assign()">📤 Enviar al paciente</button>`:''}
+        ${this.p?`<button class="btn btn-outline btn-lg" onclick="Router.nav('grocery',{patientId:'${this.p?.id}'})">🛒 Lista del súper</button>`:''}
+      </div>`;
   },
-  async assignPlan(){
-    const patients=await DB.getAllPatients();
-    UI.openModal(`<div class="modal-header"><h2>Asignar plan a paciente</h2><button class="btn-icon" onclick="UI.closeModal()">✕</button></div><div class="modal-body">
-      ${UI.fg('assign_patient','Selecciona paciente','select','',{options:[{value:'',label:'Selecciona...'},...patients.map(p=>({value:p.id,label:p.name||p.email}))]})}
-      <button class="btn btn-primary w-full" onclick="MealPlansView.doAssign()">📤 Asignar plan</button></div>`);
-  },
-  async doAssign(){
-    const pid=document.querySelector('[name=assign_patient]')?.value;
-    if(!pid){UI.toast('Selecciona un paciente','warning');return}
-    // Collect all plan data
-    let planText='';
-    document.querySelectorAll('[name^="plan_"]').forEach(el=>{if(el.value)planText+=el.name.replace('plan_','').replace(/_/g,' ')+': '+el.value+'\n'});
-    if(await DB.savePatientData(pid,{assignedPlan:planText})){UI.closeModal();UI.toast('Plan asignado al paciente ✓')}
-  },
-  async savePlan(kcal){UI.toast('Plan guardado (usa "Asignar a paciente" para enviarlo)','info')},
-  showCreate(){
-    UI.openModal(`<div class="modal-header"><h2>Nuevo plan</h2><button class="btn-icon" onclick="UI.closeModal()">✕</button></div><div class="modal-body">
-      ${UI.fg('np_name','Nombre del plan','text','',{placeholder:'Ej: Plan hipocalórico sem 1'})}
-      ${UI.fg('np_kcal','Kilocalorías','number','',{placeholder:'1500'})}
-      <button class="btn btn-primary w-full" onclick="UI.closeModal();MealPlansView.showTemplate(+document.querySelector('[name=np_kcal]').value||1500)">Crear →</button></div>`);
+  async save(){UI.toast('Plan guardado ✓','success')},
+  async assign(){
+    if(!this.p){UI.toast('Selecciona un paciente','warning');return}
+    let planText='PLAN DE ALIMENTACIÓN — Healthy Josa 🌿\n';
+    planText+=`Paciente: ${this.p.name||this.p.email}\nFecha: ${UI.todayStr()}\n\n`;
+    document.querySelectorAll('[name^=mp_]').forEach(el=>{if(el.value){const parts=el.name.replace('mp_','').split('_');planText+=`${parts[0]} — ${parts[1]}: ${el.value}\n`}});
+    const recs=document.querySelector('[name=mp_recs]')?.value;if(recs)planText+=`\nRecomendaciones:\n${recs}`;
+    if(await DB.save(this.p.id,{assignedPlan:planText,planDate:UI.todayISO()}))UI.toast('Plan enviado al paciente ✓')
   }
 };
 
-// === APP ENTRY POINT ===
-document.addEventListener('DOMContentLoaded',()=>{
-  console.log('🌿 Healthy Josa v2 — Starting...');
-  try{
-    document.getElementById('mobile-menu-btn')?.addEventListener('click',()=>UI.toggleSidebar());
-    document.getElementById('sidebar-close')?.addEventListener('click',()=>UI.closeSidebar());
-    document.getElementById('sidebar-overlay')?.addEventListener('click',()=>UI.closeSidebar());
-    document.getElementById('modal-overlay')?.addEventListener('click',(e)=>{if(e.target===e.currentTarget)UI.closeModal()});
-    document.addEventListener('keydown',(e)=>{if(e.key==='Escape'){UI.closeModal();UI.closeSidebar()}});
-    Auth.init();
-    console.log('🌿 Healthy Josa v2 — Ready');
-  }catch(err){
-    console.error('Healthy Josa init error:', err);
-    document.getElementById('loading-screen')?.classList.add('hidden');
-    const main=document.getElementById('main-content');
-    const app=document.getElementById('app-shell');
-    if(app) app.classList.remove('hidden');
-    if(main){
-      main.innerHTML = `<div class="card"><div class="card-header"><div><div class="card-title">No se pudo iniciar la app</div><div class="card-subtitle">Se encontró un error al cargar Healthy Josa.</div></div></div><p class="text-sm">Abre la consola del navegador para ver el detalle técnico.</p><div class="info-box warn mt-4"><strong>Error:</strong> ${String(err && err.message ? err.message : err)}</div></div>`;
-    }
+// === RECOMMENDATIONS ===
+const Recs={
+  p:null,
+  async render(params){this.p=await DB.get(params?.patientId||App.activePatient?.id);if(!this.p)return UI.empty('⚠️','Selecciona paciente','');
+    const r=this.p.recommendations||'';
+    return`<div class="flex items-center gap-3 mb-4"><button class="btn btn-outline btn-sm" onclick="Router.nav('patient-record',{patientId:'${this.p.id}'})">← Expediente</button><h1 style="font-size:1.4rem">Recomendaciones</h1></div>
+      ${UI.ctxBar()}
+      ${UI.card('Recomendaciones para el paciente',`
+        ${UI.infoBox('Escribe recomendaciones personalizadas. El paciente las verá en su portal.','tip')}
+        ${UI.fg('recs','','textarea',r,{placeholder:'Hidratación: tomar al menos 2L de agua al día\nHorarios: procurar cenar antes de las 8pm\nActividad: caminar 30 min diarios\nEvitar: bebidas azucaradas y ultraprocesados\n...',hint:'Puedes usar formato de lista para que sea más claro'})}
+        <button class="btn btn-primary w-full" onclick="Recs.save()">💾 Guardar y enviar al paciente</button>
+      `)}
+      ${UI.card('Plato del Buen Comer',`
+        <div style="text-align:center;padding:24px;background:var(--sage-50);border-radius:var(--r-md)">
+          <div style="font-size:3rem;margin-bottom:12px">🥗</div>
+          <p class="text-sm text-muted">Espacio reservado para la imagen del Plato del Buen Comer.<br>Cuando proporciones la imagen, se integrará aquí.</p>
+        </div>
+      `)}`;
+  },
+  async save(){const r=document.querySelector('[name=recs]')?.value;if(await DB.save(this.p.id,{recommendations:r}))UI.toast('Recomendaciones guardadas ✓')}
+};
+
+// === GROCERY LIST ===
+const Grocery={
+  p:null,
+  async render(params){this.p=await DB.get(params?.patientId||App.activePatient?.id);if(!this.p)return UI.empty('⚠️','Selecciona paciente','');
+    const g=this.p.groceryList||'';
+    return`<div class="flex items-center gap-3 mb-4"><button class="btn btn-outline btn-sm" onclick="Router.nav('patient-record',{patientId:'${this.p.id}'})">← Expediente</button><h1 style="font-size:1.4rem">Lista del Súper</h1></div>
+      ${UI.ctxBar()}
+      ${UI.card('Lista de compras',`
+        ${UI.infoBox('Edita la lista basándote en el plan del paciente. Envíala cuando esté lista.','tip')}
+        ${UI.fg('grocery','','textarea',g,{placeholder:'🥬 Verduras:\n- Brócoli 2 piezas\n- Jitomate 1kg\n- Espinaca 1 bolsa\n\n🍎 Frutas:\n- Manzanas 6 piezas\n- Fresas 1 charola\n\n🥩 Proteínas:\n- Pechuga pollo 500g\n- Huevos 12\n\n🌾 Cereales:\n- Tortillas maíz 1 paq\n- Avena 500g\n\n🥛 Lácteos:\n- Leche descremada 2L\n- Yogurt natural 1L'})}
+        <div class="flex gap-3"><button class="btn btn-primary" style="flex:1" onclick="Grocery.save()">💾 Guardar</button><button class="btn btn-secondary" onclick="Grocery.send()">📤 Enviar al paciente</button></div>
+      `)}`;
+  },
+  async save(){const g=document.querySelector('[name=grocery]')?.value;if(await DB.save(this.p.id,{groceryList:g}))UI.toast('Lista guardada ✓')},
+  async send(){await this.save();UI.toast('Lista enviada al paciente ✓')}
+};
+
+// === PATIENT DASHBOARD ===
+const PatDash={
+  async render(){
+    const main=document.getElementById('main-content'),n=Auth.currentUser?.displayName?.split(' ')[0]||'',uid=Auth.currentUser?.uid;
+    const ci=await DB.getCheckin(uid,UI.todayISO()),hab=await DB.getHabits(uid,UI.todayISO());
+    const hList=['Desayuné según mi plan','Tomé al menos 8 vasos de agua','Hice actividad física','Cené antes de las 9pm','Dormí al menos 7 horas'];
+    const checked=hab?.habits||[];const done=checked.length;
+    main.innerHTML=`
+      <div class="greeting"><h1>${UI.greeting()}, ${n} 🌿</h1><p>Tu espacio de bienestar</p><div class="date">${UI.todayStr()}</div></div>
+      <div class="grid-4 mb-6">${UI.stat('⚖️',ci?.weight?ci.weight+'kg':'—','Peso hoy','green')}${UI.stat('💧',ci?.water||'—','Vasos agua','blue')}${UI.stat('🔋',ci?.energy||'—','Energía','amber')}${UI.stat('✅',done+'/5','Hábitos','rose')}</div>
+      <div class="grid-2">
+        ${UI.card('Check-in de hoy',`
+          ${UI.infoBox('Tu registro diario ayuda a tu nutrióloga a darte mejor seguimiento.','tip')}
+          <div class="form-row">${UI.fg('ciw','Peso (kg)','number',ci?.weight||'',{step:'0.1',placeholder:'Ej: 70.5',hint:'Pésate en la mañana, sin zapatos, antes de desayunar'})}${UI.fg('ciwa','Vasos de agua','number',ci?.water||'',{placeholder:'8'})}</div>
+          ${UI.fg('cie','Energía','select',ci?.energy||'',{options:[{value:'',label:'¿Cómo te sientes?'},{value:'5',label:'🔋 Excelente'},{value:'4',label:'😊 Bien'},{value:'3',label:'😐 Normal'},{value:'2',label:'😴 Bajo'},{value:'1',label:'😩 Muy bajo'}]})}
+          ${UI.fg('cih','¿Hambre fuera de comidas?','select',ci?.hunger||'',{options:[{value:'',label:'Selecciona'},{value:'no',label:'No'},{value:'poca',label:'Un poco'},{value:'si',label:'Sí'},{value:'mucha',label:'Mucha'}]})}
+          ${UI.fg('cin','Notas del día','textarea',ci?.notes||'',{placeholder:'¿Cómo te fue hoy?'})}
+          <button class="btn btn-primary w-full" onclick="PatDash.saveCI()">💾 Guardar</button><div id="ci-ok" class="mt-2"></div>
+        ','Tu registro diario')}
+        ${UI.card('Hábitos del día',`
+          ${hList.map((h,i)=>`<div class="checklist-item"><div class="checklist-check ${checked.includes(i)?'checked':''}" data-i="${i}" onclick="PatDash.toggleH(${i},this)">${checked.includes(i)?'✓':''}</div><span>${h}</span></div>`).join('')}
+          <div class="mt-4">${UI.pbar(done/5*100,'green')}<p class="text-xs text-muted mt-2">${done}/5 completados</p></div>
+        ','Marca lo que cumpliste')}
+      </div>`;
+  },
+  async saveCI(){const d={weight:document.querySelector('[name=ciw]')?.value,water:document.querySelector('[name=ciwa]')?.value,energy:document.querySelector('[name=cie]')?.value,hunger:document.querySelector('[name=cih]')?.value,notes:document.querySelector('[name=cin]')?.value};if(await DB.saveCheckin(d)){document.getElementById('ci-ok').innerHTML='<span class="save-indicator">✓ Guardado</span>';UI.toast('Check-in guardado ✓')}},
+  async toggleH(i,el){el.classList.toggle('checked');el.innerHTML=el.classList.contains('checked')?'✓':'';const c=[];document.querySelectorAll('.checklist-check').forEach(x=>{if(x.classList.contains('checked'))c.push(+x.dataset.i)});await DB.saveHabits(c);const bar=document.querySelector('.progress-fill');if(bar)bar.style.width=(c.length/5*100)+'%'}
+};
+
+// === PATIENT PROGRESS ===
+const PatProg={
+  async render(){
+    const uid=Auth.currentUser?.uid,entries=await DB.getSubs(uid,'checkins');
+    return`<div class="mb-6"><h1>Mi Progreso</h1><p class="text-muted">Tu evolución a lo largo del tiempo</p></div>
+      <div class="grid-4 mb-6">${UI.stat('📊',entries.length,'Registros','green')}${UI.stat('⚖️',entries.length&&entries[0].weight?entries[0].weight+'kg':'—','Último peso','blue')}${UI.stat('💧',entries.length&&entries[0].water?entries[0].water:'—','Último agua','amber')}${UI.stat('📅','—','Próxima cita','rose')}</div>
+      ${UI.card('Historial',entries.length?`<div class="table-wrapper"><table class="data-table"><thead><tr><th>Fecha</th><th>Peso</th><th>Agua</th><th>Energía</th><th>Notas</th></tr></thead><tbody>${entries.map(e=>`<tr><td>${e.date||'—'}</td><td>${e.weight?e.weight+'kg':'—'}</td><td>${e.water||'—'}</td><td>${e.energy||'—'}/5</td><td>${e.notes||'—'}</td></tr>`).join('')}</tbody></table></div>`:UI.empty('📈','Sin registros','Haz tu primer check-in.'))}`;
   }
+};
+
+// === PATIENT PLAN VIEW ===
+const PatPlanV={
+  async render(){
+    const uid=Auth.currentUser?.uid,p=await DB.get(uid);
+    const plan=p?.assignedPlan,recs=p?.recommendations,grocery=p?.groceryList;
+    return`<div class="mb-6"><h1>Mi Plan Alimenticio</h1><p class="text-muted">Creado por tu nutrióloga</p></div>
+      ${plan?UI.card('Tu plan actual',`<div style="white-space:pre-wrap;font-size:.88rem;line-height:1.8">${plan}</div>`,p.planDate?'Actualizado: '+p.planDate:''):UI.card('',UI.empty('🥗','Aún no tienes plan','Tu nutrióloga lo creará después de tu consulta.'))}
+      ${recs?UI.card('💡 Recomendaciones',`<div style="white-space:pre-wrap;font-size:.88rem;line-height:1.7">${recs}</div>`):''}
+      ${grocery?UI.card('🛒 Lista del súper',`<div style="white-space:pre-wrap;font-size:.88rem;line-height:1.7">${grocery}</div>`):''}
+      ${UI.card('¿Cómo funcionan los equivalentes?',`<p class="text-sm mb-4" style="line-height:1.7">Tu plan usa el <strong>Sistema de Equivalentes</strong>. Puedes intercambiar alimentos del mismo grupo. Por ejemplo, si dice "1 fruta" puedes elegir 1 manzana, 1 taza de fresas, o 2 mandarinas.</p>
+        <div class="grid-4" style="gap:8px">${SMAE.groups.slice(0,4).map(g=>`<div style="text-align:center;padding:12px;background:var(--sage-50);border-radius:var(--r-md)"><div style="font-size:1.2rem">${g.icon}</div><div class="text-xs" style="font-weight:600">${g.name}</div><div class="text-xs text-muted">${g.e} kcal</div></div>`).join('')}</div>`)}`;
+  }
+};
+
+// === PATIENT PHOTOS ===
+const PatPhotos={
+  render(){
+    return`<div class="mb-6"><h1>Fotos de Progreso</h1><p class="text-muted">Registro visual de tu avance</p></div>
+      ${UI.infoBox('<strong>¿Cómo tomar tus fotos?</strong> Usa ropa ajustada. Mismo lugar y hora cada vez. Pide ayuda o usa temporizador.','tip')}
+      <div class="card"><div class="card-header"><div class="card-title">📸 Subir fotos</div></div>
+        <div class="photo-upload-grid">
+          <div class="photo-upload-box"><div class="upload-icon">🧍</div><div class="upload-label">De frente</div><div class="upload-hint">Brazos a los lados</div><input type="file" accept="image/*" onchange="PatPhotos.upload(this,'frente')"></div>
+          <div class="photo-upload-box"><div class="upload-icon">🧍‍♂️</div><div class="upload-label">De lado</div><div class="upload-hint">Brazos arriba</div><input type="file" accept="image/*" onchange="PatPhotos.upload(this,'lado')"></div>
+          <div class="photo-upload-box"><div class="upload-icon">🔄</div><div class="upload-label">De atrás</div><div class="upload-hint">Brazos a los lados</div><input type="file" accept="image/*" onchange="PatPhotos.upload(this,'atras')"></div>
+        </div></div>`;
+  },
+  async upload(inp,type){const file=inp.files[0];if(!file)return;const uid=Auth.currentUser?.uid;
+    try{UI.toast('Subiendo...','info');const url=await DB.uploadFile(uid,'photos',file);await DB.addSub(uid,'photos',{type,url,date:UI.todayISO(),name:file.name});UI.toast('Foto subida ✓');inp.parentElement.innerHTML='<img src="'+url+'">'
+    }catch(e){UI.toast('Error: '+e.message,'error')}}
+};
+
+// === PATIENT EXERCISE ===
+const PatExercise={
+  render(){
+    return`<div class="mb-6"><h1>Mi Ejercicio</h1><p class="text-muted">Registra tu actividad física</p></div>
+      ${UI.infoBox('Registrar tu ejercicio ayuda a tu nutrióloga a ajustar tu plan de alimentación.','tip')}
+      ${UI.card('Registrar actividad de hoy',`
+        ${UI.fg('ex_type','¿Qué ejercicio hiciste?','text','',{placeholder:'Caminar, correr, gym, yoga, bici...'})}
+        <div class="form-row">${UI.fg('ex_duration','Duración (minutos)','number','',{placeholder:'30'})}${UI.fg('ex_intensity','Intensidad','select','',{options:[{value:'',label:'Selecciona'},{value:'baja',label:'Baja (caminar, stretching)'},{value:'moderada',label:'Moderada (trote, bici)'},{value:'alta',label:'Alta (HIIT, correr, pesas)'}]})}</div>
+        ${UI.fg('ex_notes','Notas','textarea','',{placeholder:'¿Cómo te sentiste?'})}
+        <button class="btn btn-primary w-full" onclick="PatExercise.save()">💾 Guardar</button>
+      `)}`;
+  },
+  async save(){const d={type:document.querySelector('[name=ex_type]')?.value,duration:document.querySelector('[name=ex_duration]')?.value,intensity:document.querySelector('[name=ex_intensity]')?.value,notes:document.querySelector('[name=ex_notes]')?.value};
+    if(await DB.addSub(Auth.currentUser.uid,'exercise',{...d,date:UI.todayISO()}))UI.toast('Ejercicio registrado ✓')}
+};
+
+// === ONBOARDING (Patient - Info para consulta) ===
+const Onboard={
+  step:1,total:4,data:{},
+  async render(){const uid=Auth.currentUser?.uid;const p=await DB.get(uid);if(p)this.data=p;
+    document.getElementById('main-content').innerHTML=this.page()},
+  page(){
+    const steps=[{n:1,l:'Datos personales'},{n:2,l:'Historial médico'},{n:3,l:'Alimentación'},{n:4,l:'Medidas y objetivos'}];
+    return`<div class="mb-6"><h1>Información para tu consulta</h1><p class="text-muted">Completa esta información para que tu nutrióloga te ayude mejor. Es confidencial.</p></div>
+      ${UI.infoBox('<strong>¿Por qué te pedimos esto?</strong> Tu nutrióloga necesita conocer tu salud, hábitos y cuerpo para diseñar un plan seguro y personalizado.','info')}
+      <div class="wizard-steps">${steps.map(s=>`<div class="wizard-step ${s.n===this.step?'active':s.n<this.step?'completed':''}"><div class="wizard-step-number">${s.n<this.step?'✓':s.n}</div><div class="wizard-step-label">${s.l}</div></div>`).join('')}</div>
+      <div class="card"><div id="ob-s">${this.renderStep()}</div></div>`;
+  },
+  renderStep(){
+    const d=this.data,v=f=>d[f]||'';
+    switch(this.step){
+      case 1:return`<h3 class="mb-4">👤 Datos personales</h3>
+        <div class="form-row">${UI.fg('name','Nombre completo','text',v('name')||Auth.currentUser?.displayName||'',{required:true})}${UI.fg('phone','Teléfono/WhatsApp','tel',v('phone'),{placeholder:'442 123 4567'})}</div>
+        <div class="form-row">${UI.fg('birthdate','Fecha de nacimiento','date',v('birthdate'),{required:true})}${UI.fg('sex','Sexo biológico','select',v('sex'),{required:true,options:[{value:'',label:'Selecciona'},{value:'F',label:'Femenino'},{value:'M',label:'Masculino'}]})}</div>
+        ${UI.fg('occupation','¿A qué te dedicas?','text',v('occupation'),{placeholder:'Estudiante, oficina, hogar...'})}
+        ${UI.fg('consultReason','¿Por qué buscas consulta nutricional?','textarea',v('consultReason'),{required:true,placeholder:'Cuéntanos con tus palabras qué te motivó'})}
+        <button class="btn btn-primary w-full" onclick="Onboard.next()">Siguiente →</button>`;
+      case 2:return`<h3 class="mb-4">🏥 Historial médico</h3>
+        ${UI.infoBox('Esta información es <strong>confidencial</strong>. Solo la ve tu nutrióloga.','tip')}
+        ${UI.fg('familyHistory','¿Alguien en tu familia tiene estas enfermedades?','textarea',v('familyHistory'),{placeholder:'Ej: Mi mamá tiene diabetes, mi abuelo tuvo hipertensión...',hint:'Diabetes, hipertensión, obesidad, colesterol, corazón, cáncer, tiroides'})}
+        ${UI.fg('pathologicalHistory','¿Tú tienes alguna enfermedad diagnosticada?','textarea',v('pathologicalHistory'),{placeholder:'Ej: Hipotiroidismo desde 2020...'})}
+        ${UI.fg('allergies','Alergias','text',v('allergies'),{placeholder:'Ej: Penicilina, mariscos... o "Ninguna"'})}
+        ${UI.fg('medications','Medicamentos (nombre, dosis, frecuencia)','textarea',v('medications'),{placeholder:'Ej: Levotiroxina 50mcg cada mañana\nMetformina 850mg con comida y cena'})}
+        ${UI.fg('supplements','Suplementos/vitaminas','textarea',v('supplements'),{placeholder:'Ej: Vitamina D 1000UI diaria. Escribe "Ninguno" si no'})}
+        ${UI.fg('surgeries','Cirugías','text',v('surgeries'),{placeholder:'Ej: Cesárea 2019. Escribe "Ninguna" si no'})}
+        <h4 class="mt-6 mb-4">🚬 Tabaquismo y alcohol</h4>
+        <div class="form-row">${UI.fg('smokingStatus','¿Fumas?','select',v('smokingStatus'),{options:[{value:'',label:'Selecciona'},{value:'nunca',label:'Nunca'},{value:'si',label:'Sí'},{value:'ex',label:'Ex fumador'}]})}${UI.fg('smokingAmount','Cigarros/día','number',v('smokingAmount'))}</div>
+        <div class="form-row">${UI.fg('alcoholFreq','Alcohol','select',v('alcoholFreq'),{options:[{value:'',label:'Selecciona'},{value:'nunca',label:'Nunca'},{value:'social',label:'Social'},{value:'1-2_mes',label:'1-2/mes'},{value:'1-2_sem',label:'1-2/sem'},{value:'3+',label:'3+/sem'}]})}${UI.fg('alcoholType','Tipo','text',v('alcoholType'),{placeholder:'Cerveza, vino...'})}</div>
+        ${UI.fg('substances','¿Consumes otra sustancia? (confidencial)','text',v('substances'),{placeholder:'Escribe "No" si no aplica'})}
+        <h4 class="mt-6 mb-4">🔬 Laboratorios</h4>
+        ${UI.fg('hasRecentLabs','¿Tienes estudios de los últimos 3 meses?','select',v('hasRecentLabs'),{options:[{value:'',label:'Selecciona'},{value:'si',label:'Sí'},{value:'no',label:'No'},{value:'viejos',label:'Sí pero más de 3 meses'}]})}
+        <div class="photo-upload-box" style="margin-bottom:16px"><div class="upload-icon">📄</div><div class="upload-label">Subir laboratorios</div><div class="upload-hint">PDF, fotos, capturas</div><input type="file" accept="image/*,.pdf" onchange="Onboard.uploadLab(this)"></div>
+        <div class="flex gap-3"><button class="btn btn-outline" onclick="Onboard.prev()">← Anterior</button><button class="btn btn-primary" style="flex:1" onclick="Onboard.next()">Siguiente →</button></div>`;
+      case 3:return`<h3 class="mb-4">🍽️ Alimentación</h3>
+        ${UI.infoBox('Cuéntanos cómo comes normalmente. No hay respuestas buenas o malas.','tip')}
+        <div class="form-row">${UI.fg('mealsPerDay','Comidas al día','select',v('mealsPerDay'),{options:[{value:'',label:'Selecciona'},{value:'1-2',label:'1-2'},{value:'3',label:'3'},{value:'4-5',label:'4-5'},{value:'irregular',label:'Irregular'}]})}${UI.fg('waterGlasses','Vasos de agua/día','number',v('waterGlasses'),{placeholder:'8'})}</div>
+        ${UI.fg('favFoods','Alimentos favoritos','textarea',v('favFoods'),{placeholder:'Lo que más te gusta comer',hint:'Incluiremos cosas que te gustan en tu plan'})}
+        ${UI.fg('dislikedFoods','Alimentos que NO te gustan','textarea',v('dislikedFoods'),{placeholder:'Lo que prefieres evitar'})}
+        ${UI.fg('foodIntolerances','Intolerancias','text',v('foodIntolerances'),{placeholder:'Lactosa, gluten... o "Ninguna"'})}
+        <div class="form-row">${UI.fg('exerciseType','¿Haces ejercicio?','text',v('exerciseType'),{placeholder:'Caminar, gym, ninguno...'})}${UI.fg('sleepHours','Horas de sueño','number',v('sleepHours'),{placeholder:'7'})}</div>
+        ${UI.fg('whoPreps','¿Quién prepara tu comida?','text',v('whoPreps'),{placeholder:'Yo, mi mamá, mi pareja...'})}
+        <div class="flex gap-3"><button class="btn btn-outline" onclick="Onboard.prev()">← Anterior</button><button class="btn btn-primary" style="flex:1" onclick="Onboard.next()">Siguiente →</button></div>`;
+      case 4:return`<h3 class="mb-4">📏 Medidas y objetivos</h3>
+        ${UI.infoBox('<strong>Telemedicina:</strong> Toma tus medidas siguiendo estas instrucciones. Si alguien puede ayudarte, mejor.','warn')}
+        <div class="card" style="background:var(--sage-50);border:1px solid var(--sage-light);margin-bottom:16px;padding:16px">
+          <h4 style="font-family:var(--font-b);font-weight:600;margin-bottom:8px">📐 Cómo medirte</h4>
+          <ul style="font-size:.85rem;line-height:1.9;padding-left:20px"><li><strong>Peso:</strong> Por la mañana, sin zapatos, antes de desayunar</li><li><strong>Talla:</strong> Derecho/a contra pared, sin zapatos</li><li><strong>Cintura:</strong> A la altura del ombligo, sin apretar, al exhalar</li><li><strong>Cadera:</strong> La parte más ancha de glúteos</li><li><strong>Bíceps:</strong> Parte más ancha del brazo, relajado</li><li><strong>Muslo:</strong> Parte más ancha, de pie</li></ul>
+        </div>
+        <div class="form-row">${UI.fg('currentWeight','Peso actual (kg)','number',v('currentWeight'),{required:true,step:'0.1',placeholder:'70.5'})}${UI.fg('height','Estatura (cm)','number',v('height'),{required:true,placeholder:'165'})}</div>
+        ${UI.fg('usualWeight','¿Cuál es el peso que has mantenido la mayor parte de los últimos 5 años?','number',v('usualWeight'),{placeholder:'68',hint:'No tu peso ideal, sino el peso más constante que recuerdes'})}
+        <div class="form-row">${UI.fg('waistCirc','Cintura (cm)','number',v('waistCirc'),{placeholder:'85'})}${UI.fg('hipCirc','Cadera (cm)','number',v('hipCirc'),{placeholder:'98'})}</div>
+        <div class="form-row">${UI.fg('bicepCirc','Bíceps (cm)','number',v('bicepCirc'),{placeholder:'Opcional'})}${UI.fg('thighCirc','Muslo (cm)','number',v('thighCirc'),{placeholder:'Opcional'})}</div>
+        <hr style="border:none;border-top:1px solid var(--g100);margin:20px 0">
+        <h3 class="mb-4">🎯 Tus objetivos</h3>
+        ${UI.fg('goals','¿Qué quieres lograr?','textarea',v('goals'),{required:true,placeholder:'Bajar de peso, más energía, comer mejor, controlar azúcar...'})}
+        ${UI.fg('barriers','Obstáculos que has enfrentado','textarea',v('barriers'),{placeholder:'Falta de tiempo, antojos, comer fuera...'})}
+        <div class="flex gap-3"><button class="btn btn-outline" onclick="Onboard.prev()">← Anterior</button><button class="btn btn-primary btn-lg" style="flex:1" onclick="Onboard.finish()">✅ Enviar información</button></div>`;
+      default:return''
+    }
+  },
+  async collect(){const d={};document.querySelectorAll('#ob-s .form-input,#ob-s .form-textarea,#ob-s .form-select').forEach(el=>{if(el.name&&el.value!==undefined)d[el.name]=el.value});Object.assign(this.data,d);await DB.save(null,d)},
+  async next(){await this.collect();if(this.step<this.total){this.step++;document.getElementById('main-content').innerHTML=this.page()}},
+  prev(){if(this.step>1){this.step--;document.getElementById('main-content').innerHTML=this.page()}},
+  async finish(){await this.collect();await DB.save(null,{onboardingComplete:true,status:'active'});await db.collection('users').doc(Auth.currentUser.uid).update({onboardingComplete:true});Auth.userProfile.onboardingComplete=true;UI.toast('¡Información enviada! Tu nutrióloga ya puede revisarla 🌿');Router.nav('pat-dashboard')},
+  async uploadLab(inp){const file=inp.files[0];if(!file)return;try{UI.toast('Subiendo...','info');const url=await DB.uploadFile(Auth.currentUser.uid,'labs',file);await DB.addSub(Auth.currentUser.uid,'files',{type:'lab',url,name:file.name,date:UI.todayISO()});UI.toast('Laboratorio subido ✓')}catch(e){UI.toast('Error: '+e.message,'error')}}
+};
+
+// === APP INIT ===
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('mobile-menu-btn')?.addEventListener('click',()=>UI.toggleSidebar());
+  document.getElementById('sidebar-close')?.addEventListener('click',()=>UI.closeSidebar());
+  document.getElementById('sidebar-overlay')?.addEventListener('click',()=>UI.closeSidebar());
+  document.getElementById('modal-overlay')?.addEventListener('click',e=>{if(e.target===e.currentTarget)UI.closeModal()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){UI.closeModal();UI.closeSidebar()}});
+  Auth.init();
 });
 
 </script>
