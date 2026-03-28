@@ -258,699 +258,1277 @@ a{color:var(--sage-dark);text-decoration:none}img{max-width:100%;display:block}
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
 <script>
-// =============================================
-// HEALTHY JOSA v3 — Complete Integrated App
-// =============================================
 
 const FIREBASE_CONFIG={apiKey:"AIzaSyCgaqbjXFOOSAIksqGAm_xAb79-N8-3pgQ",authDomain:"healthy-josa.firebaseapp.com",projectId:"healthy-josa",storageBucket:"healthy-josa.firebasestorage.app",messagingSenderId:"500290725910",appId:"1:500290725910:web:dcf98fa23c457520456d37"};
 const AUTHORIZED_NUTRITIONISTS=["larocquemariejose@gmail.com"];
 firebase.initializeApp(FIREBASE_CONFIG);const auth=firebase.auth();const db=firebase.firestore();const storage=firebase.storage();auth.languageCode='es';
 
-// === SMAE DATA ===
-const SMAE={groups:[
-{id:"verduras",name:"Verduras",icon:"🥬",css:"verduras",e:25,p:2,l:0,h:4,subs:[{id:"v1",name:"Verduras",foods:["Acelga cocida|1/2 taza","Apio crudo|2 tazas","Champiñón cocido|1 taza","Coliflor cocida|1 taza","Espinaca cocida|1/2 taza","Espinaca cruda|2 tazas","Lechuga|3 tazas","Nopal cocido|1 taza","Pepino|1 1/2 taza","Pimiento morrón|1 pieza","Brócoli cocido|1/2 taza","Calabacita cocida|1/2 taza","Chayote cocido|1/2 pieza","Jitomate|1 pieza","Zanahoria cocida|1/2 taza","Jicama picada|1/2 taza"]}]},
-{id:"frutas",name:"Frutas",icon:"🍎",css:"frutas",e:60,p:0,l:0,h:15,subs:[{id:"f1",name:"Frutas",foods:["Manzana chica|1 pieza","Fresa rebanada|1 taza","Papaya|1 taza","Melón picado|1 taza","Sandía picada|1 taza","Naranja gajos|1 taza","Plátano|1/2 pieza","Mango|1/2 pieza","Guayaba|3 piezas","Piña picada|3/4 taza","Uvas|15 piezas","Pera|1/2 pieza","Kiwi|1 1/2 piezas","Toronja|1 pieza","Durazno|2 piezas","Mandarina|2 piezas"]}]},
-{id:"cereales",name:"Cereales y Tubérculos",icon:"🌾",css:"cereales",e:70,p:2,l:0,h:15,subs:[{id:"csg",name:"Sin grasa",e:70,p:2,l:0,h:15,foods:["Tortilla maíz|1 pieza","Arroz cocido|1/2 taza","Avena hojuelas|1/3 taza","Pan integral|1 rebanada","Pasta cocida|1/2 taza","Papa cocida|1/2 pieza","Bolillo s/migajón|1/2 pieza","Galleta María|5 piezas","Elote|1 1/2 pieza","Palomitas natural|3 tazas","Cereal s/azúcar|1/2 taza"]},{id:"ccg",name:"Con grasa",e:115,p:2,l:5,h:15,foods:["Pan dulce|1 pieza","Granola|1/2 pieza","Papas fritas|6 piezas","Tamal|1/4 pieza","Waffle|1 pieza"]}]},
-{id:"aoa",name:"Alimento Origen Animal",icon:"🥩",css:"aoa",e:40,p:7,l:1,h:0,subs:[{id:"amb",name:"Muy bajo grasa",e:40,p:7,l:1,h:0,foods:["Pechuga pollo|30g","Atún en agua|1/4 lata","Bistec res|30g","Clara huevo|2 piezas","Filete pescado|40g","Queso cottage|3 cdas","Camarón cocido|5 piezas"]},{id:"ab",name:"Bajo grasa",e:55,p:7,l:3,h:0,foods:["Queso panela|40g","Queso fresco|40g","Jamón pavo|2 reb","Salmón|30g","Cerdo|40g"]},{id:"amod",name:"Moderado grasa",e:75,p:7,l:5,h:0,foods:["Huevo|1 pieza","Queso mozzarella|30g","Sardina aceite|3 piezas"]},{id:"aa",name:"Alto grasa",e:100,p:7,l:8,h:0,foods:["Queso Oaxaca|30g","Queso manchego|25g","Salchicha|3/4 pieza"]}]},
-{id:"leche",name:"Leche y Sustitutos",icon:"🥛",css:"leche",e:95,p:9,l:2,h:12,subs:[{id:"ld",name:"Descremada",e:95,p:9,l:2,h:12,foods:["Leche descremada|1 taza","Yogurt light|3/4 taza","Leche soya light|1 taza"]},{id:"le",name:"Entera",e:150,p:9,l:8,h:12,foods:["Leche entera|1 taza","Yogurt natural|1 taza"]}]},
-{id:"leguminosas",name:"Leguminosas",icon:"🫘",css:"leguminosas",e:120,p:8,l:1,h:20,subs:[{id:"lg",name:"Leguminosas",foods:["Frijol cocido|1/2 taza","Lentejas cocidas|1/2 taza","Garbanzos|1/2 taza","Habas cocidas|1/2 taza"]}]},
-{id:"grasas",name:"Grasas",icon:"🥑",css:"grasas",e:45,p:0,l:5,h:0,subs:[{id:"gsp",name:"Sin proteína",e:45,p:0,l:5,h:0,foods:["Aceite oliva|1 cdita","Aceite vegetal|1 cdita"]},{id:"gcp",name:"Con proteína",e:70,p:3,l:5,h:3,foods:["Aguacate|1/3 pieza","Almendras|10 piezas","Nuez|3 piezas","Cacahuates|14 piezas","Aceitunas|6 piezas"]}]},
-{id:"azucares",name:"Azúcares",icon:"🍬",css:"azucares",e:40,p:0,l:0,h:10,subs:[{id:"asg",name:"Sin grasa",e:40,p:0,l:0,h:10,foods:["Azúcar|2 1/2 cditas","Miel|2 cditas","Mermelada|2 1/2 cditas"]},{id:"acg",name:"Con grasa",e:85,p:0,l:5,h:10,foods:["Chocolate|1/3 pieza","Helado|1/3 taza"]}]}
-]};
-function searchFoods(q){const r=[];q=q.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");SMAE.groups.forEach(g=>{g.subs.forEach(s=>{s.foods.forEach(f=>{const[n,p]=f.split('|');if(n.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").includes(q))r.push({name:n,portion:p,group:g.name,groupId:g.id,e:s.e||g.e,p:s.p!==undefined?s.p:g.p,l:s.l!==undefined?s.l:g.l,h:s.h!==undefined?s.h:g.h,css:g.css})})})});return r}
+const SMAE_GROUPS=[
+  {id:"verduras",name:"Verduras",icon:"🥬",e:25,p:2,l:0,h:4,fiber:2},
+  {id:"frutas",name:"Frutas",icon:"🍎",e:60,p:0,l:0,h:15,fiber:2},
+  {id:"cer_sg",name:"Cereales s/grasa",icon:"🌾",e:70,p:2,l:0,h:15,fiber:1},
+  {id:"cer_cg",name:"Cereales c/grasa",icon:"🥐",e:115,p:2,l:5,h:15,fiber:0.5},
+  {id:"legum",name:"Leguminosas",icon:"🫘",e:120,p:8,l:1,h:20,fiber:7},
+  {id:"aoa_mb",name:"AOA muy bajo grasa",icon:"🍗",e:40,p:7,l:1,h:0,fiber:0},
+  {id:"aoa_b",name:"AOA bajo grasa",icon:"🐟",e:55,p:7,l:3,h:0,fiber:0},
+  {id:"aoa_mod",name:"AOA moderado grasa",icon:"🥚",e:75,p:7,l:5,h:0,fiber:0},
+  {id:"aoa_alto",name:"AOA alto grasa",icon:"🧀",e:100,p:7,l:8,h:0,fiber:0},
+  {id:"leche_d",name:"Leche descremada",icon:"🥛",e:95,p:9,l:2,h:12,fiber:0},
+  {id:"leche_e",name:"Leche entera",icon:"🥛",e:150,p:9,l:8,h:12,fiber:0},
+  {id:"grasas_sp",name:"Grasas s/proteína",icon:"🫒",e:45,p:0,l:5,h:0,fiber:0},
+  {id:"grasas_cp",name:"Grasas c/proteína",icon:"🥑",e:70,p:3,l:5,h:3,fiber:1},
+  {id:"azucar_sg",name:"Azúcares s/grasa",icon:"🍯",e:40,p:0,l:0,h:10,fiber:0},
+  {id:"azucar_cg",name:"Azúcares c/grasa",icon:"🍫",e:85,p:0,l:5,h:10,fiber:0}
+];
 
-// === UI ===
-const UI={
-  toast(m,t='success',d=3e3){const c=document.getElementById('toast-container');const el=document.createElement('div');el.className='toast '+t;el.innerHTML=`<span>${{success:'✓',error:'✕',warning:'⚠',info:'ℹ'}[t]||'•'}</span><span>${m}</span>`;c.appendChild(el);setTimeout(()=>{el.style.opacity='0';setTimeout(()=>el.remove(),300)},d)},
-  toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('sidebar-overlay').classList.toggle('hidden')},
-  closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sidebar-overlay').classList.add('hidden')},
-  openModal(h){const o=document.getElementById('modal-overlay'),c=document.getElementById('modal-content');c.innerHTML=h;o.classList.remove('hidden');document.body.style.overflow='hidden'},
-  closeModal(){document.getElementById('modal-overlay').classList.add('hidden');document.body.style.overflow=''},
-  greeting(){const h=new Date().getHours();return h<12?'Buenos días':h<18?'Buenas tardes':'Buenas noches'},
-  todayStr(){return new Date().toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long',year:'numeric'})},
-  todayISO(){return new Date().toISOString().split('T')[0]},
-  fmtDate(d){if(!d)return'—';const dt=d.toDate?d.toDate():new Date(d);return dt.toLocaleDateString('es-MX',{day:'numeric',month:'short',year:'numeric'})},
-  avatar(n){return`<div class="patient-avatar">${(n||'?').split(' ').map(x=>x[0]).join('').substring(0,2).toUpperCase()}</div>`},
-  badge(t,c='gray'){return`<span class="badge badge-${c}">${t}</span>`},
-  semaforo(l){const c={alta:{c:'green',t:'Alta'},media:{c:'amber',t:'Media'},baja:{c:'red',t:'Baja'}}[l]||{c:'amber',t:'Media'};return`<span class="semaforo"><span class="semaforo-dot ${c.c}"></span>${c.t}</span>`},
-  pbar(p,c='green'){return`<div class="progress-bar"><div class="progress-fill ${c}" style="width:${Math.min(100,p)}%"></div></div>`},
-  spinner(){return'<div style="text-align:center;padding:40px"><div style="font-size:2rem;animation:pulse 1s infinite">🌿</div><p class="text-muted mt-2">Cargando...</p></div>'},
-  stat(i,v,l,c='green'){return`<div class="stat-card"><div class="stat-icon ${c}"><span>${i}</span></div><div class="stat-info"><h3>${v}</h3><p>${l}</p></div></div>`},
-  card(t,ct,s='',r=''){return`<div class="card"><div class="card-header"><div><div class="card-title">${t}</div>${s?'<div class="card-subtitle">'+s+'</div>':''}</div>${r?'<div>'+r+'</div>':''}</div>${ct}</div>`},
-  empty(i,t,m,a=''){return`<div class="empty-state"><span class="empty-icon">${i}</span><h3>${t}</h3><p>${m}</p>${a}</div>`},
-  tabs(a,act,fn){return`<div class="tabs">${a.map(t=>`<div class="tab ${t.id===act?'active':''}" onclick="${fn}('${t.id}')">${t.label}</div>`).join('')}</div>`},
-  fg(n,l,t='text',v='',o={}){
-    const req=o.required?'required':'',ph=o.placeholder||'',hint=o.hint?`<div class="form-hint">💡 ${o.hint}</div>`:'',lc=o.required?'form-label form-required':'form-label';
-    if(t==='textarea')return`<div class="form-group"><label class="${lc}">${l}</label><textarea class="form-textarea" name="${n}" placeholder="${ph}" ${req}>${v}</textarea>${hint}</div>`;
-    if(t==='select'&&o.options)return`<div class="form-group"><label class="${lc}">${l}</label><select class="form-select" name="${n}" ${req}>${o.options.map(x=>`<option value="${x.value}" ${x.value==v?'selected':''}>${x.label}</option>`).join('')}</select>${hint}</div>`;
-    return`<div class="form-group"><label class="${lc}">${l}</label><input class="form-input" type="${t}" name="${n}" value="${v}" placeholder="${ph}" ${req} ${o.step?'step="'+o.step+'"':''}>${hint}</div>`},
-  infoBox(m,t='tip'){return`<div class="info-box ${t}">${m}</div>`},
-  ctxBar(){const p=App.activePatient;if(!p)return'';return`<div class="context-bar"><span>👤</span><span class="ctx-name">${p.name||p.email}</span><span class="ctx-detail">Peso: ${p.currentWeight||'—'}kg · Talla: ${p.height||'—'}cm · IMC: ${p.currentWeight&&p.height?((p.currentWeight)/((p.height/100)**2)).toFixed(1):'—'}</span><button class="btn btn-outline btn-sm" onclick="Router.nav('patient-record',{patientId:'${p.id}'})">Ver expediente</button></div>`}
+const SMAE_FOODS={
+  verduras:["Acelga cocida|1/2 tz","Apio|2 tz","Brócoli cocido|1/2 tz","Calabacita|1/2 tz","Champiñón|1 tz","Coliflor|1 tz","Espinaca cocida|1/2 tz","Jitomate|1 pza","Lechuga|3 tz","Nopal cocido|1 tz","Pepino|1.5 tz","Pimiento|1 pza","Zanahoria|3/4 tz","Jicama|1/2 tz","Chayote|1/2 pza"],
+  frutas:["Manzana|1 pza","Fresa|1 tz","Papaya|1 tz","Melón|1 tz","Sandía|1 tz","Naranja gajos|1 tz","Plátano|1/2 pza","Mango|1/2 pza","Guayaba|3 pza","Piña|3/4 tz","Uvas|15 pza","Pera|1/2 pza","Kiwi|1.5 pza","Toronja|1 pza","Mandarina|2 pza"],
+  cer_sg:["Tortilla maíz|1 pza","Arroz cocido|1/2 tz","Avena|1/3 tz","Pan integral|1 reb","Pasta cocida|1/2 tz","Papa|1/2 pza","Galleta María|5 pza","Elote|1.5 pza","Cereal|1/2 tz","Palomitas|3 tz"],
+  cer_cg:["Pan dulce|1 pza","Granola|1/2 pza","Papas fritas|6 pza","Waffle|1 pza"],
+  legum:["Frijol cocido|1/2 tz","Lentejas|1/2 tz","Garbanzos|1/2 tz","Habas|1/2 tz"],
+  aoa_mb:["Pechuga pollo|30g","Atún agua|1/4 lata","Bistec res|30g","Clara huevo|2 pza","Pescado|40g","Cottage|3 cdas","Camarón|5 pza"],
+  aoa_b:["Queso panela|40g","Queso fresco|40g","Jamón pavo|2 reb","Salmón|30g","Cerdo|40g"],
+  aoa_mod:["Huevo|1 pza","Mozzarella|30g","Sardina|3 pza"],
+  aoa_alto:["Queso Oaxaca|30g","Queso manchego|25g","Salchicha|3/4 pza"],
+  leche_d:["Leche desc.|1 tz","Yogurt light|3/4 tz","Leche soya|1 tz"],
+  leche_e:["Leche entera|1 tz","Yogurt natural|1 tz"],
+  grasas_sp:["Aceite oliva|1 cdita","Aceite vegetal|1 cdita"],
+  grasas_cp:["Aguacate|1/3 pza","Almendras|10 pza","Nuez|3 pza","Cacahuates|14 pza","Aceitunas|6 pza"],
+  azucar_sg:["Azúcar|2.5 cditas","Miel|2 cditas","Mermelada|2.5 cditas"],
+  azucar_cg:["Chocolate|1/3 pza","Helado|1/3 tz"]
 };
 
-// === DB HELPERS ===
-const DB={
-  async save(pid,data){const id=pid||auth.currentUser?.uid;if(!id)return;try{await db.collection('patients').doc(id).set({...data,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});return true}catch(e){console.error('Save:',e);UI.toast('Error: '+e.message,'error');return false}},
-  async get(pid){try{const d=await db.collection('patients').doc(pid).get();return d.exists?{id:d.id,...d.data()}:null}catch(e){console.error(e);return null}},
-  async getAll(){try{const s=await db.collection('patients').orderBy('createdAt','desc').get();return s.docs.map(d=>({id:d.id,...d.data()}))}catch(e){console.error(e);return[]}},
-  async addSub(pid,col,data){try{await db.collection('patients').doc(pid).collection(col).add({...data,createdAt:firebase.firestore.FieldValue.serverTimestamp()});return true}catch(e){console.error(e);return false}},
-  async getSubs(pid,col){try{const s=await db.collection('patients').doc(pid).collection(col).orderBy('createdAt','desc').get();return s.docs.map(d=>({id:d.id,...d.data()}))}catch(e){console.error(e);return[]}},
-  async saveCheckin(data){const uid=auth.currentUser?.uid;if(!uid)return;const t=UI.todayISO();try{await db.collection('patients').doc(uid).collection('checkins').doc(t).set({...data,date:t,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});return true}catch(e){return false}},
-  async getCheckin(pid,date){try{const d=await db.collection('patients').doc(pid).collection('checkins').doc(date).get();return d.exists?d.data():null}catch(e){return null}},
-  async saveHabits(h){const uid=auth.currentUser?.uid;if(!uid)return;const t=UI.todayISO();try{await db.collection('patients').doc(uid).collection('habits').doc(t).set({habits:h,date:t},{merge:true});return true}catch(e){return false}},
-  async getHabits(pid,date){try{const d=await db.collection('patients').doc(pid).collection('habits').doc(date).get();return d.exists?d.data():null}catch(e){return null}},
-  async uploadFile(pid,path,file){try{const ref=storage.ref().child(`patients/${pid}/${path}/${Date.now()}_${file.name}`);await ref.put(file);return await ref.getDownloadURL()}catch(e){console.error(e);throw e}}
-};
+function searchFoods(q) {
+  const r = [];
+  q = q.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  Object.keys(SMAE_FOODS).forEach(gid => {
+    const grp = SMAE_GROUPS.find(g => g.id === gid);
+    if (!grp) return;
+    SMAE_FOODS[gid].forEach(f => {
+      const [n, p] = f.split("|");
+      if (n.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(q)) {
+        r.push({ name: n, portion: p, group: grp.name, e: grp.e, p: grp.p, l: grp.l, h: grp.h, id: gid });
+      }
+    });
+  });
+  return r;
+}
 
-// === APP STATE ===
-const App={activePatient:null,setPatient(p){this.activePatient=p}};
-
-// === AUTH ===
-const Auth={
-  currentUser:null,userProfile:null,role:null,
-  init(){
-    document.getElementById('btn-google-login').addEventListener('click',()=>this.signIn());
-    document.getElementById('btn-logout').addEventListener('click',()=>this.signOut());
-    auth.onAuthStateChanged(async u=>{document.getElementById('loading-screen').classList.add('hidden');if(u){this.currentUser=u;await this.loadProfile(u);this.showApp()}else{this.currentUser=null;this.role=null;this.showAuth()}});
+const UI = {
+  toast(m, t = "success", d = 3e3) {
+    const c = document.getElementById("toast-container");
+    const el = document.createElement("div");
+    el.className = "toast " + t;
+    el.innerHTML = "<span>" + ({success:"✓",error:"✕",warning:"⚠",info:"ℹ"}[t]||"•") + "</span><span>" + m + "</span>";
+    c.appendChild(el);
+    setTimeout(function() { el.style.opacity = "0"; setTimeout(function() { el.remove(); }, 300); }, d);
   },
-  async signIn(){try{await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())}catch(e){if(e.code!=='auth/popup-closed-by-user')UI.toast('Error: '+e.message,'error')}},
-  async signOut(){await auth.signOut();UI.toast('Sesión cerrada','info')},
-  async loadProfile(u){
-    try{
-      const isNut=AUTHORIZED_NUTRITIONISTS.includes(u.email);this.role=isNut?'nutritionist':'patient';
-      const ref=db.collection('users').doc(u.uid),doc=await ref.get();
-      if(doc.exists){this.userProfile=doc.data();if(this.userProfile.role!==this.role)await ref.update({role:this.role})}
-      else{const p={uid:u.uid,email:u.email,displayName:u.displayName||'',photoURL:u.photoURL||'',role:this.role,onboardingComplete:isNut,createdAt:firebase.firestore.FieldValue.serverTimestamp()};await ref.set(p);this.userProfile=p;
-        if(!isNut){await db.collection('patients').doc(u.uid).set({uid:u.uid,email:u.email,name:u.displayName||'',photoURL:u.photoURL||'',status:'new',onboardingComplete:false,adherence:'media',tags:[],createdAt:firebase.firestore.FieldValue.serverTimestamp(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()});console.log('Patient created:',u.email)}}
-    }catch(e){console.error('Auth:',e);UI.toast('Error perfil: '+e.message,'error')}
+  toggleSidebar() { document.getElementById("sidebar").classList.toggle("open"); document.getElementById("sidebar-overlay").classList.toggle("hidden"); },
+  closeSidebar() { document.getElementById("sidebar").classList.remove("open"); document.getElementById("sidebar-overlay").classList.add("hidden"); },
+  openModal(h) { var o = document.getElementById("modal-overlay"), c = document.getElementById("modal-content"); c.innerHTML = h; o.classList.remove("hidden"); document.body.style.overflow = "hidden"; },
+  closeModal() { document.getElementById("modal-overlay").classList.add("hidden"); document.body.style.overflow = ""; },
+  greeting() { var h = new Date().getHours(); return h < 12 ? "Buenos días" : h < 18 ? "Buenas tardes" : "Buenas noches"; },
+  todayStr() { return new Date().toLocaleDateString("es-MX", { weekday: "long", day: "numeric", month: "long", year: "numeric" }); },
+  todayISO() { return new Date().toISOString().split("T")[0]; },
+  fmtDate(d) { if (!d) return "—"; var dt = d.toDate ? d.toDate() : new Date(d); return dt.toLocaleDateString("es-MX", { day: "numeric", month: "short", year: "numeric" }); },
+  avatar(n) { return '<div class="patient-avatar">' + (n || "?").split(" ").map(function(x) { return x[0]; }).join("").substring(0, 2).toUpperCase() + "</div>"; },
+  badge(t, c) { return '<span class="badge badge-' + (c || "gray") + '">' + t + "</span>"; },
+  semaforo(l) { var c = { alta: { c: "green", t: "Alta" }, media: { c: "amber", t: "Media" }, baja: { c: "red", t: "Baja" } }[l] || { c: "amber", t: "Media" }; return '<span class="semaforo"><span class="semaforo-dot ' + c.c + '"></span>' + c.t + "</span>"; },
+  pbar(p, c) { return '<div class="progress-bar"><div class="progress-fill ' + (c || "green") + '" style="width:' + Math.min(100, p) + '%"></div></div>'; },
+  spinner() { return '<div style="text-align:center;padding:40px"><div style="font-size:2rem;animation:pulse 1s infinite">🌿</div><p class="text-muted mt-2">Cargando...</p></div>'; },
+  stat(i, v, l, c) { return '<div class="stat-card"><div class="stat-icon ' + (c || "green") + '"><span>' + i + '</span></div><div class="stat-info"><h3>' + v + "</h3><p>" + l + "</p></div></div>"; },
+  card(t, ct, s, r) {
+    var html = '<div class="card"><div class="card-header"><div><div class="card-title">' + t + "</div>";
+    if (s) html += '<div class="card-subtitle">' + s + "</div>";
+    html += "</div>";
+    if (r) html += "<div>" + r + "</div>";
+    html += "</div>" + ct + "</div>";
+    return html;
   },
-  showAuth(){document.getElementById('auth-screen').classList.remove('hidden');document.getElementById('app-shell').classList.add('hidden')},
-  showApp(){
-    document.getElementById('auth-screen').classList.add('hidden');document.getElementById('app-shell').classList.remove('hidden');
-    const u=this.currentUser,av=u.photoURL||'';
-    document.getElementById('user-avatar').src=av;document.getElementById('mobile-avatar').src=av;
-    document.getElementById('user-name').textContent=u.displayName||u.email;
-    document.getElementById('user-role').textContent=this.role==='nutritionist'?'Nutrióloga':'Paciente';
-    Router.buildNav();
-    if(this.role==='patient'&&!this.userProfile?.onboardingComplete)Router.nav('onboarding');
-    else Router.nav(this.role==='nutritionist'?'dashboard':'pat-dashboard');
-  }
-};
-
-// === ROUTER ===
-const Router={
-  current:null,
-  navNut:[{section:'Principal',items:[{id:'dashboard',label:'Dashboard',icon:'📊'},{id:'patients',label:'Pacientes',icon:'👥'}]},{section:'Herramientas',items:[{id:'equivalents',label:'Equivalentes',icon:'🥑'},{id:'calculators',label:'Calculadora',icon:'🧮'},{id:'meal-plans',label:'Planes de Menú',icon:'📋'}]}],
-  navPat:[{section:'Mi Espacio',items:[{id:'pat-dashboard',label:'Mi Dashboard',icon:'🏠'},{id:'pat-progress',label:'Mi Progreso',icon:'📈'},{id:'pat-plan',label:'Mi Plan',icon:'🥗'},{id:'pat-photos',label:'Mis Fotos',icon:'📸'},{id:'pat-exercise',label:'Ejercicio',icon:'🏃'},{id:'onboarding',label:'Info para consulta',icon:'📝'}]}],
-  views:{'dashboard':()=>NutDash.render(),'patients':()=>Patients.render(),'patient-record':p=>PatRec.render(p),'nut-history':p=>NutHist.render(p),'evo-notes':p=>EvoNotes.render(p),'recall24':p=>Recall24.render(p),'equivalents':()=>Equiv.render(),'calculators':()=>Calc.render(),'meal-plans':p=>MealPlan.render(p),'recommendations':p=>Recs.render(p),'grocery':p=>Grocery.render(p),'pat-dashboard':()=>PatDash.render(),'pat-progress':()=>PatProg.render(),'pat-plan':()=>PatPlanV.render(),'pat-photos':()=>PatPhotos.render(),'pat-exercise':()=>PatExercise.render(),'onboarding':()=>Onboard.render()},
-  buildNav(){const nav=document.getElementById('sidebar-nav'),cfg=Auth.role==='nutritionist'?this.navNut:this.navPat;nav.innerHTML=cfg.map(s=>`<div class="nav-section"><div class="nav-section-title">${s.section}</div>${s.items.map(i=>`<div class="nav-item" data-view="${i.id}" onclick="Router.nav('${i.id}')"><span class="nav-icon">${i.icon}</span><span>${i.label}</span></div>`).join('')}</div>`).join('')},
-  nav(id,params={}){
-    this.current=id;document.querySelectorAll('.nav-item').forEach(el=>el.classList.toggle('active',el.dataset.view===id));UI.closeSidebar();
-    const main=document.getElementById('main-content'),fn=this.views[id];
-    if(fn){main.innerHTML=UI.spinner();try{const r=fn(params);if(typeof r==='string')main.innerHTML=r;else if(r&&r.then)r.then(h=>{if(typeof h==='string')main.innerHTML=h}).catch(e=>{console.error(e);main.innerHTML=UI.empty('⚠️','Error',e.message)})}catch(e){console.error(e);main.innerHTML=UI.empty('⚠️','Error',e.message)}}
-    else main.innerHTML=UI.empty('🚧','En construcción','Próximamente.');
-  }
-};
-
-// === NUTRITIONIST DASHBOARD ===
-const NutDash={
-  async render(){
-    const main=document.getElementById('main-content'),n=Auth.currentUser?.displayName?.split(' ')[0]||'Nutrióloga';
-    const pts=await DB.getAll(),newP=pts.filter(p=>p.status==='new').length;
-    main.innerHTML=`<div class="greeting"><h1>${UI.greeting()}, ${n} 🌿</h1><p>Tu consulta por telemedicina</p><div class="date">${UI.todayStr()}</div></div>
-      <div class="quick-actions"><div class="quick-action" onclick="Router.nav('patients')"><span>👥</span> Pacientes</div><div class="quick-action" onclick="Router.nav('equivalents')"><span>🥑</span> Equivalentes</div><div class="quick-action" onclick="Router.nav('calculators')"><span>🧮</span> Calculadora</div><div class="quick-action" onclick="Router.nav('meal-plans')"><span>📋</span> Nuevo plan</div></div>
-      <div class="grid-4 mb-6">${UI.stat('👥',pts.length,'Total pacientes','green')}${UI.stat('🆕',newP,'Nuevos','blue')}${UI.stat('📝',pts.filter(p=>!p.onboardingComplete).length,'Pendientes perfil','amber')}${UI.stat('📅','0','Consultas hoy','rose')}</div>
-      ${pts.length?'<h3 class="mb-4">Pacientes recientes</h3><div class="grid-auto">'+pts.slice(0,8).map(p=>`<div class="patient-card" onclick="Router.nav('patient-record',{patientId:'${p.id}'})">${UI.avatar(p.name||p.email)}<div class="patient-info"><div class="patient-name">${p.name||p.email||'Sin nombre'}</div><div class="patient-meta">${p.email||''}</div><div class="patient-tags">${UI.badge(p.onboardingComplete?'Completo':'Pendiente',p.onboardingComplete?'green':'amber')} ${UI.semaforo(p.adherence||'media')}</div></div></div>`).join('')+'</div>':UI.empty('👥','Sin pacientes','Los pacientes aparecen al registrarse con su Gmail.')}`;
-  }
-};
-
-// === PATIENTS LIST ===
-const Patients={
-  pts:[],
-  async render(){const main=document.getElementById('main-content');main.innerHTML=UI.spinner();this.pts=await DB.getAll();
-    main.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px"><div><h1>Pacientes</h1><p class="text-muted">${this.pts.length} registrados</p></div><button class="btn btn-primary" onclick="Patients.invite()">➕ Invitar</button></div>
-      ${UI.searchBox?`<div class="search-box mb-4"><span>🔍</span><input placeholder="Buscar..." oninput="Patients.search(this.value)"></div>`:''}
-      <div id="pts-list">${this.list(this.pts)}</div>`;},
-  list(l){return l.length?'<div class="grid-auto">'+l.map(p=>`<div class="patient-card" onclick="Router.nav('patient-record',{patientId:'${p.id}'})">${UI.avatar(p.name||p.email)}<div class="patient-info"><div class="patient-name">${p.name||p.email||'Sin nombre'}</div><div class="patient-meta">${p.email||''}</div><div class="patient-tags">${UI.badge(p.onboardingComplete?'Completo':'Pendiente',p.onboardingComplete?'green':'amber')}</div></div></div>`).join('')+'</div>':UI.empty('👥','Sin pacientes','Comparte el link de tu app.')},
-  search(q){const f=this.pts.filter(p=>(p.name||'').toLowerCase().includes(q.toLowerCase())||(p.email||'').toLowerCase().includes(q.toLowerCase()));document.getElementById('pts-list').innerHTML=this.list(f)},
-  invite(){UI.openModal(`<div class="modal-header"><h2>Invitar paciente</h2><button class="btn-icon" onclick="UI.closeModal()">✕</button></div><div class="modal-body">
-    ${UI.infoBox('Comparte el enlace con tu paciente. Al registrarse con Gmail aparece aquí automáticamente.','info')}
-    <div class="flex gap-3 mb-6"><input class="form-input" value="${location.origin}" readonly id="inv-lnk"><button class="btn btn-secondary" onclick="navigator.clipboard.writeText(document.getElementById('inv-lnk').value);UI.toast('Enlace copiado')">📋</button></div>
-    <hr style="border:none;border-top:1px solid var(--g100);margin:16px 0"><p class="text-sm text-muted mb-4">O crea manualmente:</p>
-    ${UI.fg('mn','Nombre','text','',{required:true,placeholder:'Nombre completo'})}${UI.fg('me','Correo','email','',{placeholder:'paciente@email.com'})}
-    <button class="btn btn-primary w-full" onclick="Patients.createManual()">Crear paciente</button></div>`)}
-  ,async createManual(){const n=document.querySelector('[name=mn]').value;if(!n){UI.toast('Nombre requerido','warning');return}try{await db.collection('patients').add({name:n,email:document.querySelector('[name=me]')?.value||'',status:'new',onboardingComplete:false,adherence:'media',tags:[],manuallyCreated:true,createdBy:Auth.currentUser.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()});UI.closeModal();UI.toast('Paciente creado ✓');this.render()}catch(e){UI.toast('Error','error')}}
-};
-
-// === PATIENT RECORD (Nutritionist - Integrated Hub) ===
-const PatRec={
-  p:null,tab:'overview',
-  async render(params){const main=document.getElementById('main-content');main.innerHTML=UI.spinner();if(!params?.patientId)return;
-    this.p=await DB.get(params.patientId);if(!this.p){main.innerHTML=UI.empty('🔍','No encontrado','');return}
-    App.setPatient(this.p);this.show()},
-  show(){const p=this.p,main=document.getElementById('main-content');
-    const imc=p.currentWeight&&p.height?((p.currentWeight)/((p.height/100)**2)).toFixed(1):'—';
-    const icc=p.waistCirc&&p.hipCirc?(p.waistCirc/p.hipCirc).toFixed(2):'—';
-    main.innerHTML=`
-      <div class="flex items-center gap-3 mb-4" style="flex-wrap:wrap">
-        <button class="btn btn-outline btn-sm" onclick="Router.nav('patients')">← Pacientes</button>
-        <div style="flex:1"><h1 style="font-size:1.4rem">${p.name||'Sin nombre'}</h1><p class="text-sm text-muted">${p.email||''} · ${UI.badge(p.onboardingComplete?'Completo':'Pendiente',p.onboardingComplete?'green':'amber')}</p></div>
-      </div>
-      <div class="grid-5 mb-4" style="gap:10px">
-        ${UI.stat('⚖️',p.currentWeight?p.currentWeight+'kg':'—','Peso','green')}
-        ${UI.stat('📏',p.height?p.height+'cm':'—','Talla','blue')}
-        ${UI.stat('📊',imc,'IMC','amber')}
-        ${UI.stat('📐',icc,'ICC','rose')}
-        ${UI.stat('🎯',p.goals?'✓':'—','Objetivos',p.goals?'green':'amber')}
-      </div>
-      <div class="quick-actions" style="margin-bottom:16px">
-        <div class="quick-action" onclick="Router.nav('nut-history',{patientId:'${p.id}'})">🍽️ Historia nutricional</div>
-        <div class="quick-action" onclick="Router.nav('recall24',{patientId:'${p.id}'})">📝 Recordatorio 24h</div>
-        <div class="quick-action" onclick="Router.nav('evo-notes',{patientId:'${p.id}'})">📋 Notas evolución</div>
-        <div class="quick-action" onclick="Router.nav('calculators')">🧮 Calculadora</div>
-        <div class="quick-action" onclick="Router.nav('meal-plans',{patientId:'${p.id}'})">🥗 Crear plan</div>
-        <div class="quick-action" onclick="Router.nav('recommendations',{patientId:'${p.id}'})">💡 Recomendaciones</div>
-        <div class="quick-action" onclick="Router.nav('grocery',{patientId:'${p.id}'})">🛒 Lista del súper</div>
-      </div>
-      ${UI.tabs([{id:'overview',label:'Resumen'},{id:'clinical',label:'Historia clínica'},{id:'anthro',label:'Antropometría'},{id:'labs',label:'Labs / Archivos'},{id:'photos',label:'Fotos'}],this.tab,'PatRec.switchTab')}
-      <div id="rec-ct">${this.renderTab()}</div>`;
+  empty(i, t, m, a) { return '<div class="empty-state"><span class="empty-icon">' + i + "</span><h3>" + t + "</h3><p>" + m + "</p>" + (a || "") + "</div>"; },
+  tabs(a, act, fn) {
+    var h = '<div class="tabs">';
+    a.forEach(function(t) { h += '<div class="tab ' + (t.id === act ? "active" : "") + '" onclick="' + fn + "('" + t.id + "')" + '">' + t.label + "</div>"; });
+    return h + "</div>";
   },
-  switchTab(t){this.tab=t;this.show()},
-  renderTab(){
-    const p=this.p,v=f=>p[f]||'',em=f=>p[f]||'<span class="field-empty">Aún no completado</span>';
-    switch(this.tab){
-      case 'overview': return`
-        <div class="grid-2">
-          ${UI.card('Datos personales',`
-            ${UI.fg('name','Nombre','text',v('name'))}
-            <div class="form-row">${UI.fg('birthdate','Nacimiento','date',v('birthdate'))}${UI.fg('sex','Sexo','select',v('sex'),{options:[{value:'',label:'—'},{value:'F',label:'Femenino'},{value:'M',label:'Masculino'}]})}</div>
-            <div class="form-row">${UI.fg('phone','Teléfono','tel',v('phone'))}${UI.fg('occupation','Ocupación','text',v('occupation'))}</div>
-            ${UI.fg('consultReason','Motivo de consulta','textarea',v('consultReason'))}
-            <button class="btn btn-primary btn-sm" onclick="PatRec.saveFields()">💾 Guardar</button>
-          `,'')}
-          ${UI.card('Objetivos y barreras',`<p><strong>Objetivos:</strong></p><p>${em('goals')}</p><p class="mt-4"><strong>Barreras:</strong></p><p>${em('barriers')}</p><p class="mt-4"><strong>Expectativas:</strong></p><p>${em('expectations')}</p>`,'')}
-        </div>`;
-      case 'clinical': return`
-        ${UI.infoBox('Puedes editar la historia clínica que llenó el paciente. Los cambios se guardan en su expediente.','info')}
-        ${UI.card('Antecedentes heredofamiliares',`${UI.fg('familyHistory','','textarea',v('familyHistory'),{placeholder:'Diabetes, HTA, obesidad, cáncer, tiroides...'})}<button class="btn btn-sm btn-primary" onclick="PatRec.saveFields()">💾 Guardar</button>`)}
-        ${UI.card('Antecedentes personales patológicos',`
-          ${UI.infoBox('Enfermedades diagnosticadas del paciente','tip')}
-          ${UI.fg('pathologicalHistory','Enfermedades actuales y pasadas','textarea',v('pathologicalHistory'),{placeholder:'Hipotiroidismo, diabetes, gastritis, SOPQ...'})}
-          ${UI.fg('surgeries','Cirugías','text',v('surgeries'),{placeholder:'Tipo y fecha'})}
-          <button class="btn btn-sm btn-primary" onclick="PatRec.saveFields()">💾 Guardar</button>`)}
-        ${UI.card('Medicamentos y suplementos',`${UI.fg('medications','Medicamentos','textarea',v('medications'),{placeholder:'Nombre, dosis, frecuencia'})}${UI.fg('supplements','Suplementos','textarea',v('supplements'),{placeholder:'Nombre, dosis, frecuencia'})}<button class="btn btn-sm btn-primary" onclick="PatRec.saveFields()">💾 Guardar</button>`)}
-        ${UI.card('Hábitos',`
-          <div class="form-row">${UI.fg('smokingStatus','Tabaquismo','select',v('smokingStatus'),{options:[{value:'',label:'—'},{value:'nunca',label:'Nunca'},{value:'si',label:'Fuma'},{value:'ex',label:'Ex fumador'}]})}${UI.fg('smokingAmount','Cigarros/día','number',v('smokingAmount'))}</div>
-          ${v('smokingAmount')&&v('smokingYears')?`<p class="text-sm mb-4"><strong>Índice tabáquico:</strong> ${(v('smokingAmount')*v('smokingYears')/20).toFixed(1)} paquetes/año</p>`:''}
-          <div class="form-row">${UI.fg('alcoholFreq','Alcohol frecuencia','select',v('alcoholFreq'),{options:[{value:'',label:'—'},{value:'nunca',label:'Nunca'},{value:'social',label:'Social'},{value:'1-2_mes',label:'1-2/mes'},{value:'1-2_sem',label:'1-2/sem'},{value:'3+_sem',label:'3+/sem'}]})}${UI.fg('alcoholType','Tipo bebida','text',v('alcoholType'))}</div>
-          ${UI.fg('substances','Otras sustancias','textarea',v('substances'),{placeholder:'Confidencial'})}
-          <button class="btn btn-sm btn-primary" onclick="PatRec.saveFields()">💾 Guardar</button>`)}
-        ${UI.card('Alergias e intolerancias',`${UI.fg('allergies','Alergias','text',v('allergies'))}${UI.fg('foodIntolerances','Intolerancias alimentarias','text',v('foodIntolerances'))}<button class="btn btn-sm btn-primary" onclick="PatRec.saveFields()">💾 Guardar</button>`)}`;
-      case 'anthro':
-        const imc=p.currentWeight&&p.height?((p.currentWeight)/((p.height/100)**2)).toFixed(1):'—';
-        const hm=p.height?p.height/100:1.65;
-        const pesoMin=(18.5*hm*hm).toFixed(1),pesoMax=(24.9*hm*hm).toFixed(1);
-        const icc=p.waistCirc&&p.hipCirc?(p.waistCirc/p.hipCirc).toFixed(2):'—';
-        const pctCambio=p.currentWeight&&p.usualWeight?(((p.usualWeight-p.currentWeight)/p.usualWeight)*100).toFixed(1):'—';
-        return`
-        ${UI.infoBox('Medidas capturadas por el paciente en casa (telemedicina). Puedes editar si es necesario.','info')}
-        <div class="grid-4 mb-4" style="gap:10px">
-          ${UI.stat('⚖️',v('currentWeight')?v('currentWeight')+' kg':'—','Peso actual','green')}
-          ${UI.stat('📏',v('height')?v('height')+' cm':'—','Talla','blue')}
-          ${UI.stat('📊',imc,'IMC','amber')}
-          ${UI.stat('📐',icc,'Índice cintura-cadera','rose')}
-        </div>
-        <div class="grid-4 mb-4" style="gap:10px">
-          ${UI.stat('🎯',pesoMin+'–'+pesoMax+' kg','Rango peso saludable','green')}
-          ${UI.stat('📉',pctCambio!=='—'?pctCambio+'%':'—','% Cambio peso','blue')}
-          ${UI.stat('📏',v('waistCirc')?v('waistCirc')+' cm':'—','Cintura','amber')}
-          ${UI.stat('📏',v('hipCirc')?v('hipCirc')+' cm':'—','Cadera','rose')}
-        </div>
-        ${UI.card('Editar medidas',`
-          <div class="form-row">${UI.fg('currentWeight','Peso actual (kg)','number',v('currentWeight'),{step:'0.1'})}${UI.fg('height','Talla (cm)','number',v('height'))}</div>
-          <div class="form-row">${UI.fg('usualWeight','Peso habitual últimos 5 años (kg)','number',v('usualWeight'),{step:'0.1'})}${UI.fg('waistCirc','Cintura (cm)','number',v('waistCirc'))}</div>
-          <div class="form-row">${UI.fg('hipCirc','Cadera (cm)','number',v('hipCirc'))}${UI.fg('bicepCirc','Bíceps (cm)','number',v('bicepCirc'))}</div>
-          ${UI.fg('thighCirc','Muslo (cm)','number',v('thighCirc'))}
-          <button class="btn btn-primary" onclick="PatRec.saveFields()">💾 Guardar medidas</button>
-        `)}`;
-      case 'labs': return`
-        ${UI.card('Laboratorios y archivos',`
-          ${UI.infoBox('Los archivos que suba el paciente aparecen aquí. También puedes subir tú.','info')}
-          <div class="photo-upload-box" style="margin-bottom:16px"><div class="upload-icon">📄</div><div class="upload-label">Subir archivo</div><div class="upload-hint">PDF, fotos, capturas</div><input type="file" accept="image/*,.pdf" onchange="PatRec.uploadFile(this)"></div>
-          <div id="files-list">${UI.spinner()}</div>
-        `)}`;
-      case 'photos': return`
-        ${UI.card('Fotos de progreso',`
-          <div id="photos-list">${UI.spinner()}</div>
-        `)}`;
-      default:return '';
+  fg(n, l, t, v, o) {
+    o = o || {};
+    var req = o.required ? "required" : "";
+    var ph = o.placeholder || "";
+    var hint = o.hint ? '<div class="form-hint">💡 ' + o.hint + "</div>" : "";
+    var lc = o.required ? "form-label form-required" : "form-label";
+    if (t === "textarea") return '<div class="form-group"><label class="' + lc + '">' + l + '</label><textarea class="form-textarea" name="' + n + '" placeholder="' + ph + '" ' + req + ">" + (v || "") + "</textarea>" + hint + "</div>";
+    if (t === "select" && o.options) {
+      var opts = "";
+      o.options.forEach(function(x) { opts += '<option value="' + x.value + '"' + (x.value == v ? " selected" : "") + ">" + x.label + "</option>"; });
+      return '<div class="form-group"><label class="' + lc + '">' + l + '</label><select class="form-select" name="' + n + '" ' + req + ">" + opts + "</select>" + hint + "</div>";
     }
+    return '<div class="form-group"><label class="' + lc + '">' + l + '</label><input class="form-input" type="' + t + '" name="' + n + '" value="' + (v || "") + '" placeholder="' + ph + '" ' + req + (o.step ? ' step="' + o.step + '"' : "") + ">" + hint + "</div>";
   },
-  async saveFields(){const data={};document.querySelectorAll('#rec-ct .form-input,#rec-ct .form-textarea,#rec-ct .form-select').forEach(el=>{if(el.name&&el.value!==undefined)data[el.name]=el.value});if(await DB.save(this.p.id,data)){UI.toast('Guardado ✓');Object.assign(this.p,data);App.setPatient(this.p)}},
-  async uploadFile(input){const file=input.files[0];if(!file)return;try{UI.toast('Subiendo...','info');const url=await DB.uploadFile(this.p.id,'files',file);await DB.addSub(this.p.id,'files',{url,name:file.name,type:file.type,date:UI.todayISO()});UI.toast('Archivo subido ✓')}catch(e){UI.toast('Error: '+e.message,'error')}}
+  infoBox(m, t) { return '<div class="info-box ' + (t || "tip") + '">' + m + "</div>"; },
+  ctxBar() {
+    var p = App.activePatient;
+    if (!p) return "";
+    var imc = p.currentWeight && p.height ? (p.currentWeight / Math.pow(p.height / 100, 2)).toFixed(1) : "—";
+    return '<div class="context-bar"><span>👤</span><span class="ctx-name">' + (p.name || p.email) + '</span><span class="ctx-detail">Peso: ' + (p.currentWeight || "—") + "kg · Talla: " + (p.height || "—") + "cm · IMC: " + imc + "</span></div>";
+  }
 };
+
+var DB = {
+  save: function(pid, data) {
+    var id = pid || (auth.currentUser ? auth.currentUser.uid : null);
+    if (!id) return Promise.resolve(false);
+    data.updatedAt = firebase.firestore.FieldValue.serverTimestamp();
+    return db.collection("patients").doc(id).set(data, { merge: true }).then(function() { return true; }).catch(function(e) { console.error("Save:", e); UI.toast("Error: " + e.message, "error"); return false; });
+  },
+  get: function(pid) {
+    return db.collection("patients").doc(pid).get().then(function(d) { return d.exists ? Object.assign({ id: d.id }, d.data()) : null; }).catch(function(e) { console.error(e); return null; });
+  },
+  getAll: function() {
+    return db.collection("patients").orderBy("createdAt", "desc").get().then(function(s) { return s.docs.map(function(d) { return Object.assign({ id: d.id }, d.data()); }); }).catch(function(e) { console.error(e); return []; });
+  },
+  addSub: function(pid, col, data) {
+    data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+    return db.collection("patients").doc(pid).collection(col).add(data).then(function() { return true; }).catch(function(e) { console.error(e); return false; });
+  },
+  getSubs: function(pid, col) {
+    return db.collection("patients").doc(pid).collection(col).orderBy("createdAt", "desc").get().then(function(s) { return s.docs.map(function(d) { return Object.assign({ id: d.id }, d.data()); }); }).catch(function(e) { console.error(e); return []; });
+  },
+  saveCheckin: function(data) {
+    var uid = auth.currentUser ? auth.currentUser.uid : null;
+    if (!uid) return Promise.resolve(false);
+    var t = UI.todayISO();
+    data.date = t;
+    data.updatedAt = firebase.firestore.FieldValue.serverTimestamp();
+    return db.collection("patients").doc(uid).collection("checkins").doc(t).set(data, { merge: true }).then(function() { return true; }).catch(function() { return false; });
+  },
+  getCheckin: function(pid, date) {
+    return db.collection("patients").doc(pid).collection("checkins").doc(date).get().then(function(d) { return d.exists ? d.data() : null; }).catch(function() { return null; });
+  },
+  saveHabits: function(h) {
+    var uid = auth.currentUser ? auth.currentUser.uid : null;
+    if (!uid) return Promise.resolve(false);
+    var t = UI.todayISO();
+    return db.collection("patients").doc(uid).collection("habits").doc(t).set({ habits: h, date: t }, { merge: true }).then(function() { return true; }).catch(function() { return false; });
+  },
+  getHabits: function(pid, date) {
+    return db.collection("patients").doc(pid).collection("habits").doc(date).get().then(function(d) { return d.exists ? d.data() : null; }).catch(function() { return null; });
+  },
+  deletePatient: function(pid) {
+    return db.collection("patients").doc(pid).update({ status: "archived", archivedAt: firebase.firestore.FieldValue.serverTimestamp() }).then(function() { return true; }).catch(function(e) { console.error(e); return false; });
+  },
+  uploadFile: function(pid, path, file, metadata) {
+    var ref = storage.ref().child("patients/" + pid + "/" + path + "/" + Date.now() + "_" + file.name);
+    return ref.put(file).then(function(snap) {
+      return snap.ref.getDownloadURL();
+    }).then(function(url) {
+      var docData = {
+        url: url,
+        fileName: file.name,
+        fileType: file.type,
+        path: path,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+      if (metadata) Object.assign(docData, metadata);
+      return db.collection("patients").doc(pid).collection("files").add(docData).then(function() { return url; });
+    });
+  }
+};
+
+var App = { activePatient: null, setPatient: function(p) { this.activePatient = p; } };
+
+var Auth = {
+  currentUser: null, userProfile: null, role: null,
+  init: function() {
+    document.getElementById("btn-google-login").addEventListener("click", function() { Auth.signIn(); });
+    document.getElementById("btn-logout").addEventListener("click", function() { Auth.signOut(); });
+    auth.onAuthStateChanged(function(u) {
+      document.getElementById("loading-screen").classList.add("hidden");
+      if (u) { Auth.currentUser = u; Auth.loadProfile(u).then(function() { Auth.showApp(); }); }
+      else { Auth.currentUser = null; Auth.role = null; Auth.showAuth(); }
+    });
+  },
+  signIn: function() { auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).catch(function(e) { if (e.code !== "auth/popup-closed-by-user") UI.toast("Error: " + e.message, "error"); }); },
+  signOut: function() { auth.signOut().then(function() { UI.toast("Sesión cerrada", "info"); }); },
+  loadProfile: function(u) {
+    var isNut = AUTHORIZED_NUTRITIONISTS.indexOf(u.email) >= 0;
+    Auth.role = isNut ? "nutritionist" : "patient";
+    var ref = db.collection("users").doc(u.uid);
+    return ref.get().then(function(doc) {
+      if (doc.exists) {
+        Auth.userProfile = doc.data();
+        if (Auth.userProfile.role !== Auth.role) return ref.update({ role: Auth.role });
+      } else {
+        var p = { uid: u.uid, email: u.email, displayName: u.displayName || "", photoURL: u.photoURL || "", role: Auth.role, onboardingComplete: isNut, createdAt: firebase.firestore.FieldValue.serverTimestamp() };
+        Auth.userProfile = p;
+        var prom = ref.set(p);
+        if (!isNut) {
+          prom = prom.then(function() {
+            return db.collection("patients").doc(u.uid).set({ uid: u.uid, email: u.email, name: u.displayName || "", photoURL: u.photoURL || "", status: "new", onboardingComplete: false, adherence: "media", tags: [], createdAt: firebase.firestore.FieldValue.serverTimestamp(), updatedAt: firebase.firestore.FieldValue.serverTimestamp() });
+          });
+        }
+        return prom;
+      }
+    }).catch(function(e) { console.error("Auth:", e); UI.toast("Error perfil: " + e.message, "error"); });
+  },
+  showAuth: function() { document.getElementById("auth-screen").classList.remove("hidden"); document.getElementById("app-shell").classList.add("hidden"); },
+  showApp: function() {
+    document.getElementById("auth-screen").classList.add("hidden");
+    document.getElementById("app-shell").classList.remove("hidden");
+    var u = Auth.currentUser;
+    var av = u.photoURL || "";
+    document.getElementById("user-avatar").src = av;
+    document.getElementById("mobile-avatar").src = av;
+    document.getElementById("user-name").textContent = u.displayName || u.email;
+    document.getElementById("user-role").textContent = Auth.role === "nutritionist" ? "Nutrióloga" : "Paciente";
+    Router.buildNav();
+    if (Auth.role === "patient" && Auth.userProfile && !Auth.userProfile.onboardingComplete) Router.nav("onboarding");
+    else Router.nav(Auth.role === "nutritionist" ? "dashboard" : "pat-dashboard");
+  }
+};
+
+var Router = {
+  current: null,
+  navNut: [
+    { section: "Principal", items: [{ id: "dashboard", label: "Dashboard", icon: "📊" }, { id: "patients", label: "Pacientes", icon: "👥" }] },
+    { section: "Herramientas", items: [{ id: "equivalents", label: "Equivalentes", icon: "🥑" }, { id: "calculators", label: "Calculadora", icon: "🧮" }, { id: "meal-plans", label: "Planes de Menú", icon: "📋" }] }
+  ],
+  navPat: [
+    { section: "Mi Espacio", items: [{ id: "pat-dashboard", label: "Mi Dashboard", icon: "🏠" }, { id: "pat-progress", label: "Mi Progreso", icon: "📈" }, { id: "pat-plan", label: "Mi Plan", icon: "🥗" }, { id: "pat-photos", label: "Mis Fotos", icon: "📸" }, { id: "onboarding", label: "Info consulta", icon: "📝" }] }
+  ],
+  buildNav: function() {
+    var nav = document.getElementById("sidebar-nav");
+    var cfg = Auth.role === "nutritionist" ? this.navNut : this.navPat;
+    var h = "";
+    cfg.forEach(function(s) {
+      h += '<div class="nav-section"><div class="nav-section-title">' + s.section + '</div>';
+      s.items.forEach(function(i) {
+        h += '<div class="nav-item" data-view="' + i.id + '" onclick="Router.nav(\'' + i.id + '\')">';
+        h += '<span class="nav-icon">' + i.icon + '</span><span>' + i.label + '</span></div>';
+      });
+      h += '</div>';
+    });
+    nav.innerHTML = h;
+  },
+  nav: function(id, params) {
+    params = params || {};
+    this.current = id;
+    document.querySelectorAll(".nav-item").forEach(function(el) { el.classList.toggle("active", el.dataset.view === id); });
+    UI.closeSidebar();
+    var main = document.getElementById("main-content");
+    var fn = this.views[id];
+    if (fn) {
+      main.innerHTML = UI.spinner();
+      try {
+        var r = fn(params);
+        if (typeof r === "string") main.innerHTML = r;
+        else if (r && r.then) r.then(function(h) { if (typeof h === "string") main.innerHTML = h; }).catch(function(e) { console.error(e); main.innerHTML = UI.empty("⚠️", "Error", e.message); });
+      } catch (e) { console.error(e); main.innerHTML = UI.empty("⚠️", "Error", e.message); }
+    } else {
+      main.innerHTML = UI.empty("🚧", "En construcción", "Próximamente.");
+    }
+  }
+};
+
+
+var NutDash = {
+  render: function() {
+    var main = document.getElementById("main-content");
+    var name = (Auth.currentUser && Auth.currentUser.displayName) ? Auth.currentUser.displayName.split(" ")[0] : "Nutrióloga";
+    DB.getAll().then(function(pts) {
+      var active = pts.filter(function(p) { return p.status !== "archived"; });
+      var newP = active.filter(function(p) { return p.status === "new"; }).length;
+      var h = '<div class="greeting"><h1>' + UI.greeting() + ", " + name + ' 🌿</h1><p>Tu consulta por telemedicina</p><div class="date">' + UI.todayStr() + '</div></div>';
+      h += '<div class="quick-actions">';
+      h += '<div class="quick-action" onclick="Router.nav(\'patients\')"><span>👥</span> Pacientes</div>';
+      h += '<div class="quick-action" onclick="Router.nav(\'equivalents\')"><span>🥑</span> Equivalentes</div>';
+      h += '<div class="quick-action" onclick="Router.nav(\'calculators\')"><span>🧮</span> Calculadora</div>';
+      h += '<div class="quick-action" onclick="Router.nav(\'meal-plans\')"><span>📋</span> Plan</div>';
+      h += '</div>';
+      h += '<div class="grid-4 mb-6">' + UI.stat("👥", active.length, "Pacientes", "green") + UI.stat("🆕", newP, "Nuevos", "blue") + UI.stat("📝", active.filter(function(p){return !p.onboardingComplete}).length, "Pendientes", "amber") + UI.stat("📅", "0", "Consultas hoy", "rose") + '</div>';
+      if (active.length) {
+        h += '<h3 class="mb-4">Pacientes</h3><div class="grid-auto">';
+        active.forEach(function(p) {
+          h += '<div class="patient-card" onclick="Router.nav(\'patient-record\',{patientId:\'' + p.id + '\'})">';
+          h += UI.avatar(p.name || p.email);
+          h += '<div class="patient-info"><div class="patient-name">' + (p.name || p.email || "Sin nombre") + '</div>';
+          h += '<div class="patient-meta">' + (p.email || "") + '</div>';
+          h += '<div class="patient-tags">' + UI.badge(p.onboardingComplete ? "Completo" : "Pendiente", p.onboardingComplete ? "green" : "amber") + ' ' + UI.semaforo(p.adherence || "media") + '</div></div></div>';
+        });
+        h += '</div>';
+      }
+      main.innerHTML = h;
+    });
+  }
+};
+
+
+var Patients = {
+  pts: [],
+  render: function() {
+    var main = document.getElementById("main-content");
+    main.innerHTML = UI.spinner();
+    var self = this;
+    DB.getAll().then(function(pts) {
+      self.pts = pts.filter(function(p) { return p.status !== "archived"; });
+      var h = '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px">';
+      h += '<div><h1>Pacientes</h1><p class="text-muted">' + self.pts.length + ' activos</p></div>';
+      h += '<button class="btn btn-primary" onclick="Patients.invite()">➕ Invitar</button></div>';
+      h += '<div class="search-box mb-4"><span>🔍</span><input placeholder="Buscar..." oninput="Patients.search(this.value)"></div>';
+      h += '<div id="pts-list">' + self.renderList(self.pts) + '</div>';
+      main.innerHTML = h;
+    });
+  },
+  renderList: function(list) {
+    if (!list.length) return UI.empty("👥", "Sin pacientes", "Comparte el link de tu app.");
+    var h = '<div class="grid-auto">';
+    list.forEach(function(p) {
+      h += '<div class="patient-card">';
+      h += '<div onclick="Router.nav(\'patient-record\',{patientId:\'' + p.id + '\'})" style="display:flex;align-items:center;gap:16px;flex:1;cursor:pointer">';
+      h += UI.avatar(p.name || p.email);
+      h += '<div class="patient-info"><div class="patient-name">' + (p.name || p.email || "Sin nombre") + '</div>';
+      h += '<div class="patient-meta">' + (p.email || "") + '</div>';
+      h += '<div class="patient-tags">' + UI.badge(p.onboardingComplete ? "Completo" : "Pendiente", p.onboardingComplete ? "green" : "amber") + '</div></div></div>';
+      h += '<button class="btn-icon" onclick="Patients.confirmDelete(\'' + p.id + '\',\'' + (p.name || p.email) + '\')" title="Archivar">🗑️</button>';
+      h += '</div>';
+    });
+    return h + '</div>';
+  },
+  search: function(q) {
+    var f = this.pts.filter(function(p) { return ((p.name || "") + (p.email || "")).toLowerCase().indexOf(q.toLowerCase()) >= 0; });
+    document.getElementById("pts-list").innerHTML = this.renderList(f);
+  },
+  confirmDelete: function(pid, name) {
+    var h = '<div class="modal-header"><h2>⚠️ Archivar paciente</h2><button class="btn-icon" onclick="UI.closeModal()">✕</button></div>';
+    h += '<div class="modal-body">';
+    h += UI.infoBox('<strong>¿Estás segura?</strong> El paciente <strong>' + name + '</strong> será archivado. Sus datos se conservan pero ya no aparecerá en tu lista activa.', 'warn');
+    h += '<div class="flex gap-3 mt-4">';
+    h += '<button class="btn btn-outline" style="flex:1" onclick="UI.closeModal()">Cancelar</button>';
+    h += '<button class="btn btn-danger" style="flex:1" onclick="Patients.doDelete(\'' + pid + '\')">Sí, archivar</button>';
+    h += '</div></div>';
+    UI.openModal(h);
+  },
+  doDelete: function(pid) {
+    DB.deletePatient(pid).then(function(ok) {
+      if (ok) { UI.closeModal(); UI.toast("Paciente archivado"); Patients.render(); }
+    });
+  },
+  invite: function() {
+    var h = '<div class="modal-header"><h2>Invitar paciente</h2><button class="btn-icon" onclick="UI.closeModal()">✕</button></div>';
+    h += '<div class="modal-body">';
+    h += UI.infoBox("Comparte el enlace. Al registrarse con Gmail aparece aquí.", "info");
+    h += '<div class="flex gap-3 mb-6"><input class="form-input" value="' + location.origin + '" readonly id="inv-lnk">';
+    h += '<button class="btn btn-secondary" onclick="navigator.clipboard.writeText(document.getElementById(\'inv-lnk\').value);UI.toast(\'Copiado\')">📋</button></div>';
+    h += UI.fg("mn", "Nombre", "text", "", { required: true, placeholder: "Nombre completo" });
+    h += UI.fg("me", "Correo", "email", "", { placeholder: "paciente@email.com" });
+    h += '<button class="btn btn-primary w-full" onclick="Patients.createManual()">Crear paciente</button></div>';
+    UI.openModal(h);
+  },
+  createManual: function() {
+    var n = document.querySelector("[name=mn]").value;
+    if (!n) { UI.toast("Nombre requerido", "warning"); return; }
+    db.collection("patients").add({
+      name: n, email: (document.querySelector("[name=me]").value || ""), status: "new",
+      onboardingComplete: false, adherence: "media", tags: [], manuallyCreated: true,
+      createdBy: Auth.currentUser.uid, createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(function() { UI.closeModal(); UI.toast("Paciente creado ✓"); Patients.render(); });
+  }
+};
+
+
+var PatRec = {
+  p: null, tab: "overview",
+  render: function(params) {
+    var main = document.getElementById("main-content");
+    main.innerHTML = UI.spinner();
+    if (!params || !params.patientId) return;
+    var self = this;
+    DB.get(params.patientId).then(function(p) {
+      if (!p) { main.innerHTML = UI.empty("🔍", "No encontrado", ""); return; }
+      self.p = p;
+      App.setPatient(p);
+      self.show();
+    });
+  },
+  show: function() {
+    var p = this.p, main = document.getElementById("main-content");
+    var imc = (p.currentWeight && p.height) ? (p.currentWeight / Math.pow(p.height / 100, 2)).toFixed(1) : "—";
+    var icc = (p.waistCirc && p.hipCirc) ? (p.waistCirc / p.hipCirc).toFixed(2) : "—";
+    var h = '<div class="flex items-center gap-3 mb-4" style="flex-wrap:wrap">';
+    h += '<button class="btn btn-outline btn-sm" onclick="Router.nav(\'patients\')">← Pacientes</button>';
+    h += '<div style="flex:1"><h1 style="font-size:1.4rem">' + (p.name || "Sin nombre") + '</h1>';
+    h += '<p class="text-sm text-muted">' + (p.email || "") + " · " + UI.badge(p.onboardingComplete ? "Completo" : "Pendiente", p.onboardingComplete ? "green" : "amber") + '</p></div></div>';
+    h += '<div class="grid-5 mb-4" style="gap:10px">';
+    h += UI.stat("⚖️", p.currentWeight ? p.currentWeight + "kg" : "—", "Peso", "green");
+    h += UI.stat("📏", p.height ? p.height + "cm" : "—", "Talla", "blue");
+    h += UI.stat("📊", imc, "IMC", "amber");
+    h += UI.stat("📐", icc, "ICC", "rose");
+    h += UI.stat("🎯", p.goals ? "✓" : "—", "Objetivos", p.goals ? "green" : "amber");
+    h += '</div>';
+    h += '<div class="quick-actions" style="margin-bottom:12px">';
+    var pid = p.id;
+    h += '<div class="quick-action" onclick="Router.nav(\'nut-history\',{patientId:\' + pid + \'})">🍽️ Historia nutricional</div>';
+    h += '<div class="quick-action" onclick="Router.nav(\'recall24\',{patientId:\' + pid + \'})">📝 Recordatorio 24h</div>';
+    h += '<div class="quick-action" onclick="Router.nav(\'evo-notes\',{patientId:\' + pid + \'})">📋 Notas evolución</div>';
+    h += '<div class="quick-action" onclick="Router.nav(\'calculators\')">🧮 Calculadora</div>';
+    h += '<div class="quick-action" onclick="Router.nav(\'meal-plans\',{patientId:\' + pid + \'})">🥗 Crear plan</div>';
+    h += '<div class="quick-action" onclick="Router.nav(\'recommendations\',{patientId:\' + pid + \'})">💡 Recomendaciones</div>';
+    h += '<div class="quick-action" onclick="Router.nav(\'grocery\',{patientId:\' + pid + \'})">🛒 Lista súper</div>';
+    h += '</div>';
+    h += UI.tabs([{id:"overview",label:"Resumen"},{id:"clinical",label:"Historia clínica"},{id:"anthro",label:"Antropometría"},{id:"labs",label:"Labs / Archivos"}], this.tab, "PatRec.switchTab");
+    h += '<div id="rec-ct">' + this.renderTab() + '</div>';
+    main.innerHTML = h;
+  },
+  switchTab: function(t) { this.tab = t; this.show(); },
+  renderTab: function() {
+    var p = this.p;
+    var v = function(f) { return p[f] || ""; };
+    var em = function(f) { return p[f] || '<span class="field-empty">Aún no completado</span>'; };
+    if (this.tab === "overview") {
+      var h = '<div class="grid-2">';
+      h += UI.card("Datos personales", UI.fg("name", "Nombre", "text", v("name")) + '<div class="form-row">' + UI.fg("birthdate", "Nacimiento", "date", v("birthdate")) + UI.fg("sex", "Sexo", "select", v("sex"), {options:[{value:"",label:"—"},{value:"F",label:"Femenino"},{value:"M",label:"Masculino"}]}) + '</div><div class="form-row">' + UI.fg("phone", "Teléfono", "tel", v("phone")) + UI.fg("occupation", "Ocupación", "text", v("occupation")) + '</div>' + UI.fg("consultReason", "Motivo consulta", "textarea", v("consultReason")) + '<button class="btn btn-primary btn-sm" onclick="PatRec.saveFields()">💾 Guardar</button>');
+      h += UI.card("Objetivos", '<p><strong>Objetivos:</strong></p><p>' + em("goals") + '</p><p class="mt-4"><strong>Barreras:</strong></p><p>' + em("barriers") + '</p>');
+      h += '</div>';
+      return h;
+    }
+    if (this.tab === "clinical") {
+      var h = UI.infoBox("Puedes editar la historia clínica del paciente. Los cambios se guardan en su expediente.", "info");
+      h += UI.card("Antecedentes heredofamiliares", '<p>' + em("familyHistory") + '</p>' + UI.fg("familyHistory", "", "textarea", v("familyHistory"), {placeholder:"Editar antecedentes heredofamiliares..."}) + '<button class="btn btn-sm btn-primary" onclick="PatRec.saveFields()">💾 Guardar</button>');
+      h += UI.card("Antecedentes personales patológicos", UI.fg("pathologicalHistory", "Enfermedades", "textarea", v("pathologicalHistory"), {placeholder:"Enfermedades actuales y pasadas"}) + UI.fg("surgeries", "Cirugías", "text", v("surgeries")) + '<button class="btn btn-sm btn-primary" onclick="PatRec.saveFields()">💾 Guardar</button>');
+      h += UI.card("Medicamentos y suplementos", UI.fg("medications", "Medicamentos", "textarea", v("medications"), {placeholder:"Nombre, dosis, frecuencia"}) + UI.fg("supplements", "Suplementos", "textarea", v("supplements")) + '<button class="btn btn-sm btn-primary" onclick="PatRec.saveFields()">💾 Guardar</button>');
+      // Smoking with automatic index
+      var smokingIdx = (v("smokingAmount") && v("smokingYears")) ? (parseFloat(v("smokingAmount")) * parseFloat(v("smokingYears")) / 20).toFixed(1) : null;
+      h += UI.card("Tabaquismo", '<div class="form-row">' + UI.fg("smokingStatus", "Estado", "select", v("smokingStatus"), {options:[{value:"",label:"—"},{value:"nunca",label:"Nunca"},{value:"si",label:"Fuma"},{value:"ex",label:"Ex fumador"}]}) + UI.fg("smokingAmount", "Cigarros/día", "number", v("smokingAmount")) + '</div><div class="form-row">' + UI.fg("smokingYears", "Años fumando", "number", v("smokingYears")) + UI.fg("smokingQuitYears", "Años sin fumar", "number", v("smokingQuitYears")) + '</div>' + (smokingIdx ? '<div class="info-box tip"><strong>Índice tabáquico:</strong> ' + smokingIdx + ' paquetes/año' + (parseFloat(smokingIdx) > 20 ? ' ⚠️ Alto riesgo' : parseFloat(smokingIdx) > 10 ? ' ⚠️ Riesgo moderado' : ' ✓ Bajo') + '</div>' : '') + '<button class="btn btn-sm btn-primary" onclick="PatRec.saveFields()">💾 Guardar</button>');
+      h += UI.card("Alcohol y sustancias", '<div class="form-row">' + UI.fg("alcoholFreq", "Frecuencia alcohol", "select", v("alcoholFreq"), {options:[{value:"",label:"—"},{value:"nunca",label:"Nunca"},{value:"social",label:"Social"},{value:"1-2_mes",label:"1-2/mes"},{value:"1-2_sem",label:"1-2/sem"},{value:"3+",label:"3+/sem"}]}) + UI.fg("alcoholType", "Tipo bebida", "text", v("alcoholType")) + '</div>' + UI.fg("substances", "Otras sustancias", "textarea", v("substances"), {placeholder:"Confidencial"}) + '<button class="btn btn-sm btn-primary" onclick="PatRec.saveFields()">💾 Guardar</button>');
+      h += UI.card("Alergias e intolerancias", UI.fg("allergies", "Alergias", "text", v("allergies")) + UI.fg("foodIntolerances", "Intolerancias alimentarias", "text", v("foodIntolerances")) + '<button class="btn btn-sm btn-primary" onclick="PatRec.saveFields()">💾 Guardar</button>');
+      return h;
+    }
+    if (this.tab === "anthro") {
+      var hm = p.height ? p.height / 100 : 1.65;
+      var imc = (p.currentWeight && p.height) ? (p.currentWeight / (hm * hm)).toFixed(1) : "—";
+      var pesoMin = (18.5 * hm * hm).toFixed(1), pesoMax = (24.9 * hm * hm).toFixed(1);
+      var icc = (p.waistCirc && p.hipCirc) ? (p.waistCirc / p.hipCirc).toFixed(2) : "—";
+      var pctC = (p.currentWeight && p.usualWeight) ? (((p.usualWeight - p.currentWeight) / p.usualWeight) * 100).toFixed(1) : "—";
+      var h = UI.infoBox("Medidas capturadas por el paciente (telemedicina). Puedes editar.", "info");
+      h += '<div class="grid-4 mb-4" style="gap:10px">';
+      h += UI.stat("⚖️", v("currentWeight") ? v("currentWeight") + "kg" : "—", "Peso", "green");
+      h += UI.stat("📏", v("height") ? v("height") + "cm" : "—", "Talla", "blue");
+      h += UI.stat("📊", imc, "IMC", "amber");
+      h += UI.stat("📐", icc, "ICC", "rose");
+      h += '</div><div class="grid-4 mb-4" style="gap:10px">';
+      h += UI.stat("🎯", pesoMin + "–" + pesoMax + "kg", "Rango saludable", "green");
+      h += UI.stat("📉", pctC !== "—" ? pctC + "%" : "—", "% Cambio peso", "blue");
+      h += UI.stat("📏", v("waistCirc") ? v("waistCirc") + "cm" : "—", "Cintura", "amber");
+      h += UI.stat("📏", v("hipCirc") ? v("hipCirc") + "cm" : "—", "Cadera", "rose");
+      h += '</div>';
+      h += UI.card("Editar medidas", '<div class="form-row">' + UI.fg("currentWeight", "Peso (kg)", "number", v("currentWeight"), {step:"0.1"}) + UI.fg("height", "Talla (cm)", "number", v("height")) + '</div><div class="form-row">' + UI.fg("usualWeight", "Peso habitual 5 años (kg)", "number", v("usualWeight"), {step:"0.1"}) + UI.fg("waistCirc", "Cintura (cm)", "number", v("waistCirc")) + '</div><div class="form-row">' + UI.fg("hipCirc", "Cadera (cm)", "number", v("hipCirc")) + UI.fg("bicepCirc", "Bíceps (cm)", "number", v("bicepCirc")) + '</div>' + UI.fg("thighCirc", "Muslo (cm)", "number", v("thighCirc")) + '<button class="btn btn-primary" onclick="PatRec.saveFields()">💾 Guardar</button>');
+      return h;
+    }
+    if (this.tab === "labs") {
+      var h = UI.card("Laboratorios y archivos", UI.infoBox("Sube archivos del paciente. Se guardan en Firebase Storage.", "info") + '<div style="border:2px dashed var(--g200);border-radius:14px;padding:24px;text-align:center;cursor:pointer;position:relative;margin-bottom:16px"><div style="font-size:1.8rem;margin-bottom:6px">📄</div><div style="font-weight:600;font-size:.85rem">Subir archivo</div><div style="font-size:.72rem;color:var(--g400);margin-top:4px">PDF, fotos, capturas</div>' + UI.fg("fileDate", "Fecha del estudio", "date", UI.todayISO()) + UI.fg("fileType", "Tipo", "select", "", {options:[{value:"lab",label:"Laboratorio"},{value:"photo",label:"Foto"},{value:"other",label:"Otro"}]}) + '<input type="file" accept="image/*,.pdf" onchange="PatRec.uploadFile(this)" style="margin-top:8px"></div><div id="files-list">' + UI.spinner() + '</div>');
+      // Load files
+      var self = this;
+      DB.getSubs(this.p.id, "files").then(function(files) {
+        var fl = document.getElementById("files-list");
+        if (!fl) return;
+        if (!files.length) { fl.innerHTML = UI.empty("📁", "Sin archivos", "Sube laboratorios o fotos."); return; }
+        var fh = '<div class="table-wrapper"><table class="data-table"><thead><tr><th>Archivo</th><th>Tipo</th><th>Fecha</th><th>Ver</th></tr></thead><tbody>';
+        files.forEach(function(f) {
+          fh += '<tr><td>' + (f.fileName || "archivo") + '</td><td>' + UI.badge(f.fileCategory || f.path || "archivo", "blue") + '</td><td>' + (f.studyDate || UI.fmtDate(f.createdAt)) + '</td><td><a href="' + f.url + '" target="_blank" class="btn btn-sm btn-outline">Abrir</a></td></tr>';
+        });
+        fh += '</tbody></table></div>';
+        fl.innerHTML = fh;
+      });
+      return h;
+    }
+    return "";
+  },
+  saveFields: function() {
+    var data = {};
+    document.querySelectorAll("#rec-ct .form-input, #rec-ct .form-textarea, #rec-ct .form-select").forEach(function(el) {
+      if (el.name && el.value !== undefined) data[el.name] = el.value;
+    });
+    var self = this;
+    DB.save(this.p.id, data).then(function(ok) {
+      if (ok) { UI.toast("Guardado ✓"); Object.assign(self.p, data); App.setPatient(self.p); }
+    });
+  },
+  uploadFile: function(input) {
+    var file = input.files[0];
+    if (!file) return;
+    var date = document.querySelector("[name=fileDate]") ? document.querySelector("[name=fileDate]").value : UI.todayISO();
+    var ftype = document.querySelector("[name=fileType]") ? document.querySelector("[name=fileType]").value : "other";
+    UI.toast("Subiendo archivo...", "info");
+    DB.uploadFile(this.p.id, "files", file, { studyDate: date, fileCategory: ftype }).then(function(url) {
+      UI.toast("Archivo subido ✓");
+      PatRec.show(); // refresh
+    }).catch(function(e) {
+      UI.toast("Error al subir: " + e.message, "error");
+    });
+  }
+};
+
+
+var Recall24 = {
+  p: null,
+  meals: ["Desayuno", "Snack AM", "Comida", "Snack PM", "Cena"],
+  render: function(params) {
+    var main = document.getElementById("main-content");
+    main.innerHTML = UI.spinner();
+    var self = this;
+    var pid = (params && params.patientId) ? params.patientId : (App.activePatient ? App.activePatient.id : null);
+    if (!pid) return;
+    DB.get(pid).then(function(p) {
+      if (!p) return;
+      self.p = p;
+      App.setPatient(p);
+      var saved = p.recall24structured || {};
+      var h = '<div class="flex items-center gap-3 mb-4">';
+      h += '<button class="btn btn-outline btn-sm" onclick="Router.nav(\'patient-record\',{patientId:\' + p.id + \'})">← Expediente</button>';
+      h += '<h1 style="font-size:1.4rem">Recordatorio de 24 Horas</h1></div>';
+      h += UI.ctxBar();
+      h += UI.infoBox('<strong>Captura los equivalentes</strong> que el paciente consumió en cada tiempo de comida. El sistema calcula automáticamente calorías, proteínas, lípidos, HCO y fibra.', 'tip');
+      // Build equivalents input for each meal
+      self.meals.forEach(function(meal) {
+        var mealKey = meal.replace(/ /g, "_");
+        h += '<div class="card"><div class="card-title" style="margin-bottom:12px">' + meal + '</div>';
+        h += '<div class="table-wrapper"><table class="data-table"><thead><tr><th>Grupo</th><th style="width:80px">Equiv.</th><th>Kcal</th><th>P(g)</th><th>L(g)</th><th>H(g)</th><th>Fibra</th></tr></thead><tbody>';
+        SMAE_GROUPS.forEach(function(g) {
+          var val = (saved[mealKey] && saved[mealKey][g.id]) ? saved[mealKey][g.id] : 0;
+          h += '<tr>';
+          h += '<td>' + g.icon + ' ' + g.name + '</td>';
+          h += '<td><input type="number" value="' + val + '" min="0" step="0.5" class="recall-eq" data-meal="' + mealKey + '" data-group="' + g.id + '" onchange="Recall24.recalc()"></td>';
+          h += '<td class="rc-e-' + mealKey + '-' + g.id + '">' + (val * g.e) + '</td>';
+          h += '<td class="rc-p-' + mealKey + '-' + g.id + '">' + (val * g.p).toFixed(0) + '</td>';
+          h += '<td class="rc-l-' + mealKey + '-' + g.id + '">' + (val * g.l).toFixed(0) + '</td>';
+          h += '<td class="rc-h-' + mealKey + '-' + g.id + '">' + (val * g.h).toFixed(0) + '</td>';
+          h += '<td class="rc-f-' + mealKey + '-' + g.id + '">' + (val * g.fiber).toFixed(0) + '</td>';
+          h += '</tr>';
+        });
+        h += '<tr style="font-weight:700;background:var(--sage-50)"><td>Subtotal ' + meal + '</td><td></td>';
+        h += '<td id="sub-e-' + mealKey + '">0</td>';
+        h += '<td id="sub-p-' + mealKey + '">0</td>';
+        h += '<td id="sub-l-' + mealKey + '">0</td>';
+        h += '<td id="sub-h-' + mealKey + '">0</td>';
+        h += '<td id="sub-f-' + mealKey + '">0</td>';
+        h += '</tr></tbody></table></div></div>';
+      });
+      // Totals
+      h += '<div class="card"><div class="card-title" style="margin-bottom:16px">📊 Total del Día</div>';
+      h += '<div class="grid-5" style="gap:10px">';
+      h += '<div id="tot-e" style="text-align:center;padding:16px;background:#E8F5E9;border-radius:10px"><div style="font-weight:700;font-size:1.5rem;color:#2E7D32">0</div><div class="text-xs text-muted">Kcal</div></div>';
+      h += '<div id="tot-p" style="text-align:center;padding:16px;background:#E3F2FD;border-radius:10px"><div style="font-weight:700;font-size:1.5rem;color:#1565C0">0g</div><div class="text-xs text-muted">Proteínas</div></div>';
+      h += '<div id="tot-l" style="text-align:center;padding:16px;background:#FFF8E1;border-radius:10px"><div style="font-weight:700;font-size:1.5rem;color:#F57F17">0g</div><div class="text-xs text-muted">Lípidos</div></div>';
+      h += '<div id="tot-h" style="text-align:center;padding:16px;background:#FFF3E0;border-radius:10px"><div style="font-weight:700;font-size:1.5rem;color:#E65100">0g</div><div class="text-xs text-muted">HCO</div></div>';
+      h += '<div id="tot-f" style="text-align:center;padding:16px;background:#F3E5F5;border-radius:10px"><div style="font-weight:700;font-size:1.5rem;color:#6A1B9A">0g</div><div class="text-xs text-muted">Fibra</div></div>';
+      h += '</div></div>';
+      h += '<button class="btn btn-primary btn-lg w-full" onclick="Recall24.save()">💾 Guardar recordatorio</button>';
+      h += '<p class="text-xs text-muted mt-2 text-center">Este recordatorio se guarda asociado al paciente y alimenta la calculadora.</p>';
+      main.innerHTML = h;
+      self.recalc();
+    });
+  },
+  recalc: function() {
+    var totals = { e: 0, p: 0, l: 0, h: 0, f: 0 };
+    var self = this;
+    self.meals.forEach(function(meal) {
+      var mealKey = meal.replace(/ /g, "_");
+      var sub = { e: 0, p: 0, l: 0, h: 0, f: 0 };
+      SMAE_GROUPS.forEach(function(g) {
+        var inp = document.querySelector('[data-meal="' + mealKey + '"][data-group="' + g.id + '"]');
+        var n = inp ? parseFloat(inp.value) || 0 : 0;
+        var ce = document.querySelector('.rc-e-' + mealKey + '-' + g.id);
+        var cp = document.querySelector('.rc-p-' + mealKey + '-' + g.id);
+        var cl = document.querySelector('.rc-l-' + mealKey + '-' + g.id);
+        var ch = document.querySelector('.rc-h-' + mealKey + '-' + g.id);
+        var cf = document.querySelector('.rc-f-' + mealKey + '-' + g.id);
+        if (ce) ce.textContent = (n * g.e).toFixed(0);
+        if (cp) cp.textContent = (n * g.p).toFixed(0);
+        if (cl) cl.textContent = (n * g.l).toFixed(0);
+        if (ch) ch.textContent = (n * g.h).toFixed(0);
+        if (cf) cf.textContent = (n * g.fiber).toFixed(0);
+        sub.e += n * g.e; sub.p += n * g.p; sub.l += n * g.l; sub.h += n * g.h; sub.f += n * g.fiber;
+      });
+      var se = document.getElementById("sub-e-" + mealKey);
+      var sp = document.getElementById("sub-p-" + mealKey);
+      var sl = document.getElementById("sub-l-" + mealKey);
+      var sh = document.getElementById("sub-h-" + mealKey);
+      var sf = document.getElementById("sub-f-" + mealKey);
+      if (se) se.textContent = sub.e.toFixed(0);
+      if (sp) sp.textContent = sub.p.toFixed(0);
+      if (sl) sl.textContent = sub.l.toFixed(0);
+      if (sh) sh.textContent = sub.h.toFixed(0);
+      if (sf) sf.textContent = sub.f.toFixed(0);
+      totals.e += sub.e; totals.p += sub.p; totals.l += sub.l; totals.h += sub.h; totals.f += sub.f;
+    });
+    var te = document.getElementById("tot-e"); if (te) te.querySelector("div").textContent = totals.e.toFixed(0);
+    var tp = document.getElementById("tot-p"); if (tp) tp.querySelector("div").textContent = totals.p.toFixed(0) + "g";
+    var tl = document.getElementById("tot-l"); if (tl) tl.querySelector("div").textContent = totals.l.toFixed(0) + "g";
+    var th = document.getElementById("tot-h"); if (th) th.querySelector("div").textContent = totals.h.toFixed(0) + "g";
+    var tf = document.getElementById("tot-f"); if (tf) tf.querySelector("div").textContent = totals.f.toFixed(0) + "g";
+  },
+  save: function() {
+    var data = {};
+    var self = this;
+    self.meals.forEach(function(meal) {
+      var mealKey = meal.replace(/ /g, "_");
+      data[mealKey] = {};
+      SMAE_GROUPS.forEach(function(g) {
+        var inp = document.querySelector('[data-meal="' + mealKey + '"][data-group="' + g.id + '"]');
+        if (inp && parseFloat(inp.value)) data[mealKey][g.id] = parseFloat(inp.value);
+      });
+    });
+    DB.save(self.p.id, { recall24structured: data }).then(function(ok) {
+      if (ok) UI.toast("Recordatorio guardado ✓");
+    });
+  }
+};
+
 
 // === NUTRITIONAL HISTORY (Nutritionist only) ===
-const NutHist={
-  p:null,
-  async render(params){const main=document.getElementById('main-content');main.innerHTML=UI.spinner();
-    this.p=await DB.get(params?.patientId||App.activePatient?.id);if(!this.p)return;App.setPatient(this.p);
-    const n=this.p.nutritionHistory||{};
-    main.innerHTML=`
-      <div class="flex items-center gap-3 mb-4"><button class="btn btn-outline btn-sm" onclick="Router.nav('patient-record',{patientId:'${this.p.id}'})">← Expediente</button><div><h1 style="font-size:1.4rem">Historia Nutricional</h1><p class="text-sm text-muted">${this.p.name||this.p.email} — Solo nutrióloga</p></div></div>
-      ${UI.ctxBar()}
-      ${UI.infoBox('<strong>Solo tú</strong> puedes ver y editar esta sección. El paciente no tiene acceso.','warn')}
-      ${UI.card('Hábitos alimentarios',`
-        ${UI.fg('nh_recall24h','Recordatorio 24 horas','textarea',n.recall24h||'',{placeholder:'Todo lo que comió ayer',hint:'Base para diseñar su plan'})}
-        ${UI.fg('nh_mealSchedule','Horarios de comida','text',n.mealSchedule||'',{placeholder:'Desayuno 8am, Comida 2pm...'})}
-        ${UI.fg('nh_weekendChanges','Cambios fin de semana','textarea',n.weekendChanges||'',{placeholder:'¿Qué cambia en fines de semana?'})}
-        <div class="form-row">${UI.fg('nh_ultraprocessed','Ultraprocesados','select',n.ultraprocessed||'',{options:[{value:'',label:'—'},{value:'diario',label:'Diario'},{value:'3-5/sem',label:'3-5/sem'},{value:'1-2/sem',label:'1-2/sem'},{value:'rara',label:'Rara vez'},{value:'nunca',label:'Nunca'}]})}${UI.fg('nh_eatingOut','Comer fuera','select',n.eatingOut||'',{options:[{value:'',label:'—'},{value:'diario',label:'Diario'},{value:'3-5/sem',label:'3-5/sem'},{value:'1-2/sem',label:'1-2/sem'},{value:'rara',label:'Rara vez'}]})}</div>
-        <div class="form-row">${UI.fg('nh_sweetDrinks','Bebidas azucaradas','select',n.sweetDrinks||'',{options:[{value:'',label:'—'},{value:'diario',label:'Diario'},{value:'3-5',label:'3-5/sem'},{value:'1-2',label:'1-2/sem'},{value:'nunca',label:'Nunca'}]})}${UI.fg('nh_hungerMoment','Momento de más hambre/antojo','text',n.hungerMoment||'',{placeholder:'Media mañana, noche...'})}</div>
-      `)}
-      ${UI.card('Hambre emocional',`
-        <div class="form-row">${UI.fg('nh_anxietyEating','¿Come por ansiedad/estrés?','select',n.anxietyEating||'',{options:[{value:'',label:'—'},{value:'si_freq',label:'Sí, frecuente'},{value:'si_aveces',label:'A veces'},{value:'rara',label:'Rara vez'},{value:'no',label:'No'}]})}${UI.fg('nh_guiltEating','¿Siente culpa al comer?','select',n.guiltEating||'',{options:[{value:'',label:'—'},{value:'si',label:'Sí'},{value:'aveces',label:'A veces'},{value:'no',label:'No'}]})}</div>
-        ${UI.fg('nh_emotionalEating','Patrón emocional','textarea',n.emotionalEating||'',{placeholder:'Describe patrón de alimentación emocional'})}
-        ${UI.fg('nh_stressLevel','Nivel de estrés (1-10)','select',n.stressLevel||'',{options:[{value:'',label:'—'},...[1,2,3,4,5,6,7,8,9,10].map(x=>({value:''+x,label:''+x}))]})}
-      `)}
-      ${UI.card('Sueño y ejercicio',`
-        <div class="form-row">${UI.fg('nh_sleepTime','Hora dormir','time',n.sleepTime||'')}${UI.fg('nh_wakeTime','Hora despertar','time',n.wakeTime||'')}</div>
-        <div class="form-row">${UI.fg('nh_exType','Tipo ejercicio','text',n.exType||'',{placeholder:'Gym, caminar, yoga...'})}${UI.fg('nh_exFreq','Frecuencia','select',n.exFreq||'',{options:[{value:'',label:'—'},{value:'sedentario',label:'Sedentario'},{value:'1-2',label:'1-2/sem'},{value:'3-4',label:'3-4/sem'},{value:'5+',label:'5+/sem'}]})}</div>
-        <div class="form-row">${UI.fg('nh_exIntensity','Intensidad','select',n.exIntensity||'',{options:[{value:'',label:'—'},{value:'baja',label:'Baja'},{value:'moderada',label:'Moderada'},{value:'alta',label:'Alta'}]})}${UI.fg('nh_exDuration','Duración','text',n.exDuration||'',{placeholder:'30 min, 1 hora...'})}</div>
-      `)}
-      ${UI.card('Historial y compromiso',`
-        ${UI.fg('nh_prevDiets','¿Ha seguido planes antes?','select',n.prevDiets||'',{options:[{value:'',label:'—'},{value:'si',label:'Sí'},{value:'no',label:'No'}]})}
-        ${UI.fg('nh_whyQuit','¿Por qué dejó el plan?','textarea',n.whyQuit||'')}
-        ${UI.fg('nh_hardSituations','Situaciones difíciles','textarea',n.hardSituations||'',{placeholder:'Fiestas, viajes, estrés...'})}
-        ${UI.fg('nh_goals3to6','Metas 3-6 meses','textarea',n.goals3to6||'')}
-        ${UI.fg('nh_commitment','Compromiso (1-10)','select',n.commitment||'',{options:[{value:'',label:'—'},...[1,2,3,4,5,6,7,8,9,10].map(x=>({value:''+x,label:''+x}))]})}
-      `)}
-      <button class="btn btn-primary btn-lg w-full" onclick="NutHist.save()">💾 Guardar historia nutricional</button>`;
+var NutHist = {
+  p: null,
+  render: function(params) {
+    var main = document.getElementById("main-content"); main.innerHTML = UI.spinner();
+    var self = this;
+    var pid = (params && params.patientId) || (App.activePatient ? App.activePatient.id : null);
+    if (!pid) return;
+    DB.get(pid).then(function(p) {
+      if (!p) return; self.p = p; App.setPatient(p);
+      var n = p.nutritionHistory || {};
+      var h = '<div class="flex items-center gap-3 mb-4"><button class="btn btn-outline btn-sm" onclick="Router.nav(\'patient-record\',{patientId:\' + p.id + \'})">← Expediente</button><h1 style="font-size:1.4rem">Historia Nutricional</h1></div>';
+      h += UI.ctxBar();
+      h += UI.infoBox("<strong>Solo tú</strong> puedes ver y editar esta sección. Se llena durante la teleconsulta.", "warn");
+      h += UI.card("Hábitos alimentarios", UI.fg("nh_recall", "Recordatorio narrativo (notas)", "textarea", n.recall || "", {placeholder:"Notas cualitativas del recordatorio"}) + UI.fg("nh_mealSchedule", "Horarios", "text", n.mealSchedule || "", {placeholder:"8am, 2pm, 8pm"}) + UI.fg("nh_weekendChanges", "Cambios fin de semana", "textarea", n.weekendChanges || "") + '<div class="form-row">' + UI.fg("nh_ultraprocessed", "Ultraprocesados", "select", n.ultraprocessed || "", {options:[{value:"",label:"—"},{value:"diario",label:"Diario"},{value:"3-5/sem",label:"3-5/sem"},{value:"1-2/sem",label:"1-2/sem"},{value:"rara",label:"Rara vez"},{value:"nunca",label:"Nunca"}]}) + UI.fg("nh_eatingOut", "Comer fuera", "select", n.eatingOut || "", {options:[{value:"",label:"—"},{value:"diario",label:"Diario"},{value:"3-5",label:"3-5/sem"},{value:"1-2",label:"1-2/sem"},{value:"rara",label:"Rara vez"}]}) + '</div>' + UI.fg("nh_hungerMoment", "Momento más hambre", "text", n.hungerMoment || "", {placeholder:"Media mañana, noche..."}));
+      h += UI.card("Hambre emocional", '<div class="form-row">' + UI.fg("nh_anxietyEating", "Come por ansiedad", "select", n.anxietyEating || "", {options:[{value:"",label:"—"},{value:"si_freq",label:"Sí frecuente"},{value:"si_aveces",label:"A veces"},{value:"no",label:"No"}]}) + UI.fg("nh_guiltEating", "Culpa al comer", "select", n.guiltEating || "", {options:[{value:"",label:"—"},{value:"si",label:"Sí"},{value:"aveces",label:"A veces"},{value:"no",label:"No"}]}) + '</div>' + UI.fg("nh_stressLevel", "Estrés (1-10)", "number", n.stressLevel || "", {placeholder:"1-10"}));
+      h += UI.card("Sueño y ejercicio", '<div class="form-row">' + UI.fg("nh_sleepTime", "Hora dormir", "time", n.sleepTime || "") + UI.fg("nh_wakeTime", "Hora despertar", "time", n.wakeTime || "") + '</div><div class="form-row">' + UI.fg("nh_exType", "Tipo ejercicio", "text", n.exType || "") + UI.fg("nh_exFreq", "Frecuencia", "select", n.exFreq || "", {options:[{value:"",label:"—"},{value:"sedentario",label:"Sedentario"},{value:"1-2",label:"1-2/sem"},{value:"3-4",label:"3-4/sem"},{value:"5+",label:"5+/sem"}]}) + '</div>');
+      h += UI.card("Historial", UI.fg("nh_prevDiets", "Planes previos", "select", n.prevDiets || "", {options:[{value:"",label:"—"},{value:"si",label:"Sí"},{value:"no",label:"No"}]}) + UI.fg("nh_whyQuit", "Por qué lo dejó", "textarea", n.whyQuit || "") + UI.fg("nh_goals3to6", "Metas 3-6 meses", "textarea", n.goals3to6 || "") + UI.fg("nh_commitment", "Compromiso (1-10)", "number", n.commitment || "", {placeholder:"1-10"}));
+      h += '<button class="btn btn-primary btn-lg w-full" onclick="NutHist.save()">💾 Guardar</button>';
+      main.innerHTML = h;
+    });
   },
-  async save(){const d={};document.querySelectorAll('.form-input,.form-textarea,.form-select').forEach(el=>{if(el.name?.startsWith('nh_'))d[el.name.replace('nh_','')]=el.value});if(await DB.save(this.p.id,{nutritionHistory:d}))UI.toast('Historia nutricional guardada ✓')}
-};
-
-// === 24H RECALL WITH QUANTIFICATION ===
-const Recall24={
-  p:null,
-  async render(params){const main=document.getElementById('main-content');main.innerHTML=UI.spinner();
-    this.p=await DB.get(params?.patientId||App.activePatient?.id);if(!this.p)return;App.setPatient(this.p);
-    const r=this.p.recall24||{};
-    main.innerHTML=`
-      <div class="flex items-center gap-3 mb-4"><button class="btn btn-outline btn-sm" onclick="Router.nav('patient-record',{patientId:'${this.p.id}'})">← Expediente</button><h1 style="font-size:1.4rem">Recordatorio de 24 Horas</h1></div>
-      ${UI.ctxBar()}
-      ${UI.infoBox('<strong>Registra lo que el paciente comió ayer.</strong> El sistema estimará calorías y macros para que puedas comparar con sus requerimientos y diseñar un plan basado en sus hábitos reales.','tip')}
-      ${['Desayuno','Snack AM','Comida','Snack PM','Cena'].map(t=>`
-        <div class="meal-time-card"><h4>${t}</h4>
-        ${UI.fg('r_'+t.replace(/ /g,''),'Alimentos consumidos','textarea',r[t.replace(/ /g,'')]||'',{placeholder:'Describe todo lo que comió en este tiempo de comida con cantidades aproximadas'})}
-        </div>`).join('')}
-      ${UI.fg('r_extras','Otros alimentos/bebidas fuera de horarios','textarea',r.extras||'',{placeholder:'Agua, café, refrescos, snacks, etc.'})}
-      <button class="btn btn-primary btn-lg w-full mt-4" onclick="Recall24.save()">💾 Guardar recordatorio</button>
-      <div class="card mt-6">
-        <div class="card-header"><div class="card-title">Estimación nutrimental del día</div><div class="card-subtitle">Basada en el recordatorio capturado</div></div>
-        ${UI.infoBox('La cuantificación automática es una <strong>estimación aproximada</strong>. Usa tu criterio profesional para ajustar.','warn')}
-        <div class="grid-4" style="gap:12px">
-          ${UI.stat('🔥','—','Kcal estimadas','green')}
-          ${UI.stat('🥩','—','Proteínas (g)','blue')}
-          ${UI.stat('🧈','—','Lípidos (g)','amber')}
-          ${UI.stat('🌾','—','HCO (g)','rose')}
-        </div>
-        <p class="text-xs text-muted mt-4">Tip: Compara estos valores con el GET calculado del paciente para identificar déficit o exceso.</p>
-        <button class="btn btn-secondary mt-4" onclick="Router.nav('calculators')">🧮 Ir a calculadora (con datos del paciente)</button>
-      </div>`;
-  },
-  async save(){const d={};document.querySelectorAll('[name^=r_]').forEach(el=>{if(el.name&&el.value)d[el.name.replace('r_','')]=el.value});if(await DB.save(this.p.id,{recall24:d}))UI.toast('Recordatorio guardado ✓')}
+  save: function() {
+    var d = {};
+    document.querySelectorAll(".form-input, .form-textarea, .form-select").forEach(function(el) {
+      if (el.name && el.name.indexOf("nh_") === 0) d[el.name.replace("nh_", "")] = el.value;
+    });
+    DB.save(this.p.id, { nutritionHistory: d }).then(function() { UI.toast("Historia nutricional guardada ✓"); });
+  }
 };
 
 // === EVOLUTION NOTES ===
-const EvoNotes={
-  p:null,notes:[],
-  async render(params){const main=document.getElementById('main-content');main.innerHTML=UI.spinner();
-    this.p=await DB.get(params?.patientId||App.activePatient?.id);if(!this.p)return;
-    this.notes=await DB.getSubs(this.p.id,'evolutionNotes');
-    main.innerHTML=`
-      <div class="flex items-center gap-3 mb-4"><button class="btn btn-outline btn-sm" onclick="Router.nav('patient-record',{patientId:'${this.p.id}'})">← Expediente</button><h1 style="font-size:1.4rem">Notas de Evolución</h1><button class="btn btn-primary" onclick="EvoNotes.newNote()">➕ Nueva nota</button></div>
-      ${UI.ctxBar()}
-      ${this.notes.length?this.notes.map(n=>`<div class="card"><div class="card-header"><div class="card-title">Consulta: ${UI.fmtDate(n.createdAt)}</div></div>
-        <div class="grid-2"><div><p><strong>Peso:</strong> ${n.weight||'—'} kg</p><p><strong>Cintura:</strong> ${n.waist||'—'} cm</p><p><strong>PA:</strong> ${n.bp||'—'}</p><p><strong>Glucosa:</strong> ${n.glucose||'—'} mg/dL</p></div>
-        <div><p><strong>Sentir con plan:</strong> ${n.planFeeling||'—'}</p><p><strong>Hambre/ansiedad:</strong> ${n.anxiety||'—'}</p><p><strong>Fin de semana:</strong> ${n.weekend||'—'}</p></div></div>
-        <p class="mt-4"><strong>Notas:</strong> ${n.notes||'—'}</p></div>`).join(''):'<div class="card">'+UI.empty('📝','Sin notas','Agrega tu primera nota de seguimiento.')+'</div>'}`;
+var EvoNotes = {
+  p: null, notes: [],
+  render: function(params) {
+    var main = document.getElementById("main-content"); main.innerHTML = UI.spinner();
+    var self = this;
+    var pid = (params && params.patientId) || (App.activePatient ? App.activePatient.id : null);
+    if (!pid) return;
+    DB.get(pid).then(function(p) {
+      if (!p) return; self.p = p;
+      DB.getSubs(p.id, "evolutionNotes").then(function(notes) {
+        self.notes = notes;
+        var h = '<div class="flex items-center gap-3 mb-4"><button class="btn btn-outline btn-sm" onclick="Router.nav(\'patient-record\',{patientId:\' + p.id + \'})">← Expediente</button><h1 style="font-size:1.4rem">Notas de Evolución</h1><button class="btn btn-primary" onclick="EvoNotes.newNote()">➕ Nueva nota</button></div>';
+        h += UI.ctxBar();
+        if (notes.length) {
+          notes.forEach(function(n) {
+            h += UI.card("Consulta: " + UI.fmtDate(n.createdAt), '<div class="grid-2"><div><p><strong>Peso:</strong> ' + (n.weight || "—") + ' kg</p><p><strong>Cintura:</strong> ' + (n.waist || "—") + ' cm</p><p><strong>PA:</strong> ' + (n.bp || "—") + '</p><p><strong>Glucosa:</strong> ' + (n.glucose || "—") + '</p></div><div><p><strong>Plan:</strong> ' + (n.planFeeling || "—") + '</p><p><strong>Ansiedad:</strong> ' + (n.anxiety || "—") + '</p><p><strong>Finde:</strong> ' + (n.weekend || "—") + '</p></div></div><p class="mt-4"><strong>Notas:</strong> ' + (n.notes || "—") + '</p>');
+          });
+        } else {
+          h += UI.card("", UI.empty("📝", "Sin notas", "Agrega tu primera nota."));
+        }
+        main.innerHTML = h;
+      });
+    });
   },
-  newNote(){UI.openModal(`<div class="modal-header"><h2>Nueva nota de evolución</h2><button class="btn-icon" onclick="UI.closeModal()">✕</button></div><div class="modal-body">
-    <div class="form-row">${UI.fg('ev_weight','Peso actual (kg)','number','',{step:'0.1'})}${UI.fg('ev_waist','Cintura (cm)','number','')}</div>
-    <div class="form-row">${UI.fg('ev_bp','Presión arterial','text','',{placeholder:'120/80'})}${UI.fg('ev_glucose','Glucosa (mg/dL)','number','')}</div>
-    ${UI.fg('ev_planFeeling','¿Cómo se sintió con su plan?','textarea','',{placeholder:'¿Lo siguió? ¿Le gustó? ¿Qué cambiaría?'})}
-    ${UI.fg('ev_anxiety','¿Sintió hambre o ansiedad? ¿Cuándo?','textarea','')}
-    ${UI.fg('ev_weekend','Alimentación fin de semana','textarea','')}
-    ${UI.fg('ev_important','Algo importante que contar','textarea','')}
-    ${UI.fg('ev_notes','Notas de la nutrióloga','textarea','')}
-    <button class="btn btn-primary w-full" onclick="EvoNotes.saveNote()">💾 Guardar</button></div>`)},
-  async saveNote(){const d={weight:document.querySelector('[name=ev_weight]')?.value,waist:document.querySelector('[name=ev_waist]')?.value,bp:document.querySelector('[name=ev_bp]')?.value,glucose:document.querySelector('[name=ev_glucose]')?.value,planFeeling:document.querySelector('[name=ev_planFeeling]')?.value,anxiety:document.querySelector('[name=ev_anxiety]')?.value,weekend:document.querySelector('[name=ev_weekend]')?.value,important:document.querySelector('[name=ev_important]')?.value,notes:document.querySelector('[name=ev_notes]')?.value};
-    if(await DB.addSub(this.p.id,'evolutionNotes',d)){UI.closeModal();UI.toast('Nota guardada ✓');this.render({patientId:this.p.id})}}
+  newNote: function() {
+    var h = '<div class="modal-header"><h2>Nueva nota de evolución</h2><button class="btn-icon" onclick="UI.closeModal()">✕</button></div>';
+    h += '<div class="modal-body">';
+    h += '<div class="form-row">' + UI.fg("ev_weight", "Peso (kg)", "number", "", {step:"0.1"}) + UI.fg("ev_waist", "Cintura (cm)", "number", "") + '</div>';
+    h += '<div class="form-row">' + UI.fg("ev_bp", "Presión arterial", "text", "", {placeholder:"120/80"}) + UI.fg("ev_glucose", "Glucosa mg/dL", "number", "") + '</div>';
+    h += UI.fg("ev_planFeeling", "Sentir con el plan", "textarea", "", {placeholder:"¿Siguió el plan? ¿Le gustó?"});
+    h += UI.fg("ev_anxiety", "Hambre o ansiedad", "textarea", "", {placeholder:"¿Cuándo?"});
+    h += UI.fg("ev_weekend", "Alimentación finde", "textarea", "");
+    h += UI.fg("ev_notes", "Notas nutrióloga", "textarea", "");
+    h += '<button class="btn btn-primary w-full" onclick="EvoNotes.saveNote()">💾 Guardar</button></div>';
+    UI.openModal(h);
+  },
+  saveNote: function() {
+    var d = {
+      weight: (document.querySelector("[name=ev_weight]") || {}).value || "",
+      waist: (document.querySelector("[name=ev_waist]") || {}).value || "",
+      bp: (document.querySelector("[name=ev_bp]") || {}).value || "",
+      glucose: (document.querySelector("[name=ev_glucose]") || {}).value || "",
+      planFeeling: (document.querySelector("[name=ev_planFeeling]") || {}).value || "",
+      anxiety: (document.querySelector("[name=ev_anxiety]") || {}).value || "",
+      weekend: (document.querySelector("[name=ev_weekend]") || {}).value || "",
+      notes: (document.querySelector("[name=ev_notes]") || {}).value || ""
+    };
+    var self = this;
+    DB.addSub(self.p.id, "evolutionNotes", d).then(function() { UI.closeModal(); UI.toast("Nota guardada ✓"); self.render({patientId: self.p.id}); });
+  }
 };
 
-// === EQUIVALENTS ===
-const Equiv={
-  render(){
-    return`<div class="mb-6"><h1>Sistema de Equivalentes SMAE</h1><p class="text-muted">Pérez Lizaur AB y cols. 4ª ed.</p></div>
-      <div class="mb-4"><div class="search-box"><span>🔍</span><input placeholder="Buscar alimento..." oninput="Equiv.search(this.value)"></div></div>
-      <div id="eq-sr" class="mb-4" style="display:none"></div>
-      <div class="grid-4 mb-6" style="gap:10px">${SMAE.groups.map(g=>`<div class="equiv-card" style="cursor:pointer" onclick="Equiv.toggle('${g.id}')"><div class="equiv-card-header" style="border-bottom:3px solid ${g.id==='verduras'?'#4CAF50':g.id==='frutas'?'#FF9800':g.id==='cereales'?'#FFC107':g.id==='aoa'?'#F44336':g.id==='leche'?'#2196F3':g.id==='leguminosas'?'#9C27B0':g.id==='grasas'?'#FF5722':'#E91E63'}"><h4 style="font-family:var(--font-b);font-weight:600;font-size:.85rem">${g.icon} ${g.name}</h4></div><div style="padding:10px 14px"><div class="equiv-macros"><div class="equiv-macro"><span>Kcal</span><strong>${g.e}</strong></div><div class="equiv-macro"><span>P</span><strong>${g.p}g</strong></div><div class="equiv-macro"><span>L</span><strong>${g.l}g</strong></div><div class="equiv-macro"><span>H</span><strong>${g.h}g</strong></div></div></div></div>`).join('')}</div>
-      <div id="eq-det"></div>`;
+// === EQUIVALENTS VIEW ===
+var Equiv = {
+  render: function() {
+    var h = '<div class="mb-6"><h1>Sistema de Equivalentes SMAE</h1><p class="text-muted">Pérez Lizaur AB 4ª ed.</p></div>';
+    h += '<div class="search-box mb-4"><span>🔍</span><input placeholder="Buscar alimento..." oninput="Equiv.search(this.value)"></div>';
+    h += '<div id="eq-sr" class="mb-4" style="display:none"></div>';
+    h += '<div class="grid-4 mb-6" style="gap:10px">';
+    SMAE_GROUPS.forEach(function(g) {
+      h += '<div class="equiv-card" style="cursor:pointer" onclick="Equiv.toggle(\' + g.id + \')">';
+      h += '<div class="equiv-card-header"><h4 style="font-family:var(--font-b);font-weight:600;font-size:.85rem">' + g.icon + ' ' + g.name + '</h4></div>';
+      h += '<div style="padding:10px 14px"><div class="equiv-macros"><div class="equiv-macro"><span>Kcal</span><strong>' + g.e + '</strong></div><div class="equiv-macro"><span>P</span><strong>' + g.p + 'g</strong></div><div class="equiv-macro"><span>L</span><strong>' + g.l + 'g</strong></div><div class="equiv-macro"><span>H</span><strong>' + g.h + 'g</strong></div></div></div></div>';
+    });
+    h += '</div><div id="eq-det"></div>';
+    return h;
   },
-  toggle(id){const el=document.getElementById('eq-det');const g=SMAE.groups.find(x=>x.id===id);if(!g||el.dataset.open===id){el.innerHTML='';el.dataset.open='';return}el.dataset.open=id;
-    el.innerHTML=`<div class="card">${g.subs.map(s=>`<h4 style="font-family:var(--font-b);font-weight:600;margin-bottom:8px">${s.name} — ${s.e||g.e}kcal | P:${s.p!==undefined?s.p:g.p}g L:${s.l!==undefined?s.l:g.l}g H:${s.h!==undefined?s.h:g.h}g</h4>
-      <div class="table-wrapper mb-4"><table class="data-table"><thead><tr><th>Alimento</th><th>1 equivalente</th></tr></thead><tbody>${s.foods.map(f=>{const[n,p]=f.split('|');return`<tr><td>${n}</td><td>${p}</td></tr>`}).join('')}</tbody></table></div>`).join('')}</div>`;el.scrollIntoView({behavior:'smooth'})},
-  search(q){const c=document.getElementById('eq-sr');if(!q||q.length<2){c.style.display='none';return}const r=searchFoods(q);c.style.display='block';
-    c.innerHTML=r.length?`<div class="card"><div class="table-wrapper"><table class="data-table"><thead><tr><th>Alimento</th><th>Grupo</th><th>Ración</th><th>Kcal</th><th>P</th><th>L</th><th>H</th></tr></thead><tbody>${r.map(x=>`<tr><td><strong>${x.name}</strong></td><td><span class="food-tag ${x.css}">${x.group}</span></td><td>${x.portion}</td><td>${x.e}</td><td>${x.p}g</td><td>${x.l}g</td><td>${x.h}g</td></tr>`).join('')}</tbody></table></div></div>`:`<div class="card"><p class="text-muted">Sin resultados para "${q}"</p></div>`}
+  toggle: function(id) {
+    var el = document.getElementById("eq-det");
+    if (el.dataset.open === id) { el.innerHTML = ""; el.dataset.open = ""; return; }
+    el.dataset.open = id;
+    var foods = SMAE_FOODS[id];
+    if (!foods) return;
+    var grp = SMAE_GROUPS.find(function(g) { return g.id === id; });
+    var h = '<div class="card"><div class="card-title" style="margin-bottom:12px">' + grp.icon + ' ' + grp.name + ' — ' + grp.e + 'kcal | P:' + grp.p + 'g L:' + grp.l + 'g H:' + grp.h + 'g</div>';
+    h += '<div class="table-wrapper"><table class="data-table"><thead><tr><th>Alimento</th><th>1 equivalente</th></tr></thead><tbody>';
+    foods.forEach(function(f) { var parts = f.split("|"); h += '<tr><td>' + parts[0] + '</td><td>' + parts[1] + '</td></tr>'; });
+    h += '</tbody></table></div></div>';
+    el.innerHTML = h;
+    el.scrollIntoView({ behavior: "smooth" });
+  },
+  search: function(q) {
+    var c = document.getElementById("eq-sr");
+    if (!q || q.length < 2) { c.style.display = "none"; return; }
+    var r = searchFoods(q); c.style.display = "block";
+    if (!r.length) { c.innerHTML = '<div class="card"><p class="text-muted">Sin resultados</p></div>'; return; }
+    var h = '<div class="card"><div class="table-wrapper"><table class="data-table"><thead><tr><th>Alimento</th><th>Grupo</th><th>Ración</th><th>Kcal</th><th>P</th><th>L</th><th>H</th></tr></thead><tbody>';
+    r.forEach(function(x) { h += '<tr><td><strong>' + x.name + '</strong></td><td>' + x.group + '</td><td>' + x.portion + '</td><td>' + x.e + '</td><td>' + x.p + 'g</td><td>' + x.l + 'g</td><td>' + x.h + 'g</td></tr>'; });
+    h += '</tbody></table></div></div>';
+    c.innerHTML = h;
+  }
 };
 
-// === CALCULATORS (Auto-populated from active patient) ===
-const Calc={
-  render(){
-    const p=App.activePatient||{};
-    const w=p.currentWeight||'',h=p.height||'',age=p.birthdate?Math.floor((Date.now()-new Date(p.birthdate))/(365.25*24*60*60*1000)):'',sex=p.sex||'F';
-    let html='<div class="mb-6"><h1>Calculadora Nutricional</h1><p class="text-muted">Datos pre-cargados del paciente activo</p></div>';
-    if(p.name)html+=UI.ctxBar();
-    // Energy card
-    html+='<div class="grid-2">';
-    html+='<div class="card"><div class="card-header"><div><div class="card-title">Requerimiento Energético</div><div class="card-subtitle">Mifflin-St Jeor / Harris-Benedict</div></div></div>';
-    html+='<div class="form-row">'+UI.fg('cw','Peso (kg)','number',w,{step:'0.1'})+UI.fg('ch','Talla (cm)','number',h)+'</div>';
-    html+='<div class="form-row">'+UI.fg('cage','Edad','number',age)+UI.fg('csex','Sexo','select',sex,{options:[{value:'F',label:'Femenino'},{value:'M',label:'Masculino'}]})+'</div>';
-    html+=UI.fg('caf','Factor actividad','select','1.2',{options:[{value:'1.2',label:'Sedentario (1.2)'},{value:'1.375',label:'Ligera (1.375)'},{value:'1.55',label:'Moderada (1.55)'},{value:'1.725',label:'Intensa (1.725)'},{value:'1.9',label:'Muy intensa (1.9)'}]});
-    html+=UI.fg('cadj','Ajuste kcal (+ o -)','number','',{placeholder:'-500 o +300'});
-    html+='<button class="btn btn-primary w-full" onclick="Calc.energy()">🧮 Calcular</button><div id="eres" class="mt-4"></div></div>';
-    // Macros card
-    html+='<div class="card"><div class="card-header"><div><div class="card-title">Distribución de Macros</div></div></div>';
-    html+='<div class="form-row">'+UI.fg('mkcal','Kcal totales','number','',{placeholder:'Del GET'})+UI.fg('mw','Peso (kg)','number',w)+'</div>';
-    html+='<div class="form-row-3">'+UI.fg('mprot','Prot g/kg','number','1.2',{step:'0.1'})+UI.fg('mfat','% Lípidos','number','30')+UI.fg('mcho','% HCO','number','',{placeholder:'Auto'})+'</div>';
-    html+='<button class="btn btn-primary w-full" onclick="Calc.macros()">📊 Calcular</button><div id="mres" class="mt-4"></div></div>';
-    html+='</div>'; // close grid-2
+// === CALCULATOR WITH % ADEQUACY ===
+var Calc = {
+  render: function() {
+    var p = App.activePatient || {};
+    var w = p.currentWeight || "", ht = p.height || "";
+    var age = p.birthdate ? Math.floor((Date.now() - new Date(p.birthdate)) / (365.25*24*60*60*1000)) : "";
+    var sex = p.sex || "F";
+    var h = '<div class="mb-6"><h1>Calculadora Nutricional</h1><p class="text-muted">Datos pre-cargados del paciente activo</p></div>';
+    if (p.name) h += UI.ctxBar();
+    // Energy
+    h += '<div class="grid-2">';
+    h += UI.card("Requerimiento Energético", '<div class="form-row">' + UI.fg("cw", "Peso (kg)", "number", w, {step:"0.1"}) + UI.fg("ch", "Talla (cm)", "number", ht) + '</div><div class="form-row">' + UI.fg("cage", "Edad", "number", age) + UI.fg("csex", "Sexo", "select", sex, {options:[{value:"F",label:"Femenino"},{value:"M",label:"Masculino"}]}) + '</div>' + UI.fg("caf", "Factor actividad", "select", "1.2", {options:[{value:"1.2",label:"Sedentario"},{value:"1.375",label:"Ligera"},{value:"1.55",label:"Moderada"},{value:"1.725",label:"Intensa"},{value:"1.9",label:"Muy intensa"}]}) + UI.fg("cadj", "Ajuste kcal", "number", "", {placeholder:"-500 o +300"}) + '<button class="btn btn-primary w-full" onclick="Calc.energy()">🧮 Calcular</button><div id="eres" class="mt-4"></div>', "Mifflin-St Jeor");
+    // Macros
+    h += UI.card("Distribución Macros", '<div class="form-row">' + UI.fg("mkcal", "Kcal objetivo", "number", "", {placeholder:"Del GET"}) + UI.fg("mw", "Peso (kg)", "number", w) + '</div><div class="form-row-3">' + UI.fg("mprot", "Prot g/kg", "number", "1.2", {step:"0.1"}) + UI.fg("mfat", "% Lípidos", "number", "30") + UI.fg("mcho", "% HCO", "number", "", {placeholder:"Auto"}) + '</div><button class="btn btn-primary w-full" onclick="Calc.macros()">📊 Calcular</button><div id="mres" class="mt-4"></div>');
+    h += '</div>';
     // IMC + Water
-    html+='<div class="grid-2 mt-4">';
-    html+='<div class="card"><div class="card-header"><div><div class="card-title">IMC + Peso saludable</div></div></div>';
-    html+='<div class="form-row">'+UI.fg('iw','Peso','number',w)+UI.fg('ih','Talla','number',h)+'</div>';
-    html+='<button class="btn btn-secondary w-full" onclick="Calc.imc()">Calcular</button><div id="ires" class="mt-4"></div></div>';
-    html+='<div class="card"><div class="card-header"><div><div class="card-title">Req. Hídrico</div><div class="card-subtitle">30-35 ml/kg</div></div></div>';
-    html+=UI.fg('hw','Peso','number',w);
-    html+='<button class="btn btn-secondary w-full" onclick="Calc.water()">Calcular</button><div id="wres" class="mt-4"></div></div>';
-    html+='</div>';
-    // Equivalents
-    html+='<div class="mt-4"><div class="card"><div class="card-header"><div><div class="card-title">Distribución de Equivalentes</div><div class="card-subtitle">SMAE — Editable con macros</div></div></div>';
-    html+='<div class="info-box info">Calcula equivalentes SMAE según kcal. Puedes <strong>editar manualmente</strong> cada grupo. Se muestran gramos de macros por grupo.</div>';
-    html+='<div class="form-row"><div class="form-group"><label class="form-label">Kcal del plan</label><input class="form-input" type="number" name="eqkcal" placeholder="Usa el GET calculado"></div>';
-    html+='<button class="btn btn-primary" style="align-self:end;margin-bottom:18px" onclick="Calc.equiv()">Calcular</button></div>';
-    html+='<div id="eqres"></div></div></div>';
-    return html;
+    h += '<div class="grid-2 mt-4">';
+    h += UI.card("IMC + Peso saludable", '<div class="form-row">' + UI.fg("iw", "Peso", "number", w) + UI.fg("ih", "Talla", "number", ht) + '</div><button class="btn btn-secondary w-full" onclick="Calc.imc()">Calcular</button><div id="ires" class="mt-4"></div>');
+    h += UI.card("Req. Hídrico", UI.fg("hw", "Peso", "number", w) + '<button class="btn btn-secondary w-full" onclick="Calc.water()">Calcular</button><div id="wres" class="mt-4"></div>', "30-35 ml/kg");
+    h += '</div>';
+    // Equivalents distribution with editable macros and % adequacy
+    h += '<div class="mt-4">';
+    h += UI.card("Distribución de Equivalentes", UI.infoBox("Edita equivalentes. Se muestran macros por grupo y <strong>% de adecuación</strong> vs tus objetivos.", "info") + '<div class="form-row">' + UI.fg("eqkcal", "Kcal objetivo", "number", "") + UI.fg("eqprot", "Prot objetivo (g)", "number", "") + '</div><div class="form-row">' + UI.fg("eqlip", "Líp objetivo (g)", "number", "") + UI.fg("eqhco", "HCO objetivo (g)", "number", "") + '</div><button class="btn btn-primary" onclick="Calc.equiv()">Calcular distribución</button><div id="eqres" class="mt-4"></div>' + (p.id ? '<button class="btn btn-secondary mt-4 w-full" onclick="Calc.saveCalc()">💾 Guardar calculadora para este paciente</button>' : ''), "SMAE con % adecuación");
+    h += '</div>';
+    return h;
   },
-  energy(){
-    const w=+document.querySelector('[name=cw]').value,h=+document.querySelector('[name=ch]').value,age=+document.querySelector('[name=cage]').value,sex=document.querySelector('[name=csex]').value,af=+document.querySelector('[name=caf]').value,adj=+document.querySelector('[name=cadj]').value||0;
-    if(!w||!h||!age){UI.toast('Completa campos','warning');return}
-    const miff=sex==='M'?10*w+6.25*h-5*age+5:10*w+6.25*h-5*age-161;
-    const hb=sex==='M'?88.362+13.397*w+4.799*h-5.677*age:447.593+9.247*w+3.098*h-4.330*age;
-    document.getElementById('eres').innerHTML=`<div class="grid-2" style="gap:10px">
-      ${UI.stat('🔥',Math.round(miff),'TMB Mifflin','green')}${UI.stat('⚡',Math.round(miff*af+adj),'GET ajustado','amber')}
-    </div><p class="text-xs text-muted mt-2">HB: TMB=${Math.round(hb)}, GET=${Math.round(hb*af+adj)} · AF=${af} · Ajuste=${adj>0?'+':''}${adj}</p>`;
-    document.querySelector('[name=mkcal]').value=Math.round(miff*af+adj);
-    document.querySelector('[name=eqkcal]').value=Math.round(miff*af+adj);
+  energy: function() {
+    var w = +document.querySelector("[name=cw]").value, ht = +document.querySelector("[name=ch]").value, age = +document.querySelector("[name=cage]").value;
+    var sex = document.querySelector("[name=csex]").value, af = +document.querySelector("[name=caf]").value, adj = +document.querySelector("[name=cadj]").value || 0;
+    if (!w || !ht || !age) { UI.toast("Completa campos", "warning"); return; }
+    var miff = sex === "M" ? 10*w + 6.25*ht - 5*age + 5 : 10*w + 6.25*ht - 5*age - 161;
+    var get = Math.round(miff * af + adj);
+    document.getElementById("eres").innerHTML = '<div class="grid-2" style="gap:10px">' + UI.stat("🔥", Math.round(miff), "TMB", "green") + UI.stat("⚡", get, "GET ajustado", "amber") + '</div>';
+    // Auto-fill other fields
+    var mkcal = document.querySelector("[name=mkcal]"); if (mkcal) mkcal.value = get;
+    var eqkcal = document.querySelector("[name=eqkcal]"); if (eqkcal) eqkcal.value = get;
   },
-  macros(){
-    const kcal=+document.querySelector('[name=mkcal]').value,pk=+document.querySelector('[name=mprot]').value,w=+document.querySelector('[name=mw]').value,fp=+document.querySelector('[name=mfat]').value,chM=document.querySelector('[name=mcho]').value;
-    if(!kcal||!pk||!w){UI.toast('Completa','warning');return}
-    const pG=pk*w,pK=pG*4,fK=kcal*(fp/100),fG=fK/9;let hK,hP;
-    if(chM){hP=+chM;hK=kcal*(hP/100)}else{hK=kcal-pK-fK;hP=(hK/kcal*100).toFixed(0)}const hG=hK/4;
-    document.getElementById('mres').innerHTML=`<div class="grid-3" style="gap:10px">
-      <div style="text-align:center;padding:14px;background:#E8F5E9;border-radius:var(--r-md)"><div style="font-weight:700;font-size:1.3rem;color:#2E7D32">${Math.round(pG)}g</div><div class="text-xs text-muted">Prot (${(pK/kcal*100).toFixed(0)}%)</div></div>
-      <div style="text-align:center;padding:14px;background:#FFF8E1;border-radius:var(--r-md)"><div style="font-weight:700;font-size:1.3rem;color:#F57F17">${Math.round(fG)}g</div><div class="text-xs text-muted">Líp (${fp}%)</div></div>
-      <div style="text-align:center;padding:14px;background:#E3F2FD;border-radius:var(--r-md)"><div style="font-weight:700;font-size:1.3rem;color:#1565C0">${Math.round(hG)}g</div><div class="text-xs text-muted">HCO (${hP}%)</div></div>
-    </div>`;
+  macros: function() {
+    var kcal = +document.querySelector("[name=mkcal]").value, pk = +document.querySelector("[name=mprot]").value, w = +document.querySelector("[name=mw]").value, fp = +document.querySelector("[name=mfat]").value;
+    var chM = document.querySelector("[name=mcho]").value;
+    if (!kcal || !pk || !w) { UI.toast("Completa", "warning"); return; }
+    var pG = pk * w, pK = pG * 4, fK = kcal * (fp / 100), fG = fK / 9;
+    var hK, hP;
+    if (chM) { hP = +chM; hK = kcal * (hP / 100); } else { hK = kcal - pK - fK; hP = (hK / kcal * 100).toFixed(0); }
+    var hG = hK / 4;
+    document.getElementById("mres").innerHTML = '<div class="grid-3" style="gap:10px"><div style="text-align:center;padding:14px;background:#E8F5E9;border-radius:10px"><div style="font-weight:700;font-size:1.3rem;color:#2E7D32">' + Math.round(pG) + 'g</div><div class="text-xs text-muted">Prot (' + (pK/kcal*100).toFixed(0) + '%)</div></div><div style="text-align:center;padding:14px;background:#FFF8E1;border-radius:10px"><div style="font-weight:700;font-size:1.3rem;color:#F57F17">' + Math.round(fG) + 'g</div><div class="text-xs text-muted">Líp (' + fp + '%)</div></div><div style="text-align:center;padding:14px;background:#E3F2FD;border-radius:10px"><div style="font-weight:700;font-size:1.3rem;color:#1565C0">' + Math.round(hG) + 'g</div><div class="text-xs text-muted">HCO (' + hP + '%)</div></div></div>';
+    // Auto-fill equivalents objectives
+    var ep = document.querySelector("[name=eqprot]"); if (ep) ep.value = Math.round(pG);
+    var el = document.querySelector("[name=eqlip]"); if (el) el.value = Math.round(fG);
+    var eh = document.querySelector("[name=eqhco]"); if (eh) eh.value = Math.round(hG);
   },
-  imc(){
-    const w=+document.querySelector('[name=iw]').value,h=+document.querySelector('[name=ih]').value;if(!w||!h)return;
-    const hm=h/100,imc=(w/(hm*hm)).toFixed(1),mn=(18.5*hm*hm).toFixed(1),mx=(24.9*hm*hm).toFixed(1);
-    let cls='Normal',c='green';if(imc<18.5){cls='Bajo peso';c='blue'}else if(imc>=25&&imc<30){cls='Sobrepeso';c='amber'}else if(imc>=30){cls='Obesidad';c='red'}
-    document.getElementById('ires').innerHTML=`<div class="grid-3" style="gap:10px">${UI.stat('📊',imc,cls+' '+UI.badge(cls,c),'green')}${UI.stat('⬇️',mn+'kg','Peso mín','blue')}${UI.stat('⬆️',mx+'kg','Peso máx','amber')}</div><p class="text-sm text-muted mt-2">Rango saludable: ${mn}–${mx} kg</p>`;
+  imc: function() {
+    var w = +document.querySelector("[name=iw]").value, ht = +document.querySelector("[name=ih]").value;
+    if (!w || !ht) return;
+    var hm = ht / 100, imc = (w / (hm * hm)).toFixed(1), mn = (18.5 * hm * hm).toFixed(1), mx = (24.9 * hm * hm).toFixed(1);
+    var cls = "Normal", c = "green";
+    if (imc < 18.5) { cls = "Bajo peso"; c = "blue"; } else if (imc >= 25 && imc < 30) { cls = "Sobrepeso"; c = "amber"; } else if (imc >= 30) { cls = "Obesidad"; c = "red"; }
+    document.getElementById("ires").innerHTML = '<div class="grid-3" style="gap:10px">' + UI.stat("📊", imc, cls, c) + UI.stat("⬇️", mn + "kg", "Peso mín", "blue") + UI.stat("⬆️", mx + "kg", "Peso máx", "amber") + '</div>';
   },
-  water(){const w=+document.querySelector('[name=hw]').value;if(!w)return;document.getElementById('wres').innerHTML=UI.stat('💧',Math.round(w*30)+'–'+Math.round(w*35)+'ml',(w*30/250).toFixed(1)+'–'+(w*35/250).toFixed(1)+' vasos','blue')},
-  equiv(){
-    const kcal=+document.querySelector('[name=eqkcal]').value;if(!kcal)return;
-    const base={verduras:3,frutas:2.5,cer_sg:4,cer_cg:0,legum:1,aoa_mb:1.5,aoa_b:1.5,leche_d:1,grasas:3,azucares:0};
-    const info=[{k:'verduras',n:'🥬 Verduras',e:25,p:2,l:0,h:4},{k:'frutas',n:'🍎 Frutas',e:60,p:0,l:0,h:15},{k:'cer_sg',n:'🌾 Cereales s/g',e:70,p:2,l:0,h:15},{k:'cer_cg',n:'🌾 Cereales c/g',e:115,p:2,l:5,h:15},{k:'legum',n:'🫘 Leguminosas',e:120,p:8,l:1,h:20},{k:'aoa_mb',n:'🥩 AOA muy bajo',e:40,p:7,l:1,h:0},{k:'aoa_b',n:'🥩 AOA bajo',e:55,p:7,l:3,h:0},{k:'leche_d',n:'🥛 Leche desc.',e:95,p:9,l:2,h:12},{k:'grasas',n:'🥑 Grasas',e:45,p:0,l:5,h:0},{k:'azucares',n:'🍬 Azúcares',e:40,p:0,l:0,h:10}];
-    const f=kcal/1500;const dist={};info.forEach(i=>{dist[i.k]=Math.max(0,Math.round((base[i.k]||0)*f))});
-    let tot=info.reduce((s,i)=>s+dist[i.k]*i.e,0);const diff=kcal-tot;if(Math.abs(diff)>10){dist.cer_sg=Math.max(0,dist.cer_sg+Math.round(diff/70));tot=info.reduce((s,i)=>s+dist[i.k]*i.e,0)}
-    document.getElementById('eqres').innerHTML=`
-      <div class="table-wrapper"><table class="data-table"><thead><tr><th>Grupo</th><th>Equiv.</th><th>Kcal/eq</th><th>Prot(g)</th><th>Líp(g)</th><th>HCO(g)</th><th>Subtotal</th></tr></thead>
-      <tbody>${info.map(i=>{const n=dist[i.k]||0;return`<tr><td>${i.n}</td><td><input type="number" value="${n}" min="0" onchange="Calc.updateEqRow(this)" data-key="${i.k}" data-e="${i.e}" data-p="${i.p}" data-l="${i.l}" data-h="${i.h}"></td><td>${i.e}</td><td>${(n*i.p).toFixed(0)}</td><td>${(n*i.l).toFixed(0)}</td><td>${(n*i.h).toFixed(0)}</td><td>${n*i.e} kcal</td></tr>`}).join('')}
-      </tbody><tfoot><tr style="font-weight:700;background:var(--sage-50)"><td>TOTAL</td><td id="eq-tot-n"></td><td></td><td id="eq-tot-p"></td><td id="eq-tot-l"></td><td id="eq-tot-h"></td><td id="eq-tot-kcal">${tot} kcal</td></tr></tfoot></table></div>
-      <p class="text-sm text-muted mt-2">Variación: ${((tot-kcal)/kcal*100).toFixed(1)}% ${Math.abs((tot-kcal)/kcal*100)<=10?'✓':'⚠'}</p>`;
-    Calc.updateTotals();
+  water: function() {
+    var w = +document.querySelector("[name=hw]").value; if (!w) return;
+    document.getElementById("wres").innerHTML = UI.stat("💧", Math.round(w*30) + "–" + Math.round(w*35) + "ml", (w*30/250).toFixed(1) + "–" + (w*35/250).toFixed(1) + " vasos", "blue");
   },
-  updateEqRow(el){Calc.updateTotals()},
-  updateTotals(){
-    let tP=0,tL=0,tH=0,tK=0,tN=0;
-    document.querySelectorAll('#eqres input[type=number]').forEach(inp=>{const n=+inp.value,p=+inp.dataset.p,l=+inp.dataset.l,h=+inp.dataset.h,e=+inp.dataset.e;tP+=n*p;tL+=n*l;tH+=n*h;tK+=n*e;tN+=n;
-      const row=inp.closest('tr');row.cells[3].textContent=(n*p).toFixed(0);row.cells[4].textContent=(n*l).toFixed(0);row.cells[5].textContent=(n*h).toFixed(0);row.cells[6].textContent=n*e+' kcal'});
-    const tp=document.getElementById('eq-tot-p'),tl=document.getElementById('eq-tot-l'),th=document.getElementById('eq-tot-h'),tk=document.getElementById('eq-tot-kcal'),tn=document.getElementById('eq-tot-n');
-    if(tp)tp.textContent=tP.toFixed(0)+'g';if(tl)tl.textContent=tL.toFixed(0)+'g';if(th)th.textContent=tH.toFixed(0)+'g';if(tk)tk.textContent=tK+' kcal';if(tn)tn.textContent=tN;
+  equiv: function() {
+    var kcal = +document.querySelector("[name=eqkcal]").value;
+    var objP = +document.querySelector("[name=eqprot]").value || 0;
+    var objL = +document.querySelector("[name=eqlip]").value || 0;
+    var objH = +document.querySelector("[name=eqhco]").value || 0;
+    if (!kcal) return;
+    var base = {verduras:3,frutas:2.5,cer_sg:4,cer_cg:0,legum:1,aoa_mb:1.5,aoa_b:1.5,aoa_mod:0,aoa_alto:0,leche_d:1,leche_e:0,grasas_sp:1,grasas_cp:2,azucar_sg:0,azucar_cg:0};
+    var f = kcal / 1500;
+    var dist = {};
+    SMAE_GROUPS.forEach(function(g) { dist[g.id] = Math.max(0, Math.round((base[g.id] || 0) * f)); });
+    // Adjust to target
+    var totKcal = 0; SMAE_GROUPS.forEach(function(g) { totKcal += dist[g.id] * g.e; });
+    var diff = kcal - totKcal;
+    if (Math.abs(diff) > 10) { dist.cer_sg = Math.max(0, dist.cer_sg + Math.round(diff / 70)); }
+    // Build table
+    var h = '<div class="table-wrapper"><table class="data-table"><thead><tr><th>Grupo</th><th style="width:70px">Equiv.</th><th>Kcal</th><th>P(g)</th><th>L(g)</th><th>H(g)</th><th>Subtotal</th></tr></thead><tbody>';
+    var tE = 0, tP = 0, tL = 0, tH = 0;
+    SMAE_GROUPS.forEach(function(g) {
+      var n = dist[g.id] || 0;
+      tE += n * g.e; tP += n * g.p; tL += n * g.l; tH += n * g.h;
+      h += '<tr><td>' + g.icon + ' ' + g.name + '</td><td><input type="number" value="' + n + '" min="0" onchange="Calc.updateEq()" data-gid="' + g.id + '" data-e="' + g.e + '" data-p="' + g.p + '" data-l="' + g.l + '" data-h="' + g.h + '"></td><td>' + (n*g.e) + '</td><td>' + (n*g.p).toFixed(0) + '</td><td>' + (n*g.l).toFixed(0) + '</td><td>' + (n*g.h).toFixed(0) + '</td><td>' + (n*g.e) + ' kcal</td></tr>';
+    });
+    h += '<tr style="font-weight:700;background:var(--sage-50)"><td>TOTAL</td><td id="eq-tn"></td><td id="eq-te">' + tE + '</td><td id="eq-tp">' + tP.toFixed(0) + '</td><td id="eq-tl">' + tL.toFixed(0) + '</td><td id="eq-th">' + tH.toFixed(0) + '</td><td id="eq-tk">' + tE + ' kcal</td></tr>';
+    h += '</tbody></table></div>';
+    // % Adequacy
+    var adecE = kcal ? (tE / kcal * 100).toFixed(1) : "—";
+    var adecP = objP ? (tP / objP * 100).toFixed(1) : "—";
+    var adecL = objL ? (tL / objL * 100).toFixed(1) : "—";
+    var adecH = objH ? (tH / objH * 100).toFixed(1) : "—";
+    h += '<div class="grid-4 mt-4" style="gap:10px">';
+    h += UI.stat("🔥", adecE + "%", "Adec. Kcal (" + tE + "/" + kcal + ")", parseFloat(adecE) >= 90 && parseFloat(adecE) <= 110 ? "green" : "amber");
+    h += UI.stat("🥩", adecP + "%", "Adec. Prot (" + tP.toFixed(0) + "/" + objP + "g)", parseFloat(adecP) >= 90 && parseFloat(adecP) <= 110 ? "green" : "amber");
+    h += UI.stat("🧈", adecL + "%", "Adec. Líp (" + tL.toFixed(0) + "/" + objL + "g)", parseFloat(adecL) >= 90 && parseFloat(adecL) <= 110 ? "green" : "amber");
+    h += UI.stat("🌾", adecH + "%", "Adec. HCO (" + tH.toFixed(0) + "/" + objH + "g)", parseFloat(adecH) >= 90 && parseFloat(adecH) <= 110 ? "green" : "amber");
+    h += '</div>';
+    document.getElementById("eqres").innerHTML = h;
+  },
+  updateEq: function() {
+    var tE=0,tP=0,tL=0,tH=0;
+    document.querySelectorAll("#eqres input[type=number]").forEach(function(inp) {
+      var n = +inp.value, e = +inp.dataset.e, p = +inp.dataset.p, l = +inp.dataset.l, hh = +inp.dataset.h;
+      tE += n*e; tP += n*p; tL += n*l; tH += n*hh;
+      var row = inp.closest("tr"); if (row) { row.cells[2].textContent = (n*e); row.cells[3].textContent = (n*p).toFixed(0); row.cells[4].textContent = (n*l).toFixed(0); row.cells[5].textContent = (n*hh).toFixed(0); row.cells[6].textContent = (n*e) + " kcal"; }
+    });
+    var te = document.getElementById("eq-te"); if (te) te.textContent = tE;
+    var tp = document.getElementById("eq-tp"); if (tp) tp.textContent = tP.toFixed(0);
+    var tl = document.getElementById("eq-tl"); if (tl) tl.textContent = tL.toFixed(0);
+    var th = document.getElementById("eq-th"); if (th) th.textContent = tH.toFixed(0);
+    var tk = document.getElementById("eq-tk"); if (tk) tk.textContent = tE + " kcal";
+  },
+  saveCalc: function() {
+    var p = App.activePatient;
+    if (!p) { UI.toast("No hay paciente activo", "warning"); return; }
+    var calcData = {};
+    document.querySelectorAll(".form-input, .form-select").forEach(function(el) { if (el.name) calcData[el.name] = el.value; });
+    // Save equivalents distribution
+    var eqDist = {};
+    document.querySelectorAll("#eqres input[type=number]").forEach(function(inp) { if (inp.dataset.gid) eqDist[inp.dataset.gid] = +inp.value; });
+    calcData.eqDistribution = eqDist;
+    DB.save(p.id, { savedCalculator: calcData }).then(function() { UI.toast("Calculadora guardada para " + (p.name || p.email) + " ✓"); });
   }
 };
 
-// === MEAL PLANS ===
-const MealPlan={
-  p:null,
-  async render(params){
-    if(params?.patientId){this.p=await DB.get(params.patientId);App.setPatient(this.p)}else{this.p=App.activePatient}
-    const main=document.getElementById('main-content');
-    const meals=['Desayuno','Snack AM','Comida','Snack PM','Cena'];
-    const days=['Lunes','Martes','Miércoles','Jueves','Viernes'];
-    main.innerHTML=`<div class="flex items-center gap-3 mb-4" style="flex-wrap:wrap"><div style="flex:1"><h1>Plan de Alimentación</h1><p class="text-muted">Crea, edita y asigna planes</p></div>
-      ${this.p?`<button class="btn btn-primary" onclick="MealPlan.assign()">📤 Enviar a ${this.p.name||'paciente'}</button>`:''}<button class="btn btn-secondary" onclick="Router.nav('calculators')">🧮 Calculadora</button><button class="btn btn-outline" onclick="Router.nav('equivalents')">🥑 Equivalentes</button></div>
-      ${this.p?UI.ctxBar():''}
-      ${UI.infoBox('<strong>Tip:</strong> Revisa el recordatorio de 24 horas del paciente para basarte en lo que ya come. Así mejorarás la adherencia.','tip')}
-      ${days.map(day=>`<h3 class="mt-4 mb-2">${day}</h3>${meals.map(m=>`<div class="meal-time-card"><h4>${m}</h4><textarea class="form-textarea" name="mp_${day}_${m.replace(/ /g,'')}" placeholder="Alimentos y cantidades para ${m.toLowerCase()}..." style="min-height:45px"></textarea></div>`).join('')}`).join('')}
-      <div class="card mt-4">
-        <div class="card-header"><div class="card-title">💡 Recomendaciones generales</div></div>
-        ${UI.fg('mp_recs','','textarea','',{placeholder:'Recomendaciones para el paciente: hidratación, horarios, tips...'})}
-      </div>
-      <div class="flex gap-3 mt-4">
-        <button class="btn btn-primary btn-lg" style="flex:1" onclick="MealPlan.save()">💾 Guardar plan</button>
-        ${this.p?`<button class="btn btn-secondary btn-lg" onclick="MealPlan.assign()">📤 Enviar al paciente</button>`:''}
-        ${this.p?`<button class="btn btn-outline btn-lg" onclick="Router.nav('grocery',{patientId:'${this.p?.id}'})">🛒 Lista del súper</button>`:''}
-      </div>`;
+
+// === MEAL PLANS WITH PERSISTENCE ===
+var MealPlan = {
+  p: null, planData: {},
+  render: function(params) {
+    var main = document.getElementById("main-content"); main.innerHTML = UI.spinner();
+    var self = this;
+    var pid = (params && params.patientId) || (App.activePatient ? App.activePatient.id : null);
+    if (pid) {
+      DB.get(pid).then(function(p) {
+        self.p = p; App.setPatient(p);
+        self.planData = p.mealPlanDraft || {};
+        self.showEditor();
+      });
+    } else { self.showEditor(); }
   },
-  async save(){UI.toast('Plan guardado ✓','success')},
-  async assign(){
-    if(!this.p){UI.toast('Selecciona un paciente','warning');return}
-    let planText='PLAN DE ALIMENTACIÓN — Healthy Josa 🌿\n';
-    planText+=`Paciente: ${this.p.name||this.p.email}\nFecha: ${UI.todayStr()}\n\n`;
-    document.querySelectorAll('[name^=mp_]').forEach(el=>{if(el.value){const parts=el.name.replace('mp_','').split('_');planText+=`${parts[0]} — ${parts[1]}: ${el.value}\n`}});
-    const recs=document.querySelector('[name=mp_recs]')?.value;if(recs)planText+=`\nRecomendaciones:\n${recs}`;
-    if(await DB.save(this.p.id,{assignedPlan:planText,planDate:UI.todayISO()}))UI.toast('Plan enviado al paciente ✓')
+  showEditor: function() {
+    var main = document.getElementById("main-content");
+    var meals = ["Desayuno", "Snack AM", "Comida", "Snack PM", "Cena"];
+    var days = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"];
+    var p = this.p, pd = this.planData;
+    var h = '<div class="flex items-center gap-3 mb-4" style="flex-wrap:wrap"><div style="flex:1"><h1>Plan de Alimentación</h1><p class="text-muted">Crea, edita y asigna planes</p></div>';
+    if (p) {
+      h += '<button class="btn btn-primary" onclick="MealPlan.sendToPatient()">📤 Enviar a ' + (p.name || "paciente") + '</button>';
+      h += '<button class="btn btn-outline" onclick="Router.nav(\'grocery\',{patientId:\' + p.id + \'})">🛒 Lista súper</button>';
+    }
+    h += '<button class="btn btn-secondary" onclick="Router.nav(\'calculators\')">🧮 Calculadora</button></div>';
+    if (p) h += UI.ctxBar();
+    h += UI.infoBox("<strong>Tip:</strong> Revisa el recordatorio de 24h para basarte en lo que el paciente ya come.", "tip");
+    days.forEach(function(day) {
+      h += '<h3 class="mt-4 mb-2">' + day + '</h3>';
+      meals.forEach(function(m) {
+        var key = day + "_" + m.replace(/ /g, "");
+        var val = pd[key] || "";
+        h += '<div class="meal-time-card"><h4>' + m + '</h4>';
+        h += '<textarea class="form-textarea" name="mp_' + key + '" style="min-height:45px" placeholder="Alimentos y cantidades...">' + val + '</textarea></div>';
+      });
+    });
+    h += UI.fg("mp_recs", "Recomendaciones generales", "textarea", pd.recs || "", {placeholder:"Hidratación, horarios, tips..."});
+    h += '<div class="flex gap-3 mt-4">';
+    h += '<button class="btn btn-primary btn-lg" style="flex:1" onclick="MealPlan.saveDraft()">💾 Guardar borrador</button>';
+    if (p) h += '<button class="btn btn-secondary btn-lg" onclick="MealPlan.sendToPatient()">📤 Enviar al paciente</button>';
+    h += '</div>';
+    main.innerHTML = h;
+  },
+  collectPlan: function() {
+    var data = {};
+    document.querySelectorAll("[name^=mp_]").forEach(function(el) {
+      var key = el.name.replace("mp_", "");
+      if (el.value) data[key] = el.value;
+    });
+    return data;
+  },
+  saveDraft: function() {
+    var data = this.collectPlan();
+    if (this.p) {
+      DB.save(this.p.id, { mealPlanDraft: data }).then(function() { UI.toast("Borrador guardado ✓"); });
+    } else { UI.toast("Selecciona un paciente primero", "warning"); }
+  },
+  sendToPatient: function() {
+    if (!this.p) { UI.toast("Selecciona paciente", "warning"); return; }
+    var data = this.collectPlan();
+    var planText = "PLAN DE ALIMENTACIÓN — Healthy Josa 🌿\n";
+    planText += "Paciente: " + (this.p.name || this.p.email) + "\n";
+    planText += "Fecha: " + UI.todayStr() + "\n\n";
+    Object.keys(data).forEach(function(key) {
+      if (key !== "recs" && data[key]) planText += key.replace(/_/g, " ") + ": " + data[key] + "\n";
+    });
+    if (data.recs) planText += "\nRecomendaciones:\n" + data.recs;
+    DB.save(this.p.id, { assignedPlan: planText, planDate: UI.todayISO(), mealPlanDraft: data }).then(function() {
+      UI.toast("Plan enviado al paciente ✓");
+    });
   }
 };
 
-// === RECOMMENDATIONS ===
-const Recs={
-  p:null,
-  async render(params){this.p=await DB.get(params?.patientId||App.activePatient?.id);if(!this.p)return UI.empty('⚠️','Selecciona paciente','');
-    const r=this.p.recommendations||'';
-    return`<div class="flex items-center gap-3 mb-4"><button class="btn btn-outline btn-sm" onclick="Router.nav('patient-record',{patientId:'${this.p.id}'})">← Expediente</button><h1 style="font-size:1.4rem">Recomendaciones</h1></div>
-      ${UI.ctxBar()}
-      ${UI.card('Recomendaciones para el paciente',`
-        ${UI.infoBox('Escribe recomendaciones personalizadas. El paciente las verá en su portal.','tip')}
-        ${UI.fg('recs','','textarea',r,{placeholder:'Hidratación: tomar al menos 2L de agua al día\nHorarios: procurar cenar antes de las 8pm\nActividad: caminar 30 min diarios\nEvitar: bebidas azucaradas y ultraprocesados\n...',hint:'Puedes usar formato de lista para que sea más claro'})}
-        <button class="btn btn-primary w-full" onclick="Recs.save()">💾 Guardar y enviar al paciente</button>
-      `)}
-      ${UI.card('Plato del Buen Comer',`
-        <div style="text-align:center;padding:24px;background:var(--sage-50);border-radius:var(--r-md)">
-          <div style="font-size:3rem;margin-bottom:12px">🥗</div>
-          <p class="text-sm text-muted">Espacio reservado para la imagen del Plato del Buen Comer.<br>Cuando proporciones la imagen, se integrará aquí.</p>
-        </div>
-      `)}`;
+// === RECOMMENDATIONS (includes exercise) ===
+var Recs = {
+  p: null,
+  render: function(params) {
+    var pid = (params && params.patientId) || (App.activePatient ? App.activePatient.id : null);
+    if (!pid) return UI.empty("⚠️", "Selecciona paciente", "");
+    var self = this;
+    return DB.get(pid).then(function(p) {
+      if (!p) return "";
+      self.p = p; App.setPatient(p);
+      var h = '<div class="flex items-center gap-3 mb-4"><button class="btn btn-outline btn-sm" onclick="Router.nav(\'patient-record\',{patientId:\' + p.id + \'})">← Expediente</button><h1 style="font-size:1.4rem">Recomendaciones</h1></div>';
+      h += UI.ctxBar();
+      h += UI.card("Recomendaciones generales", UI.fg("recs", "Recomendaciones de alimentación", "textarea", p.recommendations || "", {placeholder:"Hidratación, horarios, tips..."}) + '<button class="btn btn-primary w-full" onclick="Recs.save()">💾 Guardar y enviar</button>');
+      h += UI.card("Recomendaciones de ejercicio", UI.infoBox("El paciente verá estas recomendaciones en su portal.", "info") + UI.fg("exRecs", "Programa de ejercicio", "textarea", p.exerciseRecommendations || "", {placeholder:"Tipo: caminar 30 min\nFrecuencia: 5 días/semana\nIntensidad: moderada\nHorario sugerido: mañanas"}) + '<button class="btn btn-primary w-full" onclick="Recs.saveExercise()">💾 Guardar ejercicio</button>');
+      h += UI.card("Plato del Buen Comer", '<div style="text-align:center;padding:24px;background:var(--sage-50);border-radius:10px"><div style="font-size:3rem;margin-bottom:12px">🥗</div><p class="text-sm text-muted">Espacio para imagen del Plato del Buen Comer.</p></div>');
+      return h;
+    });
   },
-  async save(){const r=document.querySelector('[name=recs]')?.value;if(await DB.save(this.p.id,{recommendations:r}))UI.toast('Recomendaciones guardadas ✓')}
+  save: function() { DB.save(this.p.id, { recommendations: document.querySelector("[name=recs]").value }).then(function() { UI.toast("Recomendaciones guardadas ✓"); }); },
+  saveExercise: function() { DB.save(this.p.id, { exerciseRecommendations: document.querySelector("[name=exRecs]").value }).then(function() { UI.toast("Ejercicio guardado ✓"); }); }
 };
 
 // === GROCERY LIST ===
-const Grocery={
-  p:null,
-  async render(params){this.p=await DB.get(params?.patientId||App.activePatient?.id);if(!this.p)return UI.empty('⚠️','Selecciona paciente','');
-    const g=this.p.groceryList||'';
-    return`<div class="flex items-center gap-3 mb-4"><button class="btn btn-outline btn-sm" onclick="Router.nav('patient-record',{patientId:'${this.p.id}'})">← Expediente</button><h1 style="font-size:1.4rem">Lista del Súper</h1></div>
-      ${UI.ctxBar()}
-      ${UI.card('Lista de compras',`
-        ${UI.infoBox('Edita la lista basándote en el plan del paciente. Envíala cuando esté lista.','tip')}
-        ${UI.fg('grocery','','textarea',g,{placeholder:'🥬 Verduras:\n- Brócoli 2 piezas\n- Jitomate 1kg\n- Espinaca 1 bolsa\n\n🍎 Frutas:\n- Manzanas 6 piezas\n- Fresas 1 charola\n\n🥩 Proteínas:\n- Pechuga pollo 500g\n- Huevos 12\n\n🌾 Cereales:\n- Tortillas maíz 1 paq\n- Avena 500g\n\n🥛 Lácteos:\n- Leche descremada 2L\n- Yogurt natural 1L'})}
-        <div class="flex gap-3"><button class="btn btn-primary" style="flex:1" onclick="Grocery.save()">💾 Guardar</button><button class="btn btn-secondary" onclick="Grocery.send()">📤 Enviar al paciente</button></div>
-      `)}`;
+var Grocery = {
+  p: null,
+  render: function(params) {
+    var pid = (params && params.patientId) || (App.activePatient ? App.activePatient.id : null);
+    if (!pid) return UI.empty("⚠️", "Selecciona paciente", "");
+    var self = this;
+    return DB.get(pid).then(function(p) {
+      if (!p) return "";
+      self.p = p;
+      var h = '<div class="flex items-center gap-3 mb-4"><button class="btn btn-outline btn-sm" onclick="Router.nav(\'patient-record\',{patientId:\' + p.id + \'})">← Expediente</button><h1 style="font-size:1.4rem">Lista del Súper</h1></div>';
+      h += UI.ctxBar();
+      h += UI.card("Lista de compras", UI.infoBox("Basada en el plan del paciente. Edítala y envíala cuando esté lista.", "tip") + UI.fg("grocery", "", "textarea", p.groceryList || "", {placeholder:"🥬 Verduras:\n- Brócoli 2 pza\n\n🍎 Frutas:\n- Manzanas 6 pza\n\n🥩 Proteínas:\n- Pechuga 500g"}) + '<div class="flex gap-3"><button class="btn btn-primary" style="flex:1" onclick="Grocery.save()">💾 Guardar</button><button class="btn btn-secondary" onclick="Grocery.send()">📤 Enviar</button></div>');
+      return h;
+    });
   },
-  async save(){const g=document.querySelector('[name=grocery]')?.value;if(await DB.save(this.p.id,{groceryList:g}))UI.toast('Lista guardada ✓')},
-  async send(){await this.save();UI.toast('Lista enviada al paciente ✓')}
+  save: function() { DB.save(this.p.id, { groceryList: document.querySelector("[name=grocery]").value }).then(function() { UI.toast("Lista guardada ✓"); }); },
+  send: function() { this.save(); }
 };
 
 // === PATIENT DASHBOARD ===
-const PatDash={
-  async render(){
-    const main=document.getElementById('main-content'),n=Auth.currentUser?.displayName?.split(' ')[0]||'',uid=Auth.currentUser?.uid;
-    const ci=await DB.getCheckin(uid,UI.todayISO()),hab=await DB.getHabits(uid,UI.todayISO());
-    const hList=['Desayuné según mi plan','Tomé al menos 8 vasos de agua','Hice actividad física','Cené antes de las 9pm','Dormí al menos 7 horas'];
-    const checked=hab?.habits||[];const done=checked.length;
-    main.innerHTML=`
-      <div class="greeting"><h1>${UI.greeting()}, ${n} 🌿</h1><p>Tu espacio de bienestar</p><div class="date">${UI.todayStr()}</div></div>
-      <div class="grid-4 mb-6">${UI.stat('⚖️',ci?.weight?ci.weight+'kg':'—','Peso hoy','green')}${UI.stat('💧',ci?.water||'—','Vasos agua','blue')}${UI.stat('🔋',ci?.energy||'—','Energía','amber')}${UI.stat('✅',done+'/5','Hábitos','rose')}</div>
-      <div class="grid-2">
-        ${UI.card('Check-in de hoy',`
-          ${UI.infoBox('Tu registro diario ayuda a tu nutrióloga a darte mejor seguimiento.','tip')}
-          <div class="form-row">${UI.fg('ciw','Peso (kg)','number',ci?.weight||'',{step:'0.1',placeholder:'Ej: 70.5',hint:'Pésate en la mañana, sin zapatos, antes de desayunar'})}${UI.fg('ciwa','Vasos de agua','number',ci?.water||'',{placeholder:'8'})}</div>
-          ${UI.fg('cie','Energía','select',ci?.energy||'',{options:[{value:'',label:'¿Cómo te sientes?'},{value:'5',label:'🔋 Excelente'},{value:'4',label:'😊 Bien'},{value:'3',label:'😐 Normal'},{value:'2',label:'😴 Bajo'},{value:'1',label:'😩 Muy bajo'}]})}
-          ${UI.fg('cih','¿Hambre fuera de comidas?','select',ci?.hunger||'',{options:[{value:'',label:'Selecciona'},{value:'no',label:'No'},{value:'poca',label:'Un poco'},{value:'si',label:'Sí'},{value:'mucha',label:'Mucha'}]})}
-          ${UI.fg('cin','Notas del día','textarea',ci?.notes||'',{placeholder:'¿Cómo te fue hoy?'})}
-          <button class="btn btn-primary w-full" onclick="PatDash.saveCI()">💾 Guardar</button><div id="ci-ok" class="mt-2"></div>
-        `,'Tu registro diario')}
-        ${UI.card('Hábitos del día',`
-          ${hList.map((h,i)=>`<div class="checklist-item"><div class="checklist-check ${checked.includes(i)?'checked':''}" data-i="${i}" onclick="PatDash.toggleH(${i},this)">${checked.includes(i)?'✓':''}</div><span>${h}</span></div>`).join('')}
-          <div class="mt-4">${UI.pbar(done/5*100,'green')}<p class="text-xs text-muted mt-2">${done}/5 completados</p></div>
-        `,'Marca lo que cumpliste')}
-      </div>`;
+var PatDash = {
+  render: function() {
+    var main = document.getElementById("main-content");
+    var n = (Auth.currentUser && Auth.currentUser.displayName) ? Auth.currentUser.displayName.split(" ")[0] : "";
+    var uid = Auth.currentUser ? Auth.currentUser.uid : null;
+    if (!uid) return;
+    Promise.all([DB.getCheckin(uid, UI.todayISO()), DB.getHabits(uid, UI.todayISO())]).then(function(results) {
+      var ci = results[0] || {}, hab = results[1] || {};
+      var hList = ["Desayuné según mi plan", "Tomé al menos 8 vasos de agua", "Hice actividad física", "Cené antes de las 9pm", "Dormí al menos 7 horas"];
+      var checked = hab.habits || []; var done = checked.length;
+      var h = '<div class="greeting"><h1>' + UI.greeting() + ", " + n + ' 🌿</h1><p>Tu espacio de bienestar</p><div class="date">' + UI.todayStr() + '</div></div>';
+      h += '<div class="grid-4 mb-6">' + UI.stat("⚖️", ci.weight ? ci.weight + "kg" : "—", "Peso hoy", "green") + UI.stat("💧", ci.water || "—", "Vasos agua", "blue") + UI.stat("🔋", ci.energy || "—", "Energía", "amber") + UI.stat("✅", done + "/5", "Hábitos", "rose") + '</div>';
+      h += '<div class="grid-2">';
+      // Check-in
+      h += UI.card("Check-in de hoy", UI.infoBox("Tu registro diario ayuda a tu nutrióloga a darte mejor seguimiento.", "tip") + '<div class="form-row">' + UI.fg("ciw", "Peso (kg)", "number", ci.weight || "", {step:"0.1", placeholder:"70.5"}) + UI.fg("ciwa", "Vasos agua", "number", ci.water || "", {placeholder:"8"}) + '</div>' + UI.fg("cie", "Energía", "select", ci.energy || "", {options:[{value:"",label:"¿Cómo te sientes?"},{value:"5",label:"🔋 Excelente"},{value:"4",label:"😊 Bien"},{value:"3",label:"😐 Normal"},{value:"2",label:"😴 Bajo"},{value:"1",label:"😩 Muy bajo"}]}) + UI.fg("cin", "Notas", "textarea", ci.notes || "", {placeholder:"¿Cómo te fue hoy?"}) + '<button class="btn btn-primary w-full" onclick="PatDash.saveCI()">💾 Guardar</button><div id="ci-ok" class="mt-2"></div>', "Tu registro diario");
+      // Habits
+      var habH = "";
+      hList.forEach(function(hh, i) {
+        habH += '<div class="checklist-item"><div class="checklist-check ' + (checked.indexOf(i) >= 0 ? "checked" : "") + '" data-i="' + i + '" onclick="PatDash.toggleH(' + i + ',this)">' + (checked.indexOf(i) >= 0 ? "✓" : "") + '</div><span>' + hh + '</span></div>';
+      });
+      habH += '<div class="mt-4">' + UI.pbar(done / 5 * 100, "green") + '<p class="text-xs text-muted mt-2">' + done + '/5</p></div>';
+      h += UI.card("Hábitos del día", habH, "Marca lo que cumpliste");
+      h += '</div>';
+      main.innerHTML = h;
+    });
   },
-  async saveCI(){const d={weight:document.querySelector('[name=ciw]')?.value,water:document.querySelector('[name=ciwa]')?.value,energy:document.querySelector('[name=cie]')?.value,hunger:document.querySelector('[name=cih]')?.value,notes:document.querySelector('[name=cin]')?.value};if(await DB.saveCheckin(d)){document.getElementById('ci-ok').innerHTML='<span class="save-indicator">✓ Guardado</span>';UI.toast('Check-in guardado ✓')}},
-  async toggleH(i,el){el.classList.toggle('checked');el.innerHTML=el.classList.contains('checked')?'✓':'';const c=[];document.querySelectorAll('.checklist-check').forEach(x=>{if(x.classList.contains('checked'))c.push(+x.dataset.i)});await DB.saveHabits(c);const bar=document.querySelector('.progress-fill');if(bar)bar.style.width=(c.length/5*100)+'%'}
+  saveCI: function() {
+    var d = { weight: (document.querySelector("[name=ciw]") || {}).value || "", water: (document.querySelector("[name=ciwa]") || {}).value || "", energy: (document.querySelector("[name=cie]") || {}).value || "", notes: (document.querySelector("[name=cin]") || {}).value || "" };
+    DB.saveCheckin(d).then(function(ok) { if (ok) { var el = document.getElementById("ci-ok"); if (el) el.innerHTML = '<span class="save-indicator">✓ Guardado</span>'; UI.toast("Check-in guardado ✓"); } });
+  },
+  toggleH: function(i, el) {
+    el.classList.toggle("checked"); el.innerHTML = el.classList.contains("checked") ? "✓" : "";
+    var c = [];
+    document.querySelectorAll(".checklist-check").forEach(function(x) { if (x.classList.contains("checked")) c.push(parseInt(x.dataset.i)); });
+    DB.saveHabits(c);
+    var bar = document.querySelector(".progress-fill"); if (bar) bar.style.width = (c.length / 5 * 100) + "%";
+  }
 };
 
 // === PATIENT PROGRESS ===
-const PatProg={
-  async render(){
-    const uid=Auth.currentUser?.uid,entries=await DB.getSubs(uid,'checkins');
-    return`<div class="mb-6"><h1>Mi Progreso</h1><p class="text-muted">Tu evolución a lo largo del tiempo</p></div>
-      <div class="grid-4 mb-6">${UI.stat('📊',entries.length,'Registros','green')}${UI.stat('⚖️',entries.length&&entries[0].weight?entries[0].weight+'kg':'—','Último peso','blue')}${UI.stat('💧',entries.length&&entries[0].water?entries[0].water:'—','Último agua','amber')}${UI.stat('📅','—','Próxima cita','rose')}</div>
-      ${UI.card('Historial',entries.length?`<div class="table-wrapper"><table class="data-table"><thead><tr><th>Fecha</th><th>Peso</th><th>Agua</th><th>Energía</th><th>Notas</th></tr></thead><tbody>${entries.map(e=>`<tr><td>${e.date||'—'}</td><td>${e.weight?e.weight+'kg':'—'}</td><td>${e.water||'—'}</td><td>${e.energy||'—'}/5</td><td>${e.notes||'—'}</td></tr>`).join('')}</tbody></table></div>`:UI.empty('📈','Sin registros','Haz tu primer check-in.'))}`;
+var PatProg = {
+  render: function() {
+    var uid = Auth.currentUser ? Auth.currentUser.uid : null;
+    return DB.getSubs(uid, "checkins").then(function(entries) {
+      var h = '<div class="mb-6"><h1>Mi Progreso</h1><p class="text-muted">Tu evolución</p></div>';
+      h += '<div class="grid-4 mb-6">' + UI.stat("📊", entries.length, "Registros", "green") + UI.stat("⚖️", entries.length && entries[0].weight ? entries[0].weight + "kg" : "—", "Último peso", "blue") + UI.stat("💧", entries.length && entries[0].water ? entries[0].water : "—", "Último agua", "amber") + UI.stat("📅", "—", "Próxima cita", "rose") + '</div>';
+      if (entries.length) {
+        var tableH = '<div class="table-wrapper"><table class="data-table"><thead><tr><th>Fecha</th><th>Peso</th><th>Agua</th><th>Energía</th><th>Notas</th></tr></thead><tbody>';
+        entries.forEach(function(e) { tableH += '<tr><td>' + (e.date || "—") + '</td><td>' + (e.weight ? e.weight + "kg" : "—") + '</td><td>' + (e.water || "—") + '</td><td>' + (e.energy || "—") + '/5</td><td>' + (e.notes || "—") + '</td></tr>'; });
+        tableH += '</tbody></table></div>';
+        h += UI.card("Historial", tableH);
+      } else { h += UI.card("", UI.empty("📈", "Sin registros", "Haz tu primer check-in.")); }
+      return h;
+    });
   }
 };
 
 // === PATIENT PLAN VIEW ===
-const PatPlanV={
-  async render(){
-    const uid=Auth.currentUser?.uid,p=await DB.get(uid);
-    const plan=p?.assignedPlan,recs=p?.recommendations,grocery=p?.groceryList;
-    return`<div class="mb-6"><h1>Mi Plan Alimenticio</h1><p class="text-muted">Creado por tu nutrióloga</p></div>
-      ${plan?UI.card('Tu plan actual',`<div style="white-space:pre-wrap;font-size:.88rem;line-height:1.8">${plan}</div>`,p.planDate?'Actualizado: '+p.planDate:''):UI.card('',UI.empty('🥗','Aún no tienes plan','Tu nutrióloga lo creará después de tu consulta.'))}
-      ${recs?UI.card('💡 Recomendaciones',`<div style="white-space:pre-wrap;font-size:.88rem;line-height:1.7">${recs}</div>`):''}
-      ${grocery?UI.card('🛒 Lista del súper',`<div style="white-space:pre-wrap;font-size:.88rem;line-height:1.7">${grocery}</div>`):''}
-      ${UI.card('¿Cómo funcionan los equivalentes?',`<p class="text-sm mb-4" style="line-height:1.7">Tu plan usa el <strong>Sistema de Equivalentes</strong>. Puedes intercambiar alimentos del mismo grupo. Por ejemplo, si dice "1 fruta" puedes elegir 1 manzana, 1 taza de fresas, o 2 mandarinas.</p>
-        <div class="grid-4" style="gap:8px">${SMAE.groups.slice(0,4).map(g=>`<div style="text-align:center;padding:12px;background:var(--sage-50);border-radius:var(--r-md)"><div style="font-size:1.2rem">${g.icon}</div><div class="text-xs" style="font-weight:600">${g.name}</div><div class="text-xs text-muted">${g.e} kcal</div></div>`).join('')}</div>`)}`;
+var PatPlanV = {
+  render: function() {
+    var uid = Auth.currentUser ? Auth.currentUser.uid : null;
+    return DB.get(uid).then(function(p) {
+      if (!p) return "";
+      var plan = p.assignedPlan, recs = p.recommendations, exRecs = p.exerciseRecommendations, grocery = p.groceryList;
+      var h = '<div class="mb-6"><h1>Mi Plan Alimenticio</h1><p class="text-muted">Creado por tu nutrióloga</p></div>';
+      if (plan) { h += UI.card("Tu plan", '<div style="white-space:pre-wrap;font-size:.88rem;line-height:1.8">' + plan + '</div>', p.planDate || ""); }
+      else { h += UI.card("", UI.empty("🥗", "Aún no tienes plan", "Tu nutrióloga lo creará después de tu consulta.")); }
+      if (recs) h += UI.card("💡 Recomendaciones", '<div style="white-space:pre-wrap;font-size:.88rem;line-height:1.7">' + recs + '</div>');
+      if (exRecs) h += UI.card("🏃 Ejercicio", '<div style="white-space:pre-wrap;font-size:.88rem;line-height:1.7">' + exRecs + '</div>');
+      if (grocery) h += UI.card("🛒 Lista del súper", '<div style="white-space:pre-wrap;font-size:.88rem;line-height:1.7">' + grocery + '</div>');
+      return h;
+    });
   }
 };
 
 // === PATIENT PHOTOS ===
-const PatPhotos={
-  render(){
-    return`<div class="mb-6"><h1>Fotos de Progreso</h1><p class="text-muted">Registro visual de tu avance</p></div>
-      ${UI.infoBox('<strong>¿Cómo tomar tus fotos?</strong> Usa ropa ajustada. Mismo lugar y hora cada vez. Pide ayuda o usa temporizador.','tip')}
-      <div class="card"><div class="card-header"><div class="card-title">📸 Subir fotos</div></div>
-        <div class="photo-upload-grid">
-          <div class="photo-upload-box"><div class="upload-icon">🧍</div><div class="upload-label">De frente</div><div class="upload-hint">Brazos a los lados</div><input type="file" accept="image/*" onchange="PatPhotos.upload(this,'frente')"></div>
-          <div class="photo-upload-box"><div class="upload-icon">🧍‍♂️</div><div class="upload-label">De lado</div><div class="upload-hint">Brazos arriba</div><input type="file" accept="image/*" onchange="PatPhotos.upload(this,'lado')"></div>
-          <div class="photo-upload-box"><div class="upload-icon">🔄</div><div class="upload-label">De atrás</div><div class="upload-hint">Brazos a los lados</div><input type="file" accept="image/*" onchange="PatPhotos.upload(this,'atras')"></div>
-        </div></div>`;
+var PatPhotos = {
+  render: function() {
+    var h = '<div class="mb-6"><h1>Fotos de Progreso</h1><p class="text-muted">Registro visual</p></div>';
+    h += UI.infoBox("<strong>Cómo tomar fotos:</strong> Ropa ajustada, mismo lugar y hora. Usa temporizador o pide ayuda.", "tip");
+    h += UI.card("📸 Subir fotos", '<div class="photo-upload-grid"><div class="photo-upload-box"><div class="upload-icon">🧍</div><div class="upload-label">De frente</div><div class="upload-hint">Brazos a los lados</div><input type="file" accept="image/*" onchange="PatPhotos.upload(this,\'frente\')"></div><div class="photo-upload-box"><div class="upload-icon">🧍‍♂️</div><div class="upload-label">De lado</div><div class="upload-hint">Brazos arriba</div><input type="file" accept="image/*" onchange="PatPhotos.upload(this,\'lado\')"></div><div class="photo-upload-box"><div class="upload-icon">🔄</div><div class="upload-label">De atrás</div><div class="upload-hint">Brazos a los lados</div><input type="file" accept="image/*" onchange="PatPhotos.upload(this,\'atras\')"></div></div>');
+    return h;
   },
-  async upload(inp,type){const file=inp.files[0];if(!file)return;const uid=Auth.currentUser?.uid;
-    try{UI.toast('Subiendo...','info');const url=await DB.uploadFile(uid,'photos',file);await DB.addSub(uid,'photos',{type,url,date:UI.todayISO(),name:file.name});UI.toast('Foto subida ✓');inp.parentElement.innerHTML='<img src="'+url+'">'
-    }catch(e){UI.toast('Error: '+e.message,'error')}}
+  upload: function(inp, type) {
+    var file = inp.files[0]; if (!file) return;
+    var uid = Auth.currentUser ? Auth.currentUser.uid : null;
+    UI.toast("Subiendo foto...", "info");
+    DB.uploadFile(uid, "photos", file, { photoType: type }).then(function(url) {
+      UI.toast("Foto subida ✓");
+      inp.parentElement.innerHTML = '<img src="' + url + '">';
+    }).catch(function(e) { UI.toast("Error: " + e.message, "error"); });
+  }
 };
 
-// === PATIENT EXERCISE ===
-const PatExercise={
-  render(){
-    return`<div class="mb-6"><h1>Mi Ejercicio</h1><p class="text-muted">Registra tu actividad física</p></div>
-      ${UI.infoBox('Registrar tu ejercicio ayuda a tu nutrióloga a ajustar tu plan de alimentación.','tip')}
-      ${UI.card('Registrar actividad de hoy',`
-        ${UI.fg('ex_type','¿Qué ejercicio hiciste?','text','',{placeholder:'Caminar, correr, gym, yoga, bici...'})}
-        <div class="form-row">${UI.fg('ex_duration','Duración (minutos)','number','',{placeholder:'30'})}${UI.fg('ex_intensity','Intensidad','select','',{options:[{value:'',label:'Selecciona'},{value:'baja',label:'Baja (caminar, stretching)'},{value:'moderada',label:'Moderada (trote, bici)'},{value:'alta',label:'Alta (HIIT, correr, pesas)'}]})}</div>
-        ${UI.fg('ex_notes','Notas','textarea','',{placeholder:'¿Cómo te sentiste?'})}
-        <button class="btn btn-primary w-full" onclick="PatExercise.save()">💾 Guardar</button>
-      `)}`;
+// === PATIENT ONBOARDING (no food section, with structured family history) ===
+var Onboard = {
+  step: 1, total: 4, data: {},
+  render: function() {
+    var uid = Auth.currentUser ? Auth.currentUser.uid : null;
+    var self = this;
+    DB.get(uid).then(function(p) {
+      if (p) self.data = p;
+      document.getElementById("main-content").innerHTML = self.page();
+    });
   },
-  async save(){const d={type:document.querySelector('[name=ex_type]')?.value,duration:document.querySelector('[name=ex_duration]')?.value,intensity:document.querySelector('[name=ex_intensity]')?.value,notes:document.querySelector('[name=ex_notes]')?.value};
-    if(await DB.addSub(Auth.currentUser.uid,'exercise',{...d,date:UI.todayISO()}))UI.toast('Ejercicio registrado ✓')}
-};
-
-// === ONBOARDING (Patient - Info para consulta) ===
-const Onboard={
-  step:1,total:4,data:{},
-  async render(){const uid=Auth.currentUser?.uid;const p=await DB.get(uid);if(p)this.data=p;
-    document.getElementById('main-content').innerHTML=this.page()},
-  page(){
-    const steps=[{n:1,l:'Datos personales'},{n:2,l:'Historial médico'},{n:3,l:'Alimentación'},{n:4,l:'Medidas y objetivos'}];
-    return`<div class="mb-6"><h1>Información para tu consulta</h1><p class="text-muted">Completa esta información para que tu nutrióloga te ayude mejor. Es confidencial.</p></div>
-      ${UI.infoBox('<strong>¿Por qué te pedimos esto?</strong> Tu nutrióloga necesita conocer tu salud, hábitos y cuerpo para diseñar un plan seguro y personalizado.','info')}
-      <div class="wizard-steps">${steps.map(s=>`<div class="wizard-step ${s.n===this.step?'active':s.n<this.step?'completed':''}"><div class="wizard-step-number">${s.n<this.step?'✓':s.n}</div><div class="wizard-step-label">${s.l}</div></div>`).join('')}</div>
-      <div class="card"><div id="ob-s">${this.renderStep()}</div></div>`;
+  page: function() {
+    var steps = [{n:1,l:"Datos personales"},{n:2,l:"Historial médico"},{n:3,l:"Medidas"},{n:4,l:"Objetivos y fotos"}];
+    var h = '<div class="mb-6"><h1>Información para tu consulta</h1><p class="text-muted">Completa esta información. Es confidencial y ayuda a tu nutrióloga.</p></div>';
+    h += UI.infoBox("<strong>¿Por qué te pedimos esto?</strong> Tu nutrióloga necesita conocer tu salud y cuerpo para diseñar un plan seguro y personalizado.", "info");
+    var wh = '<div class="wizard-steps">';
+    var self = this;
+    steps.forEach(function(s) {
+      wh += '<div class="wizard-step ' + (s.n === self.step ? "active" : s.n < self.step ? "completed" : "") + '">';
+      wh += '<div class="wizard-step-number">' + (s.n < self.step ? "✓" : s.n) + '</div>';
+      wh += '<div class="wizard-step-label">' + s.l + '</div></div>';
+    });
+    h += wh + '</div>';
+    h += '<div class="card"><div id="ob-s">' + this.renderStep() + '</div></div>';
+    return h;
   },
-  renderStep(){
-    const d=this.data,v=f=>d[f]||'';
-    switch(this.step){
-      case 1:return`<h3 class="mb-4">👤 Datos personales</h3>
-        <div class="form-row">${UI.fg('name','Nombre completo','text',v('name')||Auth.currentUser?.displayName||'',{required:true})}${UI.fg('phone','Teléfono/WhatsApp','tel',v('phone'),{placeholder:'442 123 4567'})}</div>
-        <div class="form-row">${UI.fg('birthdate','Fecha de nacimiento','date',v('birthdate'),{required:true})}${UI.fg('sex','Sexo biológico','select',v('sex'),{required:true,options:[{value:'',label:'Selecciona'},{value:'F',label:'Femenino'},{value:'M',label:'Masculino'}]})}</div>
-        ${UI.fg('occupation','¿A qué te dedicas?','text',v('occupation'),{placeholder:'Estudiante, oficina, hogar...'})}
-        ${UI.fg('consultReason','¿Por qué buscas consulta nutricional?','textarea',v('consultReason'),{required:true,placeholder:'Cuéntanos con tus palabras qué te motivó'})}
-        <button class="btn btn-primary w-full" onclick="Onboard.next()">Siguiente →</button>`;
-      case 2:return`<h3 class="mb-4">🏥 Historial médico</h3>
-        ${UI.infoBox('Esta información es <strong>confidencial</strong>. Solo la ve tu nutrióloga.','tip')}
-        ${UI.fg('familyHistory','¿Alguien en tu familia tiene estas enfermedades?','textarea',v('familyHistory'),{placeholder:'Ej: Mi mamá tiene diabetes, mi abuelo tuvo hipertensión...',hint:'Diabetes, hipertensión, obesidad, colesterol, corazón, cáncer, tiroides'})}
-        ${UI.fg('pathologicalHistory','¿Tú tienes alguna enfermedad diagnosticada?','textarea',v('pathologicalHistory'),{placeholder:'Ej: Hipotiroidismo desde 2020...'})}
-        ${UI.fg('allergies','Alergias','text',v('allergies'),{placeholder:'Ej: Penicilina, mariscos... o "Ninguna"'})}
-        ${UI.fg('medications','Medicamentos (nombre, dosis, frecuencia)','textarea',v('medications'),{placeholder:'Ej: Levotiroxina 50mcg cada mañana\nMetformina 850mg con comida y cena'})}
-        ${UI.fg('supplements','Suplementos/vitaminas','textarea',v('supplements'),{placeholder:'Ej: Vitamina D 1000UI diaria. Escribe "Ninguno" si no'})}
-        ${UI.fg('surgeries','Cirugías','text',v('surgeries'),{placeholder:'Ej: Cesárea 2019. Escribe "Ninguna" si no'})}
-        <h4 class="mt-6 mb-4">🚬 Tabaquismo y alcohol</h4>
-        <div class="form-row">${UI.fg('smokingStatus','¿Fumas?','select',v('smokingStatus'),{options:[{value:'',label:'Selecciona'},{value:'nunca',label:'Nunca'},{value:'si',label:'Sí'},{value:'ex',label:'Ex fumador'}]})}${UI.fg('smokingAmount','Cigarros/día','number',v('smokingAmount'))}</div>
-        <div class="form-row">${UI.fg('alcoholFreq','Alcohol','select',v('alcoholFreq'),{options:[{value:'',label:'Selecciona'},{value:'nunca',label:'Nunca'},{value:'social',label:'Social'},{value:'1-2_mes',label:'1-2/mes'},{value:'1-2_sem',label:'1-2/sem'},{value:'3+',label:'3+/sem'}]})}${UI.fg('alcoholType','Tipo','text',v('alcoholType'),{placeholder:'Cerveza, vino...'})}</div>
-        ${UI.fg('substances','¿Consumes otra sustancia? (confidencial)','text',v('substances'),{placeholder:'Escribe "No" si no aplica'})}
-        <h4 class="mt-6 mb-4">🔬 Laboratorios</h4>
-        ${UI.fg('hasRecentLabs','¿Tienes estudios de los últimos 3 meses?','select',v('hasRecentLabs'),{options:[{value:'',label:'Selecciona'},{value:'si',label:'Sí'},{value:'no',label:'No'},{value:'viejos',label:'Sí pero más de 3 meses'}]})}
-        <div class="photo-upload-box" style="margin-bottom:16px"><div class="upload-icon">📄</div><div class="upload-label">Subir laboratorios</div><div class="upload-hint">PDF, fotos, capturas</div><input type="file" accept="image/*,.pdf" onchange="Onboard.uploadLab(this)"></div>
-        <div class="flex gap-3"><button class="btn btn-outline" onclick="Onboard.prev()">← Anterior</button><button class="btn btn-primary" style="flex:1" onclick="Onboard.next()">Siguiente →</button></div>`;
-      case 3:return`<h3 class="mb-4">🍽️ Alimentación</h3>
-        ${UI.infoBox('Cuéntanos cómo comes normalmente. No hay respuestas buenas o malas.','tip')}
-        <div class="form-row">${UI.fg('mealsPerDay','Comidas al día','select',v('mealsPerDay'),{options:[{value:'',label:'Selecciona'},{value:'1-2',label:'1-2'},{value:'3',label:'3'},{value:'4-5',label:'4-5'},{value:'irregular',label:'Irregular'}]})}${UI.fg('waterGlasses','Vasos de agua/día','number',v('waterGlasses'),{placeholder:'8'})}</div>
-        ${UI.fg('favFoods','Alimentos favoritos','textarea',v('favFoods'),{placeholder:'Lo que más te gusta comer',hint:'Incluiremos cosas que te gustan en tu plan'})}
-        ${UI.fg('dislikedFoods','Alimentos que NO te gustan','textarea',v('dislikedFoods'),{placeholder:'Lo que prefieres evitar'})}
-        ${UI.fg('foodIntolerances','Intolerancias','text',v('foodIntolerances'),{placeholder:'Lactosa, gluten... o "Ninguna"'})}
-        <div class="form-row">${UI.fg('exerciseType','¿Haces ejercicio?','text',v('exerciseType'),{placeholder:'Caminar, gym, ninguno...'})}${UI.fg('sleepHours','Horas de sueño','number',v('sleepHours'),{placeholder:'7'})}</div>
-        ${UI.fg('whoPreps','¿Quién prepara tu comida?','text',v('whoPreps'),{placeholder:'Yo, mi mamá, mi pareja...'})}
-        <div class="flex gap-3"><button class="btn btn-outline" onclick="Onboard.prev()">← Anterior</button><button class="btn btn-primary" style="flex:1" onclick="Onboard.next()">Siguiente →</button></div>`;
-      case 4:return`<h3 class="mb-4">📏 Medidas y objetivos</h3>
-        ${UI.infoBox('<strong>Telemedicina:</strong> Toma tus medidas siguiendo estas instrucciones. Si alguien puede ayudarte, mejor.','warn')}
-        <div class="card" style="background:var(--sage-50);border:1px solid var(--sage-light);margin-bottom:16px;padding:16px">
-          <h4 style="font-family:var(--font-b);font-weight:600;margin-bottom:8px">📐 Cómo medirte</h4>
-          <ul style="font-size:.85rem;line-height:1.9;padding-left:20px"><li><strong>Peso:</strong> Por la mañana, sin zapatos, antes de desayunar</li><li><strong>Talla:</strong> Derecho/a contra pared, sin zapatos</li><li><strong>Cintura:</strong> A la altura del ombligo, sin apretar, al exhalar</li><li><strong>Cadera:</strong> La parte más ancha de glúteos</li><li><strong>Bíceps:</strong> Parte más ancha del brazo, relajado</li><li><strong>Muslo:</strong> Parte más ancha, de pie</li></ul>
-        </div>
-        <div class="form-row">${UI.fg('currentWeight','Peso actual (kg)','number',v('currentWeight'),{required:true,step:'0.1',placeholder:'70.5'})}${UI.fg('height','Estatura (cm)','number',v('height'),{required:true,placeholder:'165'})}</div>
-        ${UI.fg('usualWeight','¿Cuál es el peso que has mantenido la mayor parte de los últimos 5 años?','number',v('usualWeight'),{placeholder:'68',hint:'No tu peso ideal, sino el peso más constante que recuerdes'})}
-        <div class="form-row">${UI.fg('waistCirc','Cintura (cm)','number',v('waistCirc'),{placeholder:'85'})}${UI.fg('hipCirc','Cadera (cm)','number',v('hipCirc'),{placeholder:'98'})}</div>
-        <div class="form-row">${UI.fg('bicepCirc','Bíceps (cm)','number',v('bicepCirc'),{placeholder:'Opcional'})}${UI.fg('thighCirc','Muslo (cm)','number',v('thighCirc'),{placeholder:'Opcional'})}</div>
-        <hr style="border:none;border-top:1px solid var(--g100);margin:20px 0">
-        <h3 class="mb-4">🎯 Tus objetivos</h3>
-        ${UI.fg('goals','¿Qué quieres lograr?','textarea',v('goals'),{required:true,placeholder:'Bajar de peso, más energía, comer mejor, controlar azúcar...'})}
-        ${UI.fg('barriers','Obstáculos que has enfrentado','textarea',v('barriers'),{placeholder:'Falta de tiempo, antojos, comer fuera...'})}
-        <div class="flex gap-3"><button class="btn btn-outline" onclick="Onboard.prev()">← Anterior</button><button class="btn btn-primary btn-lg" style="flex:1" onclick="Onboard.finish()">✅ Enviar información</button></div>`;
-      default:return''
+  renderStep: function() {
+    var d = this.data, v = function(f) { return d[f] || ""; };
+    if (this.step === 1) {
+      return '<h3 class="mb-4">👤 Datos personales</h3>' + '<div class="form-row">' + UI.fg("name", "Nombre completo", "text", v("name") || (Auth.currentUser ? Auth.currentUser.displayName || "" : ""), {required:true}) + UI.fg("phone", "Teléfono/WhatsApp", "tel", v("phone"), {placeholder:"442 123 4567"}) + '</div><div class="form-row">' + UI.fg("birthdate", "Fecha nacimiento", "date", v("birthdate"), {required:true}) + UI.fg("sex", "Sexo biológico", "select", v("sex"), {required:true, options:[{value:"",label:"Selecciona"},{value:"F",label:"Femenino"},{value:"M",label:"Masculino"}]}) + '</div>' + UI.fg("occupation", "¿A qué te dedicas?", "text", v("occupation"), {placeholder:"Estudiante, oficina..."}) + UI.fg("consultReason", "¿Por qué buscas consulta nutricional?", "textarea", v("consultReason"), {required:true, placeholder:"Cuéntanos qué te motivó"}) + '<button class="btn btn-primary w-full" onclick="Onboard.next()">Siguiente →</button>';
     }
+    if (this.step === 2) {
+      var h = '<h3 class="mb-4">🏥 Historial médico</h3>';
+      h += UI.infoBox("Esta información es <strong>confidencial</strong>. Solo la ve tu nutrióloga.", "tip");
+      // Structured family history
+      h += '<h4 class="mt-4 mb-2">👨‍👩‍👦 Antecedentes heredofamiliares</h4>';
+      h += UI.infoBox("Indica si algún familiar tiene o tuvo enfermedades. Esto nos ayuda a entender tu riesgo.", "info");
+      var famHistory = d.familyHistoryStructured || [];
+      h += '<div id="fam-entries">';
+      if (famHistory.length) {
+        famHistory.forEach(function(f, i) {
+          h += '<div class="card" style="padding:12px;margin-bottom:8px"><div class="form-row">' + '<div><strong>' + (f.relation || "") + '</strong> — ' + (f.disease || "") + ' — ' + (f.status || "") + (f.deathYear ? " (" + f.deathYear + ")" : "") + '</div></div></div>';
+        });
+      }
+      h += '</div>';
+      h += '<div class="card" style="padding:16px;background:var(--sage-50);margin-bottom:16px">';
+      h += '<p class="text-sm mb-2" style="font-weight:600">Agregar familiar:</p>';
+      h += '<div class="form-row">' + UI.fg("fam_relation", "Parentesco", "select", "", {options:[{value:"",label:"Selecciona"},{value:"Madre",label:"Madre"},{value:"Padre",label:"Padre"},{value:"Hermano/a",label:"Hermano/a"},{value:"Abuelo/a materno",label:"Abuelo/a materno"},{value:"Abuelo/a paterno",label:"Abuelo/a paterno"},{value:"Tío/a",label:"Tío/a"},{value:"Otro",label:"Otro"}]}) + UI.fg("fam_disease", "Enfermedad", "text", "", {placeholder:"Diabetes, hipertensión, cáncer..."}) + '</div>';
+      h += '<div class="form-row">' + UI.fg("fam_status", "Estado", "select", "", {options:[{value:"",label:"Selecciona"},{value:"Vivo/a",label:"Vivo/a"},{value:"Fallecido/a",label:"Fallecido/a"}]}) + UI.fg("fam_deathYear", "Año fallecimiento", "number", "", {placeholder:"Solo si aplica"}) + '</div>';
+      h += '<button class="btn btn-secondary btn-sm" onclick="Onboard.addFamily()">➕ Agregar</button></div>';
+      // Regular history fields
+      h += '<h4 class="mt-6 mb-2">🏥 Tus antecedentes</h4>';
+      h += UI.fg("pathologicalHistory", "¿Tienes enfermedades diagnosticadas?", "textarea", v("pathologicalHistory"), {placeholder:"Ej: Hipotiroidismo, gastritis..."});
+      h += UI.fg("surgeries", "Cirugías", "text", v("surgeries"), {placeholder:"Tipo y fecha. Escribe Ninguna si no"});
+      h += UI.fg("allergies", "Alergias", "text", v("allergies"), {placeholder:"Ej: Penicilina, mariscos... o Ninguna"});
+      h += UI.fg("medications", "Medicamentos (nombre, dosis, frecuencia)", "textarea", v("medications"), {placeholder:"Ej: Levotiroxina 50mcg cada mañana"});
+      h += UI.fg("supplements", "Suplementos", "textarea", v("supplements"), {placeholder:"Ej: Vitamina D 1000UI diaria. Escribe Ninguno si no"});
+      // Smoking
+      h += '<h4 class="mt-6 mb-2">🚬 Tabaquismo y alcohol</h4>';
+      h += '<div class="form-row">' + UI.fg("smokingStatus", "¿Fumas?", "select", v("smokingStatus"), {options:[{value:"",label:"Selecciona"},{value:"nunca",label:"Nunca"},{value:"si",label:"Sí"},{value:"ex",label:"Ex fumador"}]}) + UI.fg("smokingAmount", "Cigarros/día", "number", v("smokingAmount")) + '</div>';
+      h += '<div class="form-row">' + UI.fg("smokingYears", "Años fumando", "number", v("smokingYears")) + UI.fg("smokingQuitYears", "Años sin fumar", "number", v("smokingQuitYears")) + '</div>';
+      h += '<div class="form-row">' + UI.fg("alcoholFreq", "Alcohol", "select", v("alcoholFreq"), {options:[{value:"",label:"Selecciona"},{value:"nunca",label:"Nunca"},{value:"social",label:"Social"},{value:"1-2_mes",label:"1-2/mes"},{value:"1-2_sem",label:"1-2/sem"},{value:"3+",label:"3+/sem"}]}) + UI.fg("alcoholType", "Tipo", "text", v("alcoholType"), {placeholder:"Cerveza, vino..."}) + '</div>';
+      h += UI.fg("substances", "Otras sustancias (confidencial)", "text", v("substances"), {placeholder:"Escribe No si no aplica"});
+      // Labs
+      h += '<h4 class="mt-6 mb-2">🔬 Laboratorios</h4>';
+      h += UI.fg("hasRecentLabs", "¿Tienes estudios de los últimos 3 meses?", "select", v("hasRecentLabs"), {options:[{value:"",label:"Selecciona"},{value:"si",label:"Sí"},{value:"no",label:"No"},{value:"viejos",label:"Sí pero viejos"}]});
+      h += '<div style="border:2px dashed var(--g200);border-radius:14px;padding:20px;text-align:center;position:relative;margin-bottom:16px"><div style="font-size:1.8rem;margin-bottom:6px">📄</div><div style="font-weight:600;font-size:.85rem">Subir laboratorios</div><div style="font-size:.72rem;color:var(--g400)">PDF, fotos, capturas</div><input type="file" accept="image/*,.pdf" onchange="Onboard.uploadLab(this)" style="margin-top:8px"></div>';
+      h += '<div class="flex gap-3"><button class="btn btn-outline" onclick="Onboard.prev()">← Anterior</button><button class="btn btn-primary" style="flex:1" onclick="Onboard.next()">Siguiente →</button></div>';
+      return h;
+    }
+    if (this.step === 3) {
+      var h = '<h3 class="mb-4">📏 Tus medidas</h3>';
+      h += UI.infoBox("<strong>Telemedicina:</strong> Toma tus medidas siguiendo estas instrucciones.", "warn");
+      h += '<div class="card" style="background:var(--sage-50);border:1px solid var(--sage-light);margin-bottom:16px;padding:16px"><h4 style="font-family:var(--font-b);font-weight:600;margin-bottom:8px">📐 Cómo medirte</h4><ul style="font-size:.85rem;line-height:1.9;padding-left:20px"><li><strong>Peso:</strong> Por la mañana, sin zapatos, antes de desayunar</li><li><strong>Talla:</strong> Derecho/a contra pared</li><li><strong>Cintura:</strong> A la altura del ombligo, sin apretar</li><li><strong>Cadera:</strong> Parte más ancha de glúteos</li></ul></div>';
+      h += '<div class="form-row">' + UI.fg("currentWeight", "Peso actual (kg)", "number", v("currentWeight"), {required:true, step:"0.1", placeholder:"70.5"}) + UI.fg("height", "Estatura (cm)", "number", v("height"), {required:true, placeholder:"165"}) + '</div>';
+      h += UI.fg("usualWeight", "Peso mantenido últimos 5 años (kg)", "number", v("usualWeight"), {placeholder:"68", hint:"No tu peso ideal, sino el más constante"});
+      h += '<div class="form-row">' + UI.fg("waistCirc", "Cintura (cm)", "number", v("waistCirc"), {placeholder:"85"}) + UI.fg("hipCirc", "Cadera (cm)", "number", v("hipCirc"), {placeholder:"98"}) + '</div>';
+      h += '<div class="form-row">' + UI.fg("bicepCirc", "Bíceps (cm)", "number", v("bicepCirc"), {placeholder:"Opcional"}) + UI.fg("thighCirc", "Muslo (cm)", "number", v("thighCirc"), {placeholder:"Opcional"}) + '</div>';
+      h += '<div class="flex gap-3"><button class="btn btn-outline" onclick="Onboard.prev()">← Anterior</button><button class="btn btn-primary" style="flex:1" onclick="Onboard.next()">Siguiente →</button></div>';
+      return h;
+    }
+    if (this.step === 4) {
+      var h = '<h3 class="mb-4">🎯 Objetivos y fotos</h3>';
+      h += UI.fg("goals", "¿Qué quieres lograr?", "textarea", v("goals"), {required:true, placeholder:"Bajar de peso, más energía, comer mejor..."});
+      h += UI.fg("barriers", "Obstáculos que has enfrentado", "textarea", v("barriers"), {placeholder:"Falta de tiempo, antojos..."});
+      h += '<h4 class="mt-6 mb-2">📸 Fotos para tu primera consulta</h4>';
+      h += UI.infoBox("Estas fotos ayudan a tu nutrióloga a evaluar tu composición corporal.", "tip");
+      h += '<div class="photo-upload-grid"><div class="photo-upload-box"><div class="upload-icon">🧍</div><div class="upload-label">De frente</div><input type="file" accept="image/*" onchange="Onboard.uploadPhoto(this,\'frente\')"></div><div class="photo-upload-box"><div class="upload-icon">🧍‍♂️</div><div class="upload-label">De lado</div><input type="file" accept="image/*" onchange="Onboard.uploadPhoto(this,\'lado\')"></div><div class="photo-upload-box"><div class="upload-icon">🔄</div><div class="upload-label">De atrás</div><input type="file" accept="image/*" onchange="Onboard.uploadPhoto(this,\'atras\')"></div></div>';
+      h += '<div class="flex gap-3 mt-6"><button class="btn btn-outline" onclick="Onboard.prev()">← Anterior</button><button class="btn btn-primary btn-lg" style="flex:1" onclick="Onboard.finish()">✅ Enviar información</button></div>';
+      return h;
+    }
+    return "";
   },
-  async collect(){const d={};document.querySelectorAll('#ob-s .form-input,#ob-s .form-textarea,#ob-s .form-select').forEach(el=>{if(el.name&&el.value!==undefined)d[el.name]=el.value});Object.assign(this.data,d);await DB.save(null,d)},
-  async next(){await this.collect();if(this.step<this.total){this.step++;document.getElementById('main-content').innerHTML=this.page()}},
-  prev(){if(this.step>1){this.step--;document.getElementById('main-content').innerHTML=this.page()}},
-  async finish(){await this.collect();await DB.save(null,{onboardingComplete:true,status:'active'});await db.collection('users').doc(Auth.currentUser.uid).update({onboardingComplete:true});Auth.userProfile.onboardingComplete=true;UI.toast('¡Información enviada! Tu nutrióloga ya puede revisarla 🌿');Router.nav('pat-dashboard')},
-  async uploadLab(inp){const file=inp.files[0];if(!file)return;try{UI.toast('Subiendo...','info');const url=await DB.uploadFile(Auth.currentUser.uid,'labs',file);await DB.addSub(Auth.currentUser.uid,'files',{type:'lab',url,name:file.name,date:UI.todayISO()});UI.toast('Laboratorio subido ✓')}catch(e){UI.toast('Error: '+e.message,'error')}}
+  addFamily: function() {
+    var rel = (document.querySelector("[name=fam_relation]") || {}).value;
+    var dis = (document.querySelector("[name=fam_disease]") || {}).value;
+    var sta = (document.querySelector("[name=fam_status]") || {}).value;
+    var yr = (document.querySelector("[name=fam_deathYear]") || {}).value;
+    if (!rel || !dis) { UI.toast("Completa parentesco y enfermedad", "warning"); return; }
+    if (!this.data.familyHistoryStructured) this.data.familyHistoryStructured = [];
+    this.data.familyHistoryStructured.push({ relation: rel, disease: dis, status: sta, deathYear: yr });
+    DB.save(null, { familyHistoryStructured: this.data.familyHistoryStructured });
+    // Refresh
+    var el = document.getElementById("fam-entries");
+    if (el) {
+      var entry = '<div class="card" style="padding:12px;margin-bottom:8px"><strong>' + rel + '</strong> — ' + dis + ' — ' + sta + (yr ? " (" + yr + ")" : "") + '</div>';
+      el.innerHTML += entry;
+    }
+    UI.toast("Familiar agregado ✓");
+    // Clear fields
+    if (document.querySelector("[name=fam_relation]")) document.querySelector("[name=fam_relation]").value = "";
+    if (document.querySelector("[name=fam_disease]")) document.querySelector("[name=fam_disease]").value = "";
+    if (document.querySelector("[name=fam_status]")) document.querySelector("[name=fam_status]").value = "";
+    if (document.querySelector("[name=fam_deathYear]")) document.querySelector("[name=fam_deathYear]").value = "";
+  },
+  collect: function() {
+    var d = {};
+    document.querySelectorAll("#ob-s .form-input, #ob-s .form-textarea, #ob-s .form-select").forEach(function(el) { if (el.name && el.value !== undefined && el.name.indexOf("fam_") !== 0) d[el.name] = el.value; });
+    Object.assign(this.data, d);
+    return DB.save(null, d);
+  },
+  next: function() { var self = this; this.collect().then(function() { if (self.step < self.total) { self.step++; document.getElementById("main-content").innerHTML = self.page(); } }); },
+  prev: function() { if (this.step > 1) { this.step--; document.getElementById("main-content").innerHTML = this.page(); } },
+  finish: function() {
+    var self = this;
+    this.collect().then(function() {
+      return DB.save(null, { onboardingComplete: true, status: "active" });
+    }).then(function() {
+      return db.collection("users").doc(Auth.currentUser.uid).update({ onboardingComplete: true });
+    }).then(function() {
+      Auth.userProfile.onboardingComplete = true;
+      UI.toast("¡Información enviada! Tu nutrióloga ya puede revisarla 🌿");
+      Router.nav("pat-dashboard");
+    });
+  },
+  uploadLab: function(inp) {
+    var file = inp.files[0]; if (!file) return;
+    var uid = Auth.currentUser ? Auth.currentUser.uid : null;
+    UI.toast("Subiendo...", "info");
+    DB.uploadFile(uid, "labs", file, { fileCategory: "lab" }).then(function() { UI.toast("Laboratorio subido ✓"); }).catch(function(e) { UI.toast("Error: " + e.message, "error"); });
+  },
+  uploadPhoto: function(inp, type) {
+    var file = inp.files[0]; if (!file) return;
+    var uid = Auth.currentUser ? Auth.currentUser.uid : null;
+    UI.toast("Subiendo foto...", "info");
+    DB.uploadFile(uid, "photos", file, { photoType: type }).then(function(url) {
+      UI.toast("Foto subida ✓");
+      inp.parentElement.innerHTML = '<img src="' + url + '">';
+    }).catch(function(e) { UI.toast("Error: " + e.message, "error"); });
+  }
+};
+
+// === REGISTER ALL VIEWS ===
+Router.views = {
+  "dashboard": function() { NutDash.render(); },
+  "patients": function() { Patients.render(); },
+  "patient-record": function(p) { PatRec.render(p); },
+  "nut-history": function(p) { NutHist.render(p); },
+  "recall24": function(p) { Recall24.render(p); },
+  "evo-notes": function(p) { EvoNotes.render(p); },
+  "equivalents": function() { return Equiv.render(); },
+  "calculators": function() { return Calc.render(); },
+  "meal-plans": function(p) { MealPlan.render(p); },
+  "recommendations": function(p) { return Recs.render(p); },
+  "grocery": function(p) { return Grocery.render(p); },
+  "pat-dashboard": function() { PatDash.render(); },
+  "pat-progress": function() { return PatProg.render(); },
+  "pat-plan": function() { return PatPlanV.render(); },
+  "pat-photos": function() { return PatPhotos.render(); },
+  "onboarding": function() { Onboard.render(); }
 };
 
 // === APP INIT ===
-document.addEventListener('DOMContentLoaded',()=>{
-  document.getElementById('mobile-menu-btn')?.addEventListener('click',()=>UI.toggleSidebar());
-  document.getElementById('sidebar-close')?.addEventListener('click',()=>UI.closeSidebar());
-  document.getElementById('sidebar-overlay')?.addEventListener('click',()=>UI.closeSidebar());
-  document.getElementById('modal-overlay')?.addEventListener('click',e=>{if(e.target===e.currentTarget)UI.closeModal()});
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'){UI.closeModal();UI.closeSidebar()}});
+document.addEventListener("DOMContentLoaded", function() {
+  document.getElementById("mobile-menu-btn").addEventListener("click", function() { UI.toggleSidebar(); });
+  document.getElementById("sidebar-close").addEventListener("click", function() { UI.closeSidebar(); });
+  document.getElementById("sidebar-overlay").addEventListener("click", function() { UI.closeSidebar(); });
+  document.getElementById("modal-overlay").addEventListener("click", function(e) { if (e.target === e.currentTarget) UI.closeModal(); });
+  document.addEventListener("keydown", function(e) { if (e.key === "Escape") { UI.closeModal(); UI.closeSidebar(); } });
   Auth.init();
 });
 
