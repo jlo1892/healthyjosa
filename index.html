@@ -632,6 +632,7 @@ const Auth = {
   },
 
   async loadOrCreateProfile(user) {
+    try {
     const docRef = db.collection('users').doc(user.uid);
     const doc = await docRef.get();
     
@@ -663,6 +664,7 @@ const Auth = {
 
       // If patient, also create a patient profile
       if (!isNutritionist) {
+        console.log('Creating patient profile for:', user.email);
         await db.collection('patients').doc(user.uid).set({
           uid: user.uid,
           email: user.email,
@@ -676,6 +678,10 @@ const Auth = {
           updatedAt: firebase.firestore.FieldValue.serverTimestamp()
         });
       }
+    }
+    } catch(e) {
+      console.error('Error creating profile:', e);
+      UI.toast('Error al crear perfil: ' + e.message, 'error');
     }
   },
 
@@ -788,7 +794,7 @@ const Router = {
         if (typeof html === 'string') {
           main.innerHTML = html;
         } else if (html && typeof html.then === 'function') {
-          html.then(h => { main.innerHTML = h; }).catch(e => {
+          html.then(h => { if (typeof h === 'string') main.innerHTML = h; }).catch(e => {
             console.error(e);
             main.innerHTML = UI.emptyState('⚠️', 'Error', 'No se pudo cargar la vista.');
           });
