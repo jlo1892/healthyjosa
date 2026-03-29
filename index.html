@@ -246,6 +246,41 @@ a{color:var(--sage-dark);text-decoration:none}img{max-width:100%;display:block}
 @media(max-width:480px){html{font-size:14px}.stat-card{flex-direction:column;align-items:center;text-align:center}.quick-actions{flex-direction:column}}
 /* Utils */
 .text-center{text-align:center}.text-sm{font-size:.82rem}.text-xs{font-size:.72rem}.text-muted{color:var(--g500)}
+/* Recall R24 */
+.r24-meal-block{background:#fff;border:1px solid var(--g100);border-radius:var(--r-lg);margin-bottom:16px;overflow:hidden}
+.r24-meal-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:var(--sage-50);border-bottom:1px solid var(--g100);cursor:pointer;gap:12px}
+.r24-meal-header:hover{background:#e5ede3}
+.r24-meal-header h4{font-family:var(--font-b);font-weight:700;font-size:.92rem;margin:0;display:flex;align-items:center;gap:8px}
+.r24-meal-header .r24-meal-kcal{font-size:.78rem;font-weight:600;color:var(--sage-dark);background:#fff;padding:3px 10px;border-radius:var(--r-full)}
+.r24-meal-body{padding:16px 18px}
+.r24-entry{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--g50)}
+.r24-entry:last-child{border-bottom:none}
+.r24-entry-food{flex:1;min-width:0}
+.r24-entry-food strong{font-size:.88rem;display:block}
+.r24-entry-food .r24-entry-meta{font-size:.72rem;color:var(--g500);margin-top:2px}
+.r24-entry-qty{display:flex;align-items:center;gap:6px}
+.r24-entry-qty input{width:56px;text-align:center;padding:5px;border:1.5px solid var(--g200);border-radius:var(--r-sm);font-size:.85rem;font-family:var(--font-b)}
+.r24-entry-qty input:focus{border-color:var(--sage);outline:none}
+.r24-entry-macro{font-size:.72rem;color:var(--g500);white-space:nowrap}
+.r24-entry-del{background:none;border:none;color:var(--g300);cursor:pointer;padding:4px;border-radius:50%;font-size:1rem;transition:var(--tr)}
+.r24-entry-del:hover{color:var(--danger);background:#fef2f2}
+.r24-add-bar{display:flex;gap:8px;margin-top:12px}
+.r24-add-bar input{flex:1;padding:9px 14px;border:1.5px solid var(--g200);border-radius:var(--r-md);font-size:.85rem;font-family:var(--font-b);outline:none}
+.r24-add-bar input:focus{border-color:var(--sage)}
+.r24-search-dropdown{position:relative}
+.r24-results{position:absolute;top:100%;left:0;right:0;z-index:50;background:#fff;border:1px solid var(--g200);border-radius:var(--r-md);box-shadow:var(--shadow-lg);max-height:220px;overflow-y:auto;margin-top:4px}
+.r24-results:empty{display:none}
+.r24-result-item{padding:10px 14px;cursor:pointer;border-bottom:1px solid var(--g50);font-size:.85rem;transition:background .15s}
+.r24-result-item:hover{background:var(--sage-50)}
+.r24-result-item strong{display:block;font-size:.88rem}
+.r24-result-item .r24-result-meta{font-size:.72rem;color:var(--g500);margin-top:2px}
+.r24-summary-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:16px}
+.r24-summary-chip{padding:12px;border-radius:var(--r-md);text-align:center;border:1px solid var(--g100)}
+.r24-summary-chip .r24-chip-val{font-size:1.3rem;font-weight:700;font-family:var(--font-b);display:block}
+.r24-summary-chip .r24-chip-label{font-size:.72rem;color:var(--g500);margin-top:4px;display:block}
+.r24-summary-chip .r24-chip-kcal{font-size:.68rem;color:var(--g400);margin-top:2px;display:block}
+.r24-notes-field{width:100%;padding:10px 14px;border:1.5px solid var(--g200);border-radius:var(--r-md);font-family:var(--font-b);font-size:.88rem;resize:vertical;min-height:48px;outline:none;margin-top:8px}
+.r24-notes-field:focus{border-color:var(--sage)}
 .mt-2{margin-top:8px}.mt-4{margin-top:16px}.mt-6{margin-top:24px}.mb-4{margin-bottom:16px}.mb-6{margin-bottom:24px}
 .flex{display:flex}.flex-wrap{flex-wrap:wrap}.items-center{align-items:center}.justify-between{justify-content:space-between}.w-full{width:100%}.gap-3{gap:12px}
 
@@ -389,39 +424,41 @@ try {
 const FOOD_EQUIVALENTS = {
   groups: [
     {id:"verduras",name:"Verduras",color:"#4CAF50",cssClass:"verduras",energy:25,protein:2,fat:0,carbs:4,subgroups:[
-      {id:"v1",name:"Verduras I",foods:[{name:"Acelga cocida",portion:"1/2 taza"},{name:"Apio crudo",portion:"2 tazas"},{name:"Champiñón cocido",portion:"1 taza"},{name:"Col cruda",portion:"1 1/2 taza"},{name:"Coliflor cocida",portion:"1 taza"},{name:"Espinaca cocida",portion:"1/2 taza"},{name:"Espinaca cruda",portion:"2 tazas"},{name:"Lechuga",portion:"3 tazas"},{name:"Nopal cocido",portion:"1 taza"},{name:"Pepino rebanado",portion:"1 1/2 taza"},{name:"Pimiento morrón",portion:"1 pieza"}]},
-      {id:"v2",name:"Verduras II",foods:[{name:"Brócoli cocido",portion:"1/2 taza"},{name:"Calabacita cocida",portion:"1/2 taza"},{name:"Cebolla blanca cruda",portion:"1/2 taza"},{name:"Chayote cocido",portion:"1/2 pieza"},{name:"Jicama picada",portion:"1/2 taza"},{name:"Jitomate bola",portion:"1 pieza"},{name:"Zanahoria cruda",portion:"3/4 taza"},{name:"Zanahoria cocida",portion:"1/2 taza"},{name:"Betabel rallado",portion:"1/4 taza"}]}
+      {id:"v1",name:"Verduras I (consumo libre)",foods:[{name:"Acelga cocida",portion:"1/2 taza"},{name:"Apio crudo",portion:"1 taza"},{name:"Berros crudos",portion:"2 tazas"},{name:"Champiñón cocido",portion:"3/4 taza"},{name:"Col cruda",portion:"2 tazas"},{name:"Coliflor cocida",portion:"1/2 taza"},{name:"Espinaca cocida",portion:"1/2 taza"},{name:"Espinaca cruda",portion:"2 tazas"},{name:"Flor de calabaza cruda",portion:"2 tazas"},{name:"Lechuga",portion:"3 tazas"},{name:"Nopal cocido",portion:"1 taza"},{name:"Pepino rebanado",portion:"1 1/2 taza"},{name:"Pimiento morrón",portion:"1 pieza"},{name:"Rábano rebanado",portion:"2 tazas"},{name:"Setas crudas",portion:"2 tazas"},{name:"Verdolaga cruda",portion:"2 tazas"}]},
+      {id:"v2",name:"Verduras II",foods:[{name:"Brócoli cocido",portion:"1/2 taza"},{name:"Calabacita cocida",portion:"1 taza"},{name:"Cebolla blanca cruda",portion:"1/2 taza"},{name:"Chayote cocido",portion:"1 taza"},{name:"Chícharo cocido",portion:"1/2 taza"},{name:"Huitlacoche cocido",portion:"1/2 taza"},{name:"Jícama picada",portion:"1/2 taza"},{name:"Jitomate bola",portion:"1 pieza"},{name:"Jitomate saladet",portion:"2 piezas"},{name:"Romeritos cocidos",portion:"1 taza"},{name:"Zanahoria cruda picada",portion:"3/4 taza"},{name:"Zanahoria cocida",portion:"1/2 taza"},{name:"Betabel rallado",portion:"1/4 taza"},{name:"Ejote cocido",portion:"1/2 taza"},{name:"Elote desgranado cocido",portion:"1/2 taza"}]}
     ]},
     {id:"frutas",name:"Frutas",color:"#FF9800",cssClass:"frutas",energy:60,protein:0,fat:0,carbs:15,subgroups:[
-      {id:"f1",name:"Frutas",foods:[{name:"Manzana chica",portion:"1 pieza"},{name:"Fresa rebanada",portion:"1 taza"},{name:"Papaya",portion:"1 taza"},{name:"Melón picado",portion:"1 taza"},{name:"Sandía picada",portion:"1 taza"},{name:"Naranja en gajos",portion:"1 taza"},{name:"Plátano tabasco",portion:"1/2 pieza"},{name:"Mango ataulfo",portion:"1/2 pieza"},{name:"Guayaba",portion:"3 piezas"},{name:"Piña picada",portion:"3/4 taza"},{name:"Uva",portion:"15 piezas"},{name:"Pera",portion:"1/2 pieza"},{name:"Kiwi",portion:"1 1/2 piezas"},{name:"Toronja",portion:"1 pieza"},{name:"Durazno chico",portion:"2 piezas"},{name:"Mandarina chica",portion:"2 piezas"}]}
+      {id:"f1",name:"Frutas",foods:[{name:"Manzana chica",portion:"1 pieza"},{name:"Fresa rebanada",portion:"1 taza"},{name:"Papaya picada",portion:"1 taza"},{name:"Melón picado",portion:"1 taza"},{name:"Sandía picada",portion:"1 taza"},{name:"Naranja en gajos",portion:"1 taza"},{name:"Plátano tabasco",portion:"1/2 pieza"},{name:"Mango ataulfo",portion:"1/2 pieza"},{name:"Guayaba",portion:"3 piezas"},{name:"Piña picada",portion:"3/4 taza"},{name:"Uva",portion:"10 piezas"},{name:"Pera",portion:"1/2 pieza"},{name:"Kiwi",portion:"1 1/2 piezas"},{name:"Toronja en gajos",portion:"1 taza"},{name:"Durazno chico",portion:"2 piezas"},{name:"Mandarina chica",portion:"2 piezas"},{name:"Chabacano",portion:"4 piezas chicas"},{name:"Frambuesa",portion:"1 taza"},{name:"Zarzamora",portion:"3/4 taza"},{name:"Moras azules",portion:"3/4 taza"},{name:"Tuna",portion:"2 piezas"},{name:"Granada roja",portion:"1 pieza chica"},{name:"Guanábana",portion:"240 g"},{name:"Lima",portion:"3 piezas chicas"},{name:"Maracuyá",portion:"1 pieza chica"},{name:"Tejocotes",portion:"10 piezas"},{name:"Manzana cocida",portion:"3/4 taza"},{name:"Mamey",portion:"1/3 pieza"},{name:"Ciruela",portion:"3 piezas"},{name:"Higo fresco",portion:"2 piezas"}]}
     ]},
     {id:"cereales",name:"Cereales y Tubérculos",color:"#FFC107",cssClass:"cereales",energy:70,protein:2,fat:0,carbs:15,subgroups:[
-      {id:"csg",name:"Sin grasa",energy:70,protein:2,fat:0,carbs:15,foods:[{name:"Tortilla de maíz",portion:"1 pieza"},{name:"Arroz cocido",portion:"1/2 taza"},{name:"Avena en hojuelas",portion:"1/3 taza"},{name:"Pan integral",portion:"1 rebanada"},{name:"Pasta cocida",portion:"1/2 taza"},{name:"Papa cocida",portion:"1/2 pieza"},{name:"Bolillo sin migajón",portion:"1/2 pieza"},{name:"Galleta María",portion:"5 piezas"},{name:"Tortilla de harina",portion:"1/2 pieza"},{name:"Elote cocido",portion:"1 1/2 pieza"},{name:"Cereal sin azúcar",portion:"1/2 taza"},{name:"Palomitas naturales",portion:"3 tazas"}]},
-      {id:"ccg",name:"Con grasa",energy:115,protein:2,fat:5,carbs:15,foods:[{name:"Pan dulce (concha)",portion:"1 pieza"},{name:"Granola",portion:"1/2 pieza"},{name:"Papas fritas",portion:"6 piezas"},{name:"Tamal",portion:"1/4 pieza"},{name:"Waffle",portion:"1 pieza"}]}
+      {id:"csg",name:"Sin grasa",energy:70,protein:2,fat:0,carbs:15,foods:[{name:"Tortilla de maíz",portion:"1 pieza"},{name:"Tortilla de harina (chica)",portion:"1/2 pieza"},{name:"Arroz cocido (blanco o integral)",portion:"1/2 taza"},{name:"Avena en hojuelas cruda",portion:"1/3 taza"},{name:"Avena cocida",portion:"3/4 taza"},{name:"Pan integral",portion:"1 rebanada"},{name:"Pan de caja blanco o multigrano",portion:"1/2 pieza"},{name:"Pan tostado",portion:"1 pieza"},{name:"Pasta cocida (espagueti, fideo)",portion:"1/2 taza"},{name:"Papa cocida (hervida o al horno)",portion:"1/2 pieza"},{name:"Papa cambray",portion:"5 piezas"},{name:"Bolillo sin migajón",portion:"1/2 pieza"},{name:"Galleta María",portion:"5 piezas"},{name:"Galleta salada",portion:"3 piezas"},{name:"Elote cocido",portion:"3/4 pieza"},{name:"Elote desgranado",portion:"1/2 taza"},{name:"Cereal de caja sin azúcar",portion:"1/2 taza"},{name:"Cereal de caja con azúcar",portion:"1/3 taza"},{name:"Palomitas naturales",portion:"3 tazas"},{name:"Amaranto tostado",portion:"1/4 taza"},{name:"Camote cocido",portion:"1/4 pieza"},{name:"Pan árabe",portion:"1/2 pieza"},{name:"Baguette",portion:"1/4 pieza"},{name:"Bollo de hamburguesa",portion:"1/2 pieza"},{name:"Pan para hot dog",portion:"1/2 pieza"},{name:"Harina de maíz para atole",portion:"2 cdas"},{name:"Masa de maíz",portion:"50 g"},{name:"Hot cake (chico)",portion:"1 pieza"},{name:"Crepas",portion:"2 piezas"},{name:"Galleta de animalitos",portion:"6 piezas"},{name:"Salvado de trigo",portion:"1/2 taza"},{name:"Germen de trigo",portion:"1/4 taza"},{name:"Quinoa cocida",portion:"1/2 taza"}]},
+      {id:"ccg",name:"Con grasa",energy:115,protein:2,fat:5,carbs:15,foods:[{name:"Pan dulce (concha, cuerno, dona)",portion:"1/2 pieza"},{name:"Granola",portion:"1/4 taza"},{name:"Papas fritas",portion:"6-8 piezas"},{name:"Tamal",portion:"1/4 pieza"},{name:"Waffle",portion:"1 pieza"},{name:"Galleta habanera",portion:"4 piezas"},{name:"Barrita de granola o avena",portion:"1/2 pieza"},{name:"Pan molido",portion:"4 cdas"}]}
     ]},
     {id:"aoa",name:"Alimentos de Origen Animal",color:"#F44336",cssClass:"aoa",energy:40,protein:7,fat:1,carbs:0,subgroups:[
-      {id:"amb",name:"Muy bajo en grasa",energy:40,protein:7,fat:1,carbs:0,foods:[{name:"Pechuga de pollo",portion:"30g"},{name:"Atún en agua",portion:"1/4 lata"},{name:"Bistec de res",portion:"30g"},{name:"Clara de huevo",portion:"2 piezas"},{name:"Filete de pescado",portion:"40g"},{name:"Queso cottage",portion:"3 cdas"},{name:"Camarón cocido",portion:"5 piezas"}]},
-      {id:"ab",name:"Bajo en grasa",energy:55,protein:7,fat:3,carbs:0,foods:[{name:"Queso panela",portion:"40g"},{name:"Queso fresco",portion:"40g"},{name:"Jamón de pavo",portion:"2 rebanadas"},{name:"Salmón",portion:"30g"},{name:"Carne de cerdo",portion:"40g"}]},
-      {id:"amod",name:"Moderado en grasa",energy:75,protein:7,fat:5,carbs:0,foods:[{name:"Huevo entero",portion:"1 pieza"},{name:"Queso mozzarella",portion:"30g"},{name:"Sardina en aceite",portion:"3 piezas"}]},
-      {id:"aa",name:"Alto en grasa",energy:100,protein:7,fat:8,carbs:0,foods:[{name:"Queso Oaxaca",portion:"30g"},{name:"Queso manchego",portion:"25g"},{name:"Salchicha",portion:"3/4 pieza"}]}
+      {id:"amb",name:"Muy bajo en grasa",energy:40,protein:7,fat:1,carbs:0,foods:[{name:"Pechuga de pollo o pavo sin piel",portion:"30 g"},{name:"Atún en agua",portion:"1/4 lata (30 g)"},{name:"Atún fresco",portion:"30 g"},{name:"Filete de pescado blanco",portion:"40 g"},{name:"Clara de huevo",portion:"2 piezas"},{name:"Queso cottage",portion:"3 cdas"},{name:"Camarón cocido",portion:"5 piezas"},{name:"Jaiba, langosta, pulpo",portion:"30 g"},{name:"Almeja cocida",portion:"30 g"},{name:"Pechuga de pavo tipo fiambre",portion:"2 rebanadas"}]},
+      {id:"ab",name:"Bajo en grasa",energy:55,protein:7,fat:3,carbs:0,foods:[{name:"Queso panela",portion:"40 g"},{name:"Queso fresco",portion:"40 g"},{name:"Jamón de pavo",portion:"2 rebanadas"},{name:"Salmón",portion:"30 g"},{name:"Carne de cerdo magra",portion:"40 g"},{name:"Queso manchego",portion:"30 g (1 rebanada)"},{name:"Bistec de res magro",portion:"30 g"},{name:"Filete de res",portion:"30 g"},{name:"Surimi",portion:"3 piezas"}]},
+      {id:"amod",name:"Moderado en grasa",energy:75,protein:7,fat:5,carbs:0,foods:[{name:"Huevo entero",portion:"1 pieza"},{name:"Queso mozzarella",portion:"30 g"},{name:"Sardina en aceite (escurrida)",portion:"3 piezas"},{name:"Queso Oaxaca",portion:"30 g"},{name:"Carne molida de res",portion:"30 g"},{name:"Pollo con piel",portion:"30 g"},{name:"Queso de cabra",portion:"25 g"}]},
+      {id:"aa",name:"Alto en grasa",energy:100,protein:7,fat:8,carbs:0,foods:[{name:"Queso chihuahua",portion:"25 g"},{name:"Queso manchego añejo",portion:"25 g"},{name:"Queso amarillo",portion:"1 rebanada"},{name:"Salchicha",portion:"3/4 pieza"},{name:"Chorizo",portion:"1/4 pieza"},{name:"Tocino",portion:"2 tiras"},{name:"Costilla de cerdo",portion:"30 g"},{name:"Vísceras (hígado, riñón)",portion:"30 g"}]}
     ]},
     {id:"leche",name:"Leche y Sustitutos",color:"#2196F3",cssClass:"leche",energy:95,protein:9,fat:2,carbs:12,subgroups:[
-      {id:"ld",name:"Descremada",energy:95,protein:9,fat:2,carbs:12,foods:[{name:"Leche descremada",portion:"1 taza"},{name:"Yogurt light",portion:"3/4 taza"},{name:"Leche de soya light",portion:"1 taza"}]},
-      {id:"le",name:"Entera",energy:150,protein:9,fat:8,carbs:12,foods:[{name:"Leche entera",portion:"1 taza"},{name:"Yogurt natural",portion:"1 taza"}]}
+      {id:"ld",name:"Descremada",energy:95,protein:9,fat:2,carbs:12,foods:[{name:"Leche descremada",portion:"1 taza"},{name:"Yogurt light",portion:"3/4 taza"},{name:"Leche de soya light",portion:"1 taza"},{name:"Leche en polvo descremada",portion:"2 cdas"},{name:"Leche evaporada light",portion:"1/2 taza"},{name:"Jocoque natural",portion:"1 taza"}]},
+      {id:"ls",name:"Semidescremada",energy:110,protein:9,fat:4,carbs:12,foods:[{name:"Leche semidescremada",portion:"1 taza"},{name:"Yogurt natural semidescremado",portion:"3/4 taza"},{name:"Leche evaporada",portion:"1/2 taza"}]},
+      {id:"le",name:"Entera",energy:150,protein:9,fat:8,carbs:12,foods:[{name:"Leche entera",portion:"1 taza"},{name:"Yogurt natural entero",portion:"1 taza"},{name:"Leche de cabra",portion:"1 taza"}]},
+      {id:"laz",name:"Con azúcar",energy:200,protein:8,fat:5,carbs:30,foods:[{name:"Yogurt con fruta comercial",portion:"3/4 taza"},{name:"Leche con sabor",portion:"1 taza"},{name:"Yakult / fermentado",portion:"2 piezas"}]}
     ]},
     {id:"leguminosas",name:"Leguminosas",color:"#9C27B0",cssClass:"leguminosas",energy:120,protein:8,fat:1,carbs:20,subgroups:[
-      {id:"lg",name:"Leguminosas",foods:[{name:"Frijol cocido",portion:"1/2 taza"},{name:"Lentejas cocidas",portion:"1/2 taza"},{name:"Garbanzos cocidos",portion:"1/2 taza"},{name:"Habas cocidas",portion:"1/2 taza"}]}
+      {id:"lg",name:"Leguminosas",foods:[{name:"Frijol cocido",portion:"1/2 taza"},{name:"Lentejas cocidas",portion:"1/2 taza"},{name:"Garbanzos cocidos",portion:"1/2 taza"},{name:"Habas cocidas",portion:"1/2 taza"},{name:"Soya cocida",portion:"1/2 taza"},{name:"Alubias cocidas",portion:"1/2 taza"},{name:"Alverjón cocido",portion:"1/2 taza"}]}
     ]},
     {id:"grasas",name:"Aceites y Grasas",color:"#FF5722",cssClass:"grasas",energy:45,protein:0,fat:5,carbs:0,subgroups:[
-      {id:"gsp",name:"Sin proteína",energy:45,protein:0,fat:5,carbs:0,foods:[{name:"Aceite de oliva",portion:"1 cdita"},{name:"Aceite vegetal",portion:"1 cdita"}]},
-      {id:"gcp",name:"Con proteína",energy:70,protein:3,fat:5,carbs:3,foods:[{name:"Aguacate",portion:"1/3 pieza"},{name:"Almendras",portion:"10 piezas"},{name:"Nuez",portion:"3 piezas"},{name:"Cacahuates",portion:"14 piezas"},{name:"Aceitunas",portion:"6 piezas"}]}
+      {id:"gsp",name:"Sin proteína",energy:45,protein:0,fat:5,carbs:0,foods:[{name:"Aceite de oliva",portion:"1 cdita"},{name:"Aceite vegetal (canola, girasol)",portion:"1 cdita"},{name:"Aceite de aguacate",portion:"1 cdita"},{name:"Mantequilla",portion:"1 1/2 cdita"},{name:"Margarina",portion:"1 cdita"},{name:"Mayonesa light",portion:"1 cda"},{name:"Crema ácida",portion:"1 cda"},{name:"Aderezo cremoso",portion:"1 cda"}]},
+      {id:"gcp",name:"Con proteína",energy:70,protein:3,fat:5,carbs:3,foods:[{name:"Aguacate",portion:"1/4 pieza"},{name:"Almendras",portion:"10 piezas"},{name:"Nuez",portion:"3 piezas"},{name:"Cacahuates",portion:"14 piezas"},{name:"Aceitunas",portion:"6 piezas"},{name:"Pepitas de calabaza",portion:"1 cda"},{name:"Semillas de girasol",portion:"1 cda"},{name:"Ajonjolí",portion:"2 cditas"},{name:"Pistaches",portion:"15 piezas"},{name:"Piñones",portion:"2 cditas"},{name:"Crema de cacahuate",portion:"1 cdita"}]}
     ]},
     {id:"azucares",name:"Azúcares",color:"#E91E63",cssClass:"azucares",energy:40,protein:0,fat:0,carbs:10,subgroups:[
-      {id:"asg",name:"Sin grasa",energy:40,protein:0,fat:0,carbs:10,foods:[{name:"Azúcar",portion:"2 1/2 cditas"},{name:"Miel",portion:"2 cditas"},{name:"Mermelada",portion:"2 1/2 cditas"}]},
-      {id:"acg",name:"Con grasa",energy:85,protein:0,fat:5,carbs:10,foods:[{name:"Chocolate",portion:"1/3 pieza"},{name:"Helado",portion:"1/3 taza"}]}
+      {id:"asg",name:"Sin grasa",energy:40,protein:0,fat:0,carbs:10,foods:[{name:"Azúcar",portion:"2 1/2 cditas"},{name:"Miel de abeja",portion:"2 cditas"},{name:"Mermelada",portion:"2 1/2 cditas"},{name:"Piloncillo rallado",portion:"1 1/2 cdita"},{name:"Miel de agave",portion:"2 cditas"},{name:"Cajeta",portion:"1 cdita"},{name:"Ate",portion:"1 rebanada chica"}]},
+      {id:"acg",name:"Con grasa",energy:85,protein:0,fat:5,carbs:10,foods:[{name:"Chocolate oscuro",portion:"15 g"},{name:"Helado",portion:"1/3 taza"},{name:"Mazapán",portion:"1/2 pieza"},{name:"Galleta con relleno cremoso",portion:"1 pieza"}]}
     ]}
   ],
-  freeEnergyFoods:[{name:"Agua mineral",portion:"1 taza"},{name:"Café descafeinado",portion:"1 taza"},{name:"Té sin azúcar",portion:"libre"},{name:"Limón",portion:"1/2 pieza"},{name:"Canela",portion:"1 cdita"},{name:"Flor de jamaica",portion:"1 taza"},{name:"Mostaza",portion:"1 cdita"},{name:"Vinagre",portion:"1 cdita"}]
+  freeEnergyFoods:[{name:"Agua natural",portion:"libre"},{name:"Agua mineral",portion:"1 taza"},{name:"Café sin azúcar",portion:"1 taza"},{name:"Té sin azúcar",portion:"libre"},{name:"Limón",portion:"1/2 pieza"},{name:"Canela",portion:"1 cdita"},{name:"Flor de jamaica sin azúcar",portion:"1 taza"},{name:"Mostaza",portion:"1 cdita"},{name:"Vinagre",portion:"1 cdita"},{name:"Salsa picante",portion:"1 cdita"},{name:"Consomé en polvo",portion:"1 cdita"},{name:"Hierba de olor (epazote, cilantro, orégano)",portion:"libre"}]
 };
 function searchFoods(q){const r=[];q=q.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");FOOD_EQUIVALENTS.groups.forEach(g=>{g.subgroups.forEach(s=>{s.foods.forEach(f=>{if(f.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").includes(q))r.push({...f,group:g.name,groupId:g.id,subgroup:s.name,energy:s.energy||g.energy,protein:s.protein!==undefined?s.protein:g.protein,fat:s.fat!==undefined?s.fat:g.fat,carbs:s.carbs!==undefined?s.carbs:g.carbs,cssClass:g.cssClass})})})});return r}
 
@@ -666,7 +703,7 @@ const Router = {
     'equivalents':()=>EquivalentsView.render(),'food-kb':()=>FoodKnowledgeView.render(),'calculators':()=>CalcView.render(),'meal-plans':()=>MealPlansView.render(),
     'patient-dashboard':()=>PatDashboard.render(),'patient-progress':()=>PatProgress.render(),'patient-plan':()=>PatPlan.render(),'patient-equivalents':()=>PatientEquivalentsView.render(),
     'patient-photos':()=>PatPhotos.render(),'onboarding':()=>Onboarding.render(),
-    'nut-history':(p)=>NutHistory.render(p),'evolution-notes':(p)=>EvoNotes.render(p)
+    'nut-history':(p)=>NutHistory.render(p),'evolution-notes':(p)=>EvoNotes.render(p),'recall-r24':(p)=>RecallR24.render(p)
   },
   buildNav(){
     const nav=document.getElementById('sidebar-nav');
@@ -782,6 +819,7 @@ const PatientRecord = {
         <button class="btn btn-primary btn-sm" onclick="Router.navigate('meal-plans',{patientId:'${p.id}'})">🥗 Plan alimenticio</button>
         <button class="btn btn-primary btn-sm" onclick="Router.navigate('evolution-notes',{patientId:'${p.id}'})">📝 Notas de evolución</button>
         <button class="btn btn-secondary btn-sm" onclick="Router.navigate('nut-history',{patientId:'${p.id}'})">🍽️ Historia nutricional</button>
+        <button class="btn btn-secondary btn-sm" onclick="Router.navigate('recall-r24',{patientId:'${p.id}'})">📋 R24</button>
       </div>
       ${UI.tabs([{id:'general',label:'Datos generales'},{id:'clinical',label:'Historia clínica editable'},{id:'anthro',label:'Antropometría'},{id:'plan',label:'Plan actual'},{id:'progress',label:'Progreso'}],this.activeTab,'PatientRecord.switchTab')}
       <div id="rec-content">${this.renderTab()}</div>`;
@@ -792,7 +830,7 @@ const PatientRecord = {
     switch(this.activeTab){
       case 'general': return `<div class="grid-2">
         ${UI.card('Datos personales',`<div class="form-row">${UI.fg('name','Nombre','text',v('name'))}${UI.fg('phone','Teléfono','tel',v('phone'))}</div><div class="form-row">${UI.fg('birthdate','Fecha nacimiento','date',v('birthdate'))}${UI.fg('sex','Sexo','select',v('sex'),{options:[{value:'',label:'—'},{value:'F',label:'Femenino'},{value:'M',label:'Masculino'}]})}</div><div class="form-row">${UI.fg('occupation','Ocupación','text',v('occupation'))}${UI.fg('email','Correo','email',v('email')||p.email||'',{hint:'Solo visible para la nutrióloga'})}</div>${UI.fg('consultReason','Motivo de consulta','textarea',v('consultReason'))}<button class="btn btn-primary" onclick="PatientRecord.saveFields()">💾 Guardar cambios</button>`)}
-        ${UI.card('Resumen clínico',`<p><strong>Estado:</strong> ${UI.badge(p.status==='active'?'Activo':'Nuevo',p.status==='active'?'green':'blue')}</p><p><strong>Adherencia:</strong> ${UI.semaforo(p.adherence||'media')}</p><p><strong>Última actualización:</strong> ${UI.formatDate(p.updatedAt)}</p><p><strong>Calculadora guardada:</strong> ${calc.kcalTarget||'—'} kcal ${calc.proteinG?`· ${calc.proteinG}g proteína`:''}</p><div class="mt-4"><button class="btn btn-secondary btn-sm" onclick="Router.navigate('calculators',{patientId:'${p.id}'})">Abrir calculadoras del paciente</button></div>`)}
+        ${UI.card('Resumen clínico',`<p><strong>Estado:</strong> ${UI.badge(p.status==='active'?'Activo':'Nuevo',p.status==='active'?'green':'blue')}</p><p><strong>Adherencia:</strong> ${UI.semaforo(p.adherence||'media')}</p><p><strong>Última actualización:</strong> ${UI.formatDate(p.updatedAt)}</p><p><strong>Calculadora guardada:</strong> ${calc.kcalTarget||'—'} kcal ${calc.proteinG?'· '+calc.proteinG+'g proteína':''}</p>${(()=>{const r24=p.recallR24;if(r24&&r24.totals&&r24.totals.totalKcal>0){return '<div style="margin-top:12px;padding:10px;background:var(--sage-50);border-radius:var(--r-sm)"><p style="font-size:.82rem"><strong>R24:</strong> '+Math.round(r24.totals.totalKcal)+' kcal · P: '+r24.totals.totalP.toFixed(1)+'g · L: '+r24.totals.totalL.toFixed(1)+'g · HCO: '+r24.totals.totalHCO.toFixed(1)+'g</p></div>';}return '<p class="text-sm text-muted mt-2"><em>Sin recordatorio de 24h</em></p>';})()}<div class="mt-4 flex gap-3 flex-wrap"><button class="btn btn-secondary btn-sm" onclick="Router.navigate('calculators',{patientId:'${p.id}'})">Calculadoras</button><button class="btn btn-secondary btn-sm" onclick="Router.navigate('recall-r24',{patientId:'${p.id}'})">📋 R24</button></div>`)}
       </div>`;
       case 'clinical': return `
         ${UI.infoBox('Aquí puedes <strong>editar y complementar</strong> toda la información que capturó el paciente. Esta versión es la que usarás durante la consulta.','info')}
@@ -871,7 +909,22 @@ const NutHistory = {
       ${UI.infoBox('<strong>Esta sección la llenas TÚ como nutrióloga durante la consulta.</strong> El paciente NO puede ver ni editar esto.','warn')}
       ${UI.card('Hábitos de alimentación',`
         ${UI.fg('nh_mealSchedule','Horarios de comida','textarea',nh.mealSchedule||'',{placeholder:'Registra los horarios habituales del paciente'})}
-        ${UI.fg('nh_recall24h','Recordatorio de 24 horas','textarea',nh.recall24h||'',{placeholder:'Registra todo lo que comió ayer el paciente',hint:'Este recordatorio es la BASE para diseñar un plan de alimentación adherente'})}
+        <div class="form-group">
+          <label class="form-label">Recordatorio de 24 horas</label>
+          ${(()=>{
+            const r24=this.p.recallR24;
+            if(r24 && r24.totals && r24.totals.totalKcal > 0){
+              const t=r24.totals;
+              const groups=FOOD_EQUIVALENTS.groups;
+              const chips=groups.filter(g=>(t.byGroup[g.id]||0)>0).map(g=>'<span style="display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:var(--r-full);font-size:.72rem;font-weight:600;background:'+g.color+'15;color:'+g.color+'">'+g.name+': '+(t.byGroup[g.id]||0).toFixed(1)+'</span>').join(' ');
+              return '<div style="padding:14px;background:var(--sage-50);border-radius:var(--r-md);margin-bottom:12px"><div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:8px"><strong style="font-size:.88rem">✅ Recordatorio estructurado guardado</strong><span class="text-xs text-muted">'+UI.formatDate(r24.savedAt)+'</span></div><div style="font-size:.85rem;margin-bottom:8px"><strong>'+Math.round(t.totalKcal)+'</strong> kcal · P: '+t.totalP.toFixed(1)+'g · L: '+t.totalL.toFixed(1)+'g · HCO: '+t.totalHCO.toFixed(1)+'g</div><div style="display:flex;flex-wrap:wrap;gap:6px">'+chips+'</div></div>';
+            }
+            return '<div style="padding:14px;background:var(--g50);border-radius:var(--r-md);margin-bottom:12px;font-size:.85rem;color:var(--g500);font-style:italic">Aún no se ha registrado un recordatorio estructurado. Usa el módulo de R24 para registrar alimentos y calcular equivalentes automáticamente.</div>';
+          })()}
+          <button class="btn btn-primary" onclick="Router.navigate('recall-r24',{patientId:'${this.p.id}'})">📋 Abrir Recordatorio de 24h estructurado</button>
+          <div class="form-hint" style="margin-top:8px">💡 El recordatorio estructurado te permite buscar alimentos del SMAE, calcular equivalentes consumidos y compararlos con el plan prescrito.</div>
+        </div>
+        ${UI.fg('nh_recall24h','Notas adicionales del recordatorio (texto libre)','textarea',nh.recall24h||'',{placeholder:'Notas rápidas sobre lo que comió el paciente, observaciones contextuales, etc.',hint:'Complementa el recordatorio estructurado con notas libres si lo necesitas'})}
         ${UI.fg('nh_weekendChanges','¿Cambia su alimentación en fin de semana?','textarea',nh.weekendChanges||'',{placeholder:'Describe qué cambia'})}
         ${UI.fg('nh_ultraprocessed','Frecuencia de ultraprocesados','select',nh.ultraprocessed||'',{options:[{value:'',label:'Selecciona'},{value:'diario',label:'Diario'},{value:'3-5_semana',label:'3-5 veces/semana'},{value:'1-2_semana',label:'1-2 veces/semana'},{value:'rara_vez',label:'Rara vez'},{value:'nunca',label:'Nunca'}]})}
         <div class="form-row">${UI.fg('nh_eatingOut','Frecuencia de comer fuera','select',nh.eatingOut||'',{options:[{value:'',label:'Selecciona'},{value:'diario',label:'Diario'},{value:'3-5',label:'3-5 veces/semana'},{value:'1-2',label:'1-2 veces/semana'},{value:'rara',label:'Rara vez'}]})}${UI.fg('nh_sweetDrinks','Bebidas azucaradas','select',nh.sweetDrinks||'',{options:[{value:'',label:'Selecciona'},{value:'diario',label:'Diario'},{value:'3-5',label:'3-5/semana'},{value:'1-2',label:'1-2/semana'},{value:'nunca',label:'Nunca'}]})}</div>
@@ -900,6 +953,281 @@ const NutHistory = {
   async save(){
     const data={};document.querySelectorAll('.form-input,.form-textarea,.form-select').forEach(el=>{if(el.name&&el.name.startsWith('nh_'))data[el.name.replace('nh_','')]=el.value});
     if(await DB.savePatientData(this.p.id,{nutritionHistory:data})){UI.toast('Historia nutricional guardada ✓')}else UI.toast('Error','error');
+  }
+};
+
+// === STRUCTURED 24-HOUR RECALL (R24) ===
+const RecallR24 = {
+  p: null,
+  entries: { desayuno:[], colacionAM:[], comida:[], colacionPM:[], cena:[] },
+  mealSlots: [
+    {id:'desayuno',label:'Desayuno',icon:'🌅',time:'7:00-9:00'},
+    {id:'colacionAM',label:'Colación AM',icon:'🍏',time:'10:00-11:00'},
+    {id:'comida',label:'Comida',icon:'🍽️',time:'13:00-15:00'},
+    {id:'colacionPM',label:'Colación PM',icon:'☕',time:'16:00-17:00'},
+    {id:'cena',label:'Cena',icon:'🌙',time:'19:00-21:00'}
+  ],
+  notes: '',
+  searchResults: {},
+  async render(params) {
+    const main = document.getElementById('main-content');
+    main.innerHTML = UI.spinner();
+    if (!params?.patientId) { main.innerHTML = UI.emptyState('⚠️','Selecciona un paciente',''); return; }
+    this.p = await DB.getPatient(params.patientId);
+    if (!this.p) { main.innerHTML = UI.emptyState('🔍','No encontrado',''); return; }
+    const saved = this.p.recallR24 || null;
+    if (saved) {
+      this.entries = saved.entries || { desayuno:[], colacionAM:[], comida:[], colacionPM:[], cena:[] };
+      this.notes = saved.notes || '';
+    } else {
+      this.entries = { desayuno:[], colacionAM:[], comida:[], colacionPM:[], cena:[] };
+      this.notes = '';
+    }
+    main.innerHTML = this.buildHTML();
+  },
+  buildHTML() {
+    const totals = this.calcTotals();
+    const mealBlocks = this.mealSlots.map(slot => {
+      const items = this.entries[slot.id] || [];
+      const mealKcal = items.reduce((s, e) => s + (e.kcal * e.qty), 0);
+      const itemsHTML = items.length ? items.map((e, i) =>
+        '<div class="r24-entry">' +
+          '<div class="r24-entry-food">' +
+            '<strong>' + this.esc(e.name) + '</strong>' +
+            '<div class="r24-entry-meta">' + this.esc(e.group) + ' · ' + this.esc(e.subgroup) + ' · 1 eq = ' + this.esc(e.portion) + '</div>' +
+          '</div>' +
+          '<div class="r24-entry-qty">' +
+            '<input type="number" min="0.25" step="0.25" value="' + e.qty + '" data-slot="' + slot.id + '" data-idx="' + i + '" onchange="RecallR24.updateQty(this)">' +
+            '<span class="text-xs text-muted">eq</span>' +
+          '</div>' +
+          '<div class="r24-entry-macro">' + Math.round(e.kcal * e.qty) + ' kcal</div>' +
+          '<button class="r24-entry-del" data-slot="' + slot.id + '" data-idx="' + i + '" onclick="RecallR24.removeEntry(this)" title="Eliminar">✕</button>' +
+        '</div>'
+      ).join('') : '<div class="text-sm text-muted" style="padding:8px 0;font-style:italic">Sin alimentos registrados para este tiempo</div>';
+
+      return '<div class="r24-meal-block">' +
+        '<div class="r24-meal-header" onclick="RecallR24.toggleMeal(\'' + slot.id + '\')">' +
+          '<h4>' + slot.icon + ' ' + slot.label + ' <span class="text-xs text-muted" style="font-weight:400">(' + slot.time + ')</span></h4>' +
+          '<div class="r24-meal-kcal">' + Math.round(mealKcal) + ' kcal · ' + items.length + ' alimentos</div>' +
+        '</div>' +
+        '<div class="r24-meal-body" id="r24-body-' + slot.id + '">' +
+          itemsHTML +
+          '<div class="r24-search-dropdown" style="margin-top:12px">' +
+            '<div class="r24-add-bar">' +
+              '<input type="text" placeholder="Buscar alimento... ej: tortilla, huevo, manzana" id="r24-search-' + slot.id + '" oninput="RecallR24.searchFood(\'' + slot.id + '\', this.value)" autocomplete="off">' +
+            '</div>' +
+            '<div class="r24-results" id="r24-results-' + slot.id + '"></div>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+
+    const summaryChips = FOOD_EQUIVALENTS.groups.map(g => {
+      const count = totals.byGroup[g.id] || 0;
+      const bgColor = count > 0 ? g.color + '15' : 'var(--g50)';
+      const textColor = count > 0 ? g.color : 'var(--g400)';
+      return '<div class="r24-summary-chip" style="background:' + bgColor + ';border-color:' + (count > 0 ? g.color + '40' : 'var(--g100)') + '">' +
+        '<span class="r24-chip-val" style="color:' + textColor + '">' + count.toFixed(count % 1 === 0 ? 0 : 1) + '</span>' +
+        '<span class="r24-chip-label">' + g.name + '</span>' +
+        '<span class="r24-chip-kcal">' + Math.round(count * g.energy) + ' kcal</span>' +
+      '</div>';
+    }).join('');
+
+    const savedDate = this.p.recallR24?.savedAt ? UI.formatDate(this.p.recallR24.savedAt) : null;
+
+    return '<div class="flex items-center gap-3 mb-6">' +
+      '<button class="btn btn-outline btn-sm" onclick="Router.navigate(\'patient-record\',{patientId:\'' + this.p.id + '\'})">← Volver al expediente</button>' +
+      '<div><h1 style="font-size:1.5rem">Recordatorio de 24 horas</h1><p class="text-sm text-muted">' + (this.p.name || this.p.email) + (savedDate ? ' · Último guardado: ' + savedDate : '') + '</p></div>' +
+    '</div>' +
+    UI.infoBox('<strong>Registra lo que el paciente comió ayer.</strong> Busca cada alimento en el SMAE, ajusta la cantidad de equivalentes y el sistema calcula automáticamente cuántos equivalentes consume por grupo. Esto es la BASE para diseñar un plan adherente.','warn') +
+
+    UI.card('Resumen de equivalentes consumidos', '<div class="r24-summary-grid">' + summaryChips + '</div>' +
+      '<div style="margin-top:16px;padding:14px;background:' + (totals.totalKcal > 0 ? 'var(--sage-50)' : 'var(--g50)') + ';border-radius:var(--r-md);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">' +
+        '<div><strong>Total estimado:</strong> ' + Math.round(totals.totalKcal) + ' kcal</div>' +
+        '<div class="text-sm text-muted">P: ' + totals.totalP.toFixed(1) + 'g · L: ' + totals.totalL.toFixed(1) + 'g · HCO: ' + totals.totalHCO.toFixed(1) + 'g</div>' +
+      '</div>', 'SMAE — lo que el paciente realmente consume', '<button class="btn btn-secondary btn-sm" onclick="RecallR24.compareWithPlan()">📊 Comparar vs plan</button>') +
+
+    mealBlocks +
+
+    UI.card('Notas del recordatorio', '<textarea class="r24-notes-field" placeholder="Observaciones: contexto, falta de apetito, comió fuera, fin de semana atípico, etc." id="r24-notes-field">' + this.esc(this.notes) + '</textarea>') +
+
+    '<div class="flex gap-3 mt-4 flex-wrap">' +
+      '<button class="btn btn-primary btn-lg" onclick="RecallR24.save()">💾 Guardar recordatorio de 24h</button>' +
+      '<button class="btn btn-outline" onclick="RecallR24.clearAll()">🧹 Limpiar todo</button>' +
+      '<button class="btn btn-secondary" onclick="RecallR24.copyToHistory()">📋 Copiar resumen a historia nutricional</button>' +
+    '</div>';
+  },
+  esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); },
+  toggleMeal(slotId) {
+    const body = document.getElementById('r24-body-' + slotId);
+    if (body) body.style.display = body.style.display === 'none' ? 'block' : '';
+  },
+  searchFood(slotId, query) {
+    const container = document.getElementById('r24-results-' + slotId);
+    if (!container) return;
+    if (!query || query.length < 2) { container.innerHTML = ''; return; }
+    const results = searchFoods(query).slice(0, 12);
+    if (!results.length) {
+      container.innerHTML = '<div class="r24-result-item" style="color:var(--g400);cursor:default">Sin resultados para "' + this.esc(query) + '"</div>';
+      return;
+    }
+    container.innerHTML = results.map((f, i) =>
+      '<div class="r24-result-item" data-slot="' + slotId + '" data-fidx="' + i + '" onclick="RecallR24.addFromSearch(\'' + slotId + '\',' + i + ')">' +
+        '<strong>' + this.esc(f.name) + '</strong>' +
+        '<div class="r24-result-meta">' + this.esc(f.group) + ' · ' + this.esc(f.subgroup) + ' · 1 eq = ' + this.esc(f.portion) + ' · ' + f.energy + ' kcal</div>' +
+      '</div>'
+    ).join('');
+    this._lastSearchResults = results;
+  },
+  addFromSearch(slotId, fidx) {
+    const f = this._lastSearchResults?.[fidx];
+    if (!f) return;
+    if (!this.entries[slotId]) this.entries[slotId] = [];
+    this.entries[slotId].push({
+      name: f.name,
+      group: f.group,
+      groupId: f.groupId,
+      subgroup: f.subgroup,
+      portion: f.portion,
+      kcal: f.energy,
+      protein: f.protein,
+      fat: f.fat,
+      carbs: f.carbs,
+      qty: 1
+    });
+    const searchInput = document.getElementById('r24-search-' + slotId);
+    if (searchInput) searchInput.value = '';
+    const resultsContainer = document.getElementById('r24-results-' + slotId);
+    if (resultsContainer) resultsContainer.innerHTML = '';
+    this.refreshUI();
+    UI.toast(f.name + ' agregado','success', 1500);
+  },
+  updateQty(input) {
+    const slot = input.dataset.slot;
+    const idx = parseInt(input.dataset.idx);
+    const val = parseFloat(input.value) || 0;
+    if (this.entries[slot] && this.entries[slot][idx]) {
+      this.entries[slot][idx].qty = Math.max(0, val);
+      this.refreshUI();
+    }
+  },
+  removeEntry(btn) {
+    const slot = btn.dataset.slot;
+    const idx = parseInt(btn.dataset.idx);
+    if (this.entries[slot]) {
+      this.entries[slot].splice(idx, 1);
+      this.refreshUI();
+    }
+  },
+  refreshUI() {
+    const main = document.getElementById('main-content');
+    if (main) {
+      const scrollY = window.scrollY;
+      main.innerHTML = this.buildHTML();
+      window.scrollTo(0, scrollY);
+    }
+  },
+  calcTotals() {
+    const byGroup = {};
+    let totalKcal = 0, totalP = 0, totalL = 0, totalHCO = 0;
+    this.mealSlots.forEach(slot => {
+      (this.entries[slot.id] || []).forEach(e => {
+        const gid = e.groupId || 'other';
+        byGroup[gid] = (byGroup[gid] || 0) + e.qty;
+        totalKcal += e.kcal * e.qty;
+        totalP += (e.protein || 0) * e.qty;
+        totalL += (e.fat || 0) * e.qty;
+        totalHCO += (e.carbs || 0) * e.qty;
+      });
+    });
+    return { byGroup, totalKcal, totalP, totalL, totalHCO };
+  },
+  async save() {
+    if (!this.p?.id) return UI.toast('No hay paciente','error');
+    this.notes = document.getElementById('r24-notes-field')?.value || '';
+    const payload = {
+      entries: this.entries,
+      notes: this.notes,
+      totals: this.calcTotals(),
+      savedAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+    const ok = await DB.savePatientData(this.p.id, { recallR24: payload });
+    if (ok) {
+      await DB.addSubDoc(this.p.id, 'recallHistory', {
+        ...payload,
+        savedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        date: UI.todayISO()
+      });
+      UI.toast('Recordatorio de 24h guardado ✓');
+    } else {
+      UI.toast('Error al guardar','error');
+    }
+  },
+  clearAll() {
+    if (!confirm('¿Limpiar todos los alimentos del recordatorio?')) return;
+    this.entries = { desayuno:[], colacionAM:[], comida:[], colacionPM:[], cena:[] };
+    this.notes = '';
+    this.refreshUI();
+  },
+  compareWithPlan() {
+    const totals = this.calcTotals();
+    const calc = this.p?.calculatorResults || {};
+    const prescribed = calc.equivResult || {};
+    let html = '<div style="padding:20px"><h3 style="margin-bottom:16px">Comparación: consumo real vs plan prescrito</h3>';
+    if (!Object.keys(prescribed).length) {
+      html += UI.infoBox('No hay un cálculo de equivalentes guardado para este paciente. Ve a Calculadoras → Equivalentes para generar uno.','warn');
+    } else {
+      html += '<div class="table-wrapper"><table class="data-table"><thead><tr><th>Grupo</th><th>Consumo actual</th><th>Prescrito</th><th>Diferencia</th><th>Estado</th></tr></thead><tbody>';
+      FOOD_EQUIVALENTS.groups.forEach(g => {
+        const consumed = totals.byGroup[g.id] || 0;
+        const target = prescribed[g.id] || 0;
+        if (consumed === 0 && target === 0) return;
+        const diff = consumed - target;
+        const status = Math.abs(diff) <= 0.5 ? '✅' : (diff > 0 ? '⬆️ Exceso' : '⬇️ Déficit');
+        const color = Math.abs(diff) <= 0.5 ? 'var(--success)' : (diff > 0 ? 'var(--danger)' : 'var(--warning)');
+        html += '<tr><td>' + g.name + '</td><td><strong>' + consumed.toFixed(1) + '</strong></td><td>' + target + '</td><td style="color:' + color + ';font-weight:700">' + (diff > 0 ? '+' : '') + diff.toFixed(1) + '</td><td>' + status + '</td></tr>';
+      });
+      html += '</tbody></table></div>';
+      const consumedKcal = Math.round(totals.totalKcal);
+      const targetKcal = calc.macroTargets?.kcalTarget || calc.kcalTarget || 0;
+      if (targetKcal) {
+        const pct = Math.round((consumedKcal / targetKcal) * 100);
+        html += '<div style="margin-top:16px;padding:14px;background:' + (Math.abs(pct - 100) <= 10 ? '#E8F5E9' : '#FFF8E1') + ';border-radius:var(--r-md)">' +
+          '<strong>Adecuación calórica:</strong> ' + consumedKcal + ' / ' + targetKcal + ' kcal = <strong>' + pct + '%</strong>' +
+          (Math.abs(pct - 100) <= 10 ? ' ✅ Dentro del rango aceptable' : ' ⚠️ Fuera del rango ideal (±10%)') +
+        '</div>';
+      }
+    }
+    html += '</div>';
+    UI.openModal(
+      '<div class="modal-header"><h2>📊 Consumo vs Plan</h2><button class="btn-icon" onclick="UI.closeModal()">✕</button></div>' +
+      '<div class="modal-body">' + html + '</div>',
+      {wide: true}
+    );
+  },
+  async copyToHistory() {
+    if (!this.p?.id) return;
+    const totals = this.calcTotals();
+    let summary = '--- RECORDATORIO DE 24 HORAS ---\n';
+    summary += 'Fecha: ' + UI.todayStr() + '\n\n';
+    this.mealSlots.forEach(slot => {
+      const items = this.entries[slot.id] || [];
+      if (!items.length) return;
+      summary += slot.label.toUpperCase() + ':\n';
+      items.forEach(e => {
+        summary += '  • ' + e.name + ' — ' + e.qty + ' eq (' + e.portion + ') = ' + Math.round(e.kcal * e.qty) + ' kcal\n';
+      });
+      summary += '\n';
+    });
+    summary += 'TOTALES:\n';
+    FOOD_EQUIVALENTS.groups.forEach(g => {
+      const count = totals.byGroup[g.id] || 0;
+      if (count > 0) summary += '  ' + g.name + ': ' + count.toFixed(1) + ' eq (' + Math.round(count * g.energy) + ' kcal)\n';
+    });
+    summary += '\nTotal: ' + Math.round(totals.totalKcal) + ' kcal · P: ' + totals.totalP.toFixed(1) + 'g · L: ' + totals.totalL.toFixed(1) + 'g · HCO: ' + totals.totalHCO.toFixed(1) + 'g';
+    if (this.notes) summary += '\n\nNotas: ' + this.notes;
+    const ok = await DB.savePatientData(this.p.id, { nutritionHistory: { recall24h: summary }});
+    if (ok) UI.toast('Resumen copiado a historia nutricional ✓');
   }
 };
 
