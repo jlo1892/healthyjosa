@@ -386,7 +386,7 @@ var DB = {
     return db.collection("patients").doc(pid).get().then(function(d) { return d.exists ? Object.assign({ id: d.id }, d.data()) : null; }).catch(function(e) { console.error(e); return null; });
   },
   getAll: function() {
-    return db.collection("patients").orderBy("createdAt", "desc").get().then(function(s) { return s.docs.map(function(d) { return Object.assign({ id: d.id }, d.data()); }); }).catch(function(e) { console.error(e); return []; });
+    return db.collection("patients").get().then(function(s) { return s.docs.map(function(d) { return Object.assign({ id: d.id }, d.data()); }); }).catch(function(e) { console.error(e); return []; });
   },
   addSub: function(pid, col, data) {
     data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
@@ -559,7 +559,7 @@ var NutDash = {
         h += '</div>';
       }
       main.innerHTML = h;
-    });
+    }).catch(function(e){ console.error('NutDash:',e); main.innerHTML = UI.empty('⚠️','Error dashboard',e.message); });
   }
 };
 
@@ -578,7 +578,7 @@ var Patients = {
       h += '<div class="search-box mb-4"><span>🔍</span><input placeholder="Buscar..." oninput="Patients.search(this.value)"></div>';
       h += '<div id="pts-list">' + self.renderList(self.pts) + '</div>';
       main.innerHTML = h;
-    });
+    }).catch(function(e) { console.error("Patients error:", e); main.innerHTML = UI.empty("⚠️", "Error", e.message); });
   },
   renderList: function(list) {
     if (!list.length) return UI.empty("👥", "Sin pacientes", "Comparte el link de tu app.");
@@ -650,7 +650,7 @@ var PatRec = {
       self.p = p;
       App.setPatient(p);
       self.show();
-    });
+    }).catch(function(e) { console.error("PatRec error:", e); main.innerHTML = UI.empty("⚠️", "Error cargando expediente", e.message); });
   },
   show: function() {
     var p = this.p, main = document.getElementById("main-content");
@@ -828,7 +828,7 @@ var Recall24 = {
       h += '<p class="text-xs text-muted mt-2 text-center">Este recordatorio se guarda asociado al paciente y alimenta la calculadora.</p>';
       main.innerHTML = h;
       self.recalc();
-    });
+    }).catch(function(e) { console.error("Recall24 error:", e); main.innerHTML = UI.empty("⚠️", "Error", e.message); });
   },
   recalc: function() {
     var totals = { e: 0, p: 0, l: 0, h: 0, f: 0 };
@@ -907,7 +907,7 @@ var NutHist = {
       h += UI.card("Historial", UI.fg("nh_prevDiets", "Planes previos", "select", n.prevDiets || "", {options:[{value:"",label:"—"},{value:"si",label:"Sí"},{value:"no",label:"No"}]}) + UI.fg("nh_whyQuit", "Por qué lo dejó", "textarea", n.whyQuit || "") + UI.fg("nh_goals3to6", "Metas 3-6 meses", "textarea", n.goals3to6 || "") + UI.fg("nh_commitment", "Compromiso (1-10)", "number", n.commitment || "", {placeholder:"1-10"}));
       h += '<button class="btn btn-primary btn-lg w-full" onclick="NutHist.save()">💾 Guardar</button>';
       main.innerHTML = h;
-    });
+    }).catch(function(e) { console.error("NutHist error:", e); main.innerHTML = UI.empty("⚠️", "Error", e.message); });
   },
   save: function() {
     var d = {};
@@ -940,8 +940,8 @@ var EvoNotes = {
           h += UI.card("", UI.empty("📝", "Sin notas", "Agrega tu primera nota."));
         }
         main.innerHTML = h;
-      });
-    });
+      }).catch(function(e) { console.error("EvoNotes error:", e); main.innerHTML = UI.empty("⚠️", "Error", e.message); });
+    }).catch(function(e) { console.error("EvoNotes error:", e); main.innerHTML = UI.empty("⚠️", "Error", e.message); });
   },
   newNote: function() {
     var h = '<div class="modal-header"><h2>Nueva nota de evolución</h2><button class="btn-icon" onclick="UI.closeModal()">✕</button></div>';
@@ -981,7 +981,7 @@ var Equiv = {
     SMAE_GROUPS.forEach(function(g) {
       h += '<div class="equiv-card" style="cursor:pointer" onclick="Equiv.toggle(\' + g.id + \')">';
       h += '<div class="equiv-card-header"><h4 style="font-family:var(--font-b);font-weight:600;font-size:.85rem">' + g.icon + ' ' + g.name + '</h4></div>';
-      h += '<div style="padding:12px 16px"><table style="width:100%;font-size:.82rem"><tr><td style="color:var(--g500)">Kcal</td><td style="font-weight:700;text-align:right">' + g.e + '</td></tr><tr><td style="color:var(--g500)">Proteína</td><td style="font-weight:700;text-align:right">' + g.p + 'g</td></tr><tr><td style="color:var(--g500)">Lípidos</td><td style="font-weight:700;text-align:right">' + g.l + 'g</td></tr><tr><td style="color:var(--g500)">HCO</td><td style="font-weight:700;text-align:right">' + g.h + 'g</td></tr></table></div></div>';
+      h += '<div style="padding:14px 16px;display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;font-size:.82rem"><div><span style="color:var(--g400)">Kcal </span><strong>' + g.e + '</strong></div><div><span style="color:var(--g400)">Prot </span><strong>' + g.p + 'g</strong></div><div><span style="color:var(--g400)">Líp </span><strong>' + g.l + 'g</strong></div><div><span style="color:var(--g400)">HCO </span><strong>' + g.h + 'g</strong></div></div></div>';
     });
     h += '</div><div id="eq-det"></div>';
     return h;
@@ -1163,7 +1163,7 @@ var MealPlan = {
         self.p = p; App.setPatient(p);
         self.planData = p.mealPlanDraft || {};
         self.showEditor();
-      });
+      }).catch(function(e) { console.error("MealPlan error:", e); main.innerHTML = UI.empty("⚠️", "Error", e.message); });
     } else { self.showEditor(); }
   },
   showEditor: function() {
@@ -1317,7 +1317,7 @@ var PatDash = {
       h += UI.card("Hábitos del día", habH, "Marca lo que cumpliste");
       h += '</div>';
       main.innerHTML = h;
-    });
+    }).catch(function(e) { console.error("PatDash error:", e); main.innerHTML = UI.empty("⚠️", "Error", e.message); });
   },
   saveCI: function() {
     var d = { weight: (document.querySelector("[name=ciw]") || {}).value || "", water: (document.querySelector("[name=ciwa]") || {}).value || "", energy: (document.querySelector("[name=cie]") || {}).value || "", notes: (document.querySelector("[name=cin]") || {}).value || "" };
@@ -1396,7 +1396,7 @@ var Onboard = {
     DB.get(uid).then(function(p) {
       if (p) self.data = p;
       document.getElementById("main-content").innerHTML = self.page();
-    });
+    }).catch(function(e) { console.error("Onboard error:", e); document.getElementById("main-content").innerHTML = UI.empty("⚠️", "Error", e.message); });
   },
   page: function() {
     var steps = [{n:1,l:"Datos personales"},{n:2,l:"Historial médico"},{n:3,l:"Medidas"},{n:4,l:"Objetivos y fotos"}];
