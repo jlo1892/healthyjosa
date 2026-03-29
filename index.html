@@ -462,7 +462,294 @@ const FOOD_EQUIVALENTS = {
 };
 function searchFoods(q){const r=[];q=q.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");FOOD_EQUIVALENTS.groups.forEach(g=>{g.subgroups.forEach(s=>{s.foods.forEach(f=>{if(f.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").includes(q))r.push({...f,group:g.name,groupId:g.id,subgroup:s.name,energy:s.energy||g.energy,protein:s.protein!==undefined?s.protein:g.protein,fat:s.fat!==undefined?s.fat:g.fat,carbs:s.carbs!==undefined?s.carbs:g.carbs,cssClass:g.cssClass})})})});return r}
 
-// === UI COMPONENTS ===
+// =====================================================
+// DYNAMIC RECIPES DATABASE — parametrized by SMAE equivalents
+// Each ingredient maps to a SMAE group so quantities scale automatically
+// n=name, g=SMAE group id, eq=base equivalents, p1=portion per 1 equivalent
+// =====================================================
+const DYNAMIC_RECIPES = [
+  {id:'huevos-mexicana',name:'Huevos a la mexicana con tortilla',meals:['desayuno'],tags:['caliente','rápido','económico'],
+    ing:[{n:'Tortilla de maíz',g:'cereales',eq:2,p1:'1 pieza'},{n:'Huevo entero',g:'aoa',eq:1,p1:'1 pieza'},{n:'Jitomate, cebolla, chile verde',g:'verduras',eq:1,p1:'libre',free:true},{n:'Aceite vegetal',g:'grasas',eq:1,p1:'1 cdita'}],
+    steps:'Picar jitomate, cebolla y chile. Calentar aceite, saltear verduras, añadir huevos revueltos. Servir con tortillas calientes.',tip:'Complementar con fruta o leche.'},
+  {id:'avena-fruta-leche',name:'Avena con fruta y leche',meals:['desayuno'],tags:['rápido','frío','económico'],
+    ing:[{n:'Avena en hojuelas',g:'cereales',eq:1,p1:'1/3 taza'},{n:'Leche descremada',g:'leche',eq:1,p1:'1 taza'},{n:'Fruta picada (manzana, fresa, plátano)',g:'frutas',eq:1,p1:'ver equivalente'},{n:'Almendras o nuez',g:'grasas',eq:1,p1:'10 pzas / 3 pzas'}],
+    steps:'Cocinar avena con leche 5 min. Servir con fruta picada y semillas o nueces encima.',tip:'Se puede preparar la noche anterior (overnight oats).'},
+  {id:'sandwich-jamon-panela',name:'Sándwich de jamón de pavo con queso panela',meals:['desayuno','cena','colacionAM'],tags:['frío','rápido','práctico'],
+    ing:[{n:'Pan integral',g:'cereales',eq:2,p1:'1 rebanada'},{n:'Jamón de pavo',g:'aoa',eq:1,p1:'2 rebanadas'},{n:'Queso panela',g:'aoa',eq:1,p1:'40 g'},{n:'Lechuga y jitomate',g:'verduras',eq:1,p1:'libre',free:true},{n:'Aguacate',g:'grasas',eq:1,p1:'1/4 pieza'}],
+    steps:'Tostar pan, colocar jamón, queso, lechuga, jitomate y aguacate. Cerrar y servir.',tip:'Añadir mostaza o mayonesa light (libre).'},
+  {id:'hotcakes-avena',name:'Hot cakes de avena con fruta',meals:['desayuno'],tags:['caliente','dulce','fin de semana'],
+    ing:[{n:'Avena molida',g:'cereales',eq:2,p1:'1/3 taza'},{n:'Huevo',g:'aoa',eq:1,p1:'1 pieza'},{n:'Leche descremada',g:'leche',eq:1,p1:'1 taza'},{n:'Fruta (plátano, fresa)',g:'frutas',eq:1,p1:'ver equivalente'}],
+    steps:'Licuar avena, huevo y leche. Cocinar en sartén antiadherente como hot cakes. Servir con fruta.',tip:'Se puede agregar canela o vainilla (libre).'},
+  {id:'quesadillas-verduras',name:'Quesadillas con verduras',meals:['desayuno','cena'],tags:['caliente','rápido','económico'],
+    ing:[{n:'Tortilla de maíz',g:'cereales',eq:2,p1:'1 pieza'},{n:'Queso Oaxaca o panela',g:'aoa',eq:1,p1:'30 g'},{n:'Champiñones y espinaca',g:'verduras',eq:1,p1:'libre',free:true},{n:'Aceite o aguacate',g:'grasas',eq:1,p1:'1 cdita / 1/4 pza'}],
+    steps:'Calentar tortilla, añadir queso y verduras salteadas. Doblar y dorar por ambos lados.',tip:'Acompañar con salsa verde.'},
+  {id:'enfrijoladas-queso',name:'Enfrijoladas con queso fresco',meals:['desayuno','cena'],tags:['caliente','económico','mexicano'],
+    ing:[{n:'Tortilla de maíz',g:'cereales',eq:2,p1:'1 pieza'},{n:'Frijoles licuados',g:'leguminosas',eq:1,p1:'1/2 taza'},{n:'Queso fresco',g:'aoa',eq:1,p1:'40 g'},{n:'Crema ácida',g:'grasas',eq:1,p1:'1 cda'},{n:'Cebolla, lechuga',g:'verduras',eq:1,p1:'libre',free:true}],
+    steps:'Licuar frijoles. Pasar tortillas por salsa de frijol caliente, rellenar con queso, doblar. Decorar con crema y cebolla.',tip:'Se pueden hacer con frijol negro o bayo.'},
+  {id:'molletes-integrales',name:'Molletes integrales',meals:['desayuno','cena'],tags:['caliente','rápido','económico'],
+    ing:[{n:'Bolillo integral (sin migajón)',g:'cereales',eq:2,p1:'1/2 pieza'},{n:'Frijoles refritos',g:'leguminosas',eq:1,p1:'1/2 taza'},{n:'Queso mozzarella',g:'aoa',eq:1,p1:'30 g'},{n:'Pico de gallo',g:'verduras',eq:1,p1:'libre',free:true}],
+    steps:'Untar frijoles en el bolillo, agregar queso, gratinar al horno. Servir con pico de gallo.',tip:'Agregar jalapeño al gusto.'},
+  {id:'licuado-fruta-avena',name:'Licuado de fruta con avena y leche',meals:['desayuno','colacionAM'],tags:['frío','rápido','dulce'],
+    ing:[{n:'Avena en hojuelas',g:'cereales',eq:1,p1:'1/3 taza'},{n:'Leche descremada',g:'leche',eq:1,p1:'1 taza'},{n:'Fruta (mamey, plátano, fresa)',g:'frutas',eq:1,p1:'ver equivalente'}],
+    steps:'Licuar todos los ingredientes. Servir frío.',tip:'Agregar hielo y canela al gusto.'},
+  {id:'chilaquiles-pollo',name:'Chilaquiles verdes con pollo',meals:['desayuno','comida'],tags:['caliente','mexicano','fin de semana'],
+    ing:[{n:'Tortilla de maíz (totopos)',g:'cereales',eq:2,p1:'1 pieza'},{n:'Pechuga de pollo deshebrada',g:'aoa',eq:2,p1:'30 g'},{n:'Salsa verde (tomate, chile)',g:'verduras',eq:1,p1:'libre',free:true},{n:'Crema ácida',g:'grasas',eq:1,p1:'1 cda'},{n:'Frijoles de la olla',g:'leguminosas',eq:1,p1:'1/2 taza'}],
+    steps:'Freír totopos, bañar con salsa verde, añadir pollo. Servir con crema, cebolla y frijoles.',tip:'Usar tortillas horneadas para versión más ligera.'},
+  {id:'pollo-plancha-arroz',name:'Pollo a la plancha con arroz y ensalada',meals:['comida'],tags:['caliente','básico','proteína'],
+    ing:[{n:'Pechuga de pollo',g:'aoa',eq:3,p1:'30 g'},{n:'Arroz cocido',g:'cereales',eq:2,p1:'1/2 taza'},{n:'Ensalada mixta (lechuga, jitomate, pepino)',g:'verduras',eq:1,p1:'libre',free:true},{n:'Aceite de oliva (para aderezar)',g:'grasas',eq:1,p1:'1 cdita'},{n:'Frijoles de la olla',g:'leguminosas',eq:1,p1:'1/2 taza'}],
+    steps:'Salpimentar pechuga y cocinar a la plancha. Servir con arroz, frijoles y ensalada aderezada.',tip:'Complementar con fruta de postre si la distribución lo indica.'},
+  {id:'bistec-frijol-tortilla',name:'Bistec con frijoles y tortilla',meals:['comida'],tags:['caliente','mexicano','proteína'],
+    ing:[{n:'Bistec de res magro',g:'aoa',eq:3,p1:'30 g'},{n:'Tortilla de maíz',g:'cereales',eq:2,p1:'1 pieza'},{n:'Frijoles cocidos',g:'leguminosas',eq:1,p1:'1/2 taza'},{n:'Nopales, cebolla asada',g:'verduras',eq:1,p1:'libre',free:true},{n:'Aguacate',g:'grasas',eq:1,p1:'1/4 pieza'}],
+    steps:'Asar bistec con sal y pimienta. Acompañar con tortillas, frijoles, nopales y aguacate.',tip:'Los nopales son libres en verduras I.'},
+  {id:'ensalada-atun-pasta',name:'Ensalada de atún con pasta integral',meals:['comida','cena'],tags:['frío','rápido','práctico'],
+    ing:[{n:'Pasta integral cocida',g:'cereales',eq:2,p1:'1/2 taza'},{n:'Atún en agua',g:'aoa',eq:2,p1:'1/4 lata'},{n:'Verduras (apio, zanahoria, pepino)',g:'verduras',eq:1,p1:'libre',free:true},{n:'Mayonesa light',g:'grasas',eq:1,p1:'1 cda'},{n:'Aguacate',g:'grasas',eq:1,p1:'1/4 pieza'}],
+    steps:'Mezclar pasta con atún escurrido, verduras picadas. Aderezar con mayonesa light. Servir con aguacate.',tip:'Agregar limón y pimienta.'},
+  {id:'sopa-pollo-arroz',name:'Sopa de verduras con pollo y arroz',meals:['comida'],tags:['caliente','reconfortante','económico'],
+    ing:[{n:'Pechuga de pollo',g:'aoa',eq:2,p1:'30 g'},{n:'Arroz cocido',g:'cereales',eq:1,p1:'1/2 taza'},{n:'Verduras surtidas (calabaza, zanahoria, chayote)',g:'verduras',eq:1,p1:'libre',free:true},{n:'Tortilla de maíz',g:'cereales',eq:1,p1:'1 pieza'},{n:'Aceite vegetal',g:'grasas',eq:1,p1:'1 cdita'}],
+    steps:'Hervir pollo con verduras. Agregar arroz. Servir con tortillas calientes.',tip:'Sopa de verduras es un excelente vehículo para las verduras del día.'},
+  {id:'tacos-tinga',name:'Tacos de tinga de pollo',meals:['comida','cena'],tags:['caliente','mexicano','popular'],
+    ing:[{n:'Tortilla de maíz',g:'cereales',eq:3,p1:'1 pieza'},{n:'Pechuga de pollo deshebrada',g:'aoa',eq:2,p1:'30 g'},{n:'Salsa de jitomate con chipotle',g:'verduras',eq:1,p1:'libre',free:true},{n:'Aguacate',g:'grasas',eq:1,p1:'1/4 pieza'},{n:'Frijoles refritos',g:'leguminosas',eq:1,p1:'1/2 taza'}],
+    steps:'Guisar pollo deshebrado en salsa de tomate con chipotle. Servir en tortillas con aguacate y frijoles.',tip:'Se puede usar chipotle en adobo o seco según tolerancia.'},
+  {id:'salmon-quinoa',name:'Salmón con quinoa y verduras',meals:['comida'],tags:['caliente','premium','omega3'],
+    ing:[{n:'Salmón',g:'aoa',eq:3,p1:'30 g'},{n:'Quinoa cocida',g:'cereales',eq:2,p1:'1/2 taza'},{n:'Brócoli y zanahoria al vapor',g:'verduras',eq:1,p1:'libre',free:true},{n:'Aceite de oliva',g:'grasas',eq:1,p1:'1 cdita'}],
+    steps:'Hornear salmón salpimentado 15 min a 200°C. Servir sobre quinoa con verduras al vapor y aceite de oliva.',tip:'Rica en omega 3. Ideal para salud cardiovascular.'},
+  {id:'milanesa-horno',name:'Milanesa de pollo al horno con ensalada',meals:['comida'],tags:['caliente','popular','horno'],
+    ing:[{n:'Pechuga de pollo empanizada (pan molido + avena)',g:'aoa',eq:2,p1:'30 g'},{n:'Pan molido / avena',g:'cereales',eq:1,p1:'4 cdas / 1/3 taza'},{n:'Ensalada (lechuga, jitomate)',g:'verduras',eq:1,p1:'libre',free:true},{n:'Aceite en aerosol',g:'grasas',eq:1,p1:'1 cdita'},{n:'Arroz o pasta',g:'cereales',eq:1,p1:'1/2 taza'}],
+    steps:'Empanizar pechuga con pan molido/avena. Hornear a 200°C por 20 min. Servir con ensalada y arroz.',tip:'Al horno es más saludable que frita.'},
+  {id:'bowl-frijol-arroz',name:'Bowl de frijoles con arroz y verduras',meals:['comida','cena'],tags:['caliente','vegetariano','económico'],
+    ing:[{n:'Arroz integral cocido',g:'cereales',eq:2,p1:'1/2 taza'},{n:'Frijoles cocidos',g:'leguminosas',eq:1,p1:'1/2 taza'},{n:'Queso panela',g:'aoa',eq:1,p1:'40 g'},{n:'Verduras salteadas',g:'verduras',eq:1,p1:'libre',free:true},{n:'Aguacate',g:'grasas',eq:1,p1:'1/4 pieza'}],
+    steps:'Servir arroz como base, agregar frijoles, queso, verduras salteadas y aguacate.',tip:'Opción vegetariana completa.'},
+  {id:'pechuga-salsa-verde',name:'Pechuga en salsa verde con tortilla',meals:['comida'],tags:['caliente','mexicano','proteína'],
+    ing:[{n:'Pechuga de pollo',g:'aoa',eq:3,p1:'30 g'},{n:'Tortilla de maíz',g:'cereales',eq:2,p1:'1 pieza'},{n:'Salsa verde (tomate, chile, cilantro)',g:'verduras',eq:1,p1:'libre',free:true},{n:'Aceite',g:'grasas',eq:1,p1:'1 cdita'},{n:'Arroz cocido',g:'cereales',eq:1,p1:'1/2 taza'}],
+    steps:'Cocer pechuga, bañar con salsa verde licuada. Servir con arroz y tortillas.',tip:'Acompañar con frijoles si la distribución lo permite.'},
+  {id:'tacos-frijol-queso',name:'Tacos de frijol con queso',meals:['cena'],tags:['caliente','económico','rápido'],
+    ing:[{n:'Tortilla de maíz',g:'cereales',eq:2,p1:'1 pieza'},{n:'Frijoles refritos',g:'leguminosas',eq:1,p1:'1/2 taza'},{n:'Queso fresco o panela',g:'aoa',eq:1,p1:'40 g'},{n:'Lechuga, salsa, cebolla',g:'verduras',eq:1,p1:'libre',free:true}],
+    steps:'Calentar tortillas, untar frijoles, agregar queso. Acompañar con lechuga y salsa.',tip:'Cena ligera y económica.'},
+  {id:'ensalada-pollo-aguacate',name:'Ensalada de pollo con aguacate',meals:['cena','comida'],tags:['frío','ligero','proteína'],
+    ing:[{n:'Pechuga de pollo desmenuzada',g:'aoa',eq:2,p1:'30 g'},{n:'Tostada horneada o galleta salada',g:'cereales',eq:1,p1:'1 pza / 3 pzas'},{n:'Mix de lechugas, jitomate, pepino',g:'verduras',eq:1,p1:'libre',free:true},{n:'Aguacate',g:'grasas',eq:1,p1:'1/4 pieza'},{n:'Aceite de oliva + limón (aderezo)',g:'grasas',eq:1,p1:'1 cdita'}],
+    steps:'Mezclar lechuga, verduras y pollo. Aderezar con aceite y limón. Servir con tostada y aguacate.',tip:'Ideal para cena ligera y fresca.'},
+  {id:'wrap-atun',name:'Wrap de atún con verduras',meals:['cena','comida','colacionAM'],tags:['frío','rápido','práctico'],
+    ing:[{n:'Tortilla de harina integral',g:'cereales',eq:2,p1:'1/2 pieza'},{n:'Atún en agua',g:'aoa',eq:2,p1:'1/4 lata'},{n:'Lechuga, zanahoria, pepino',g:'verduras',eq:1,p1:'libre',free:true},{n:'Mayonesa light o aguacate',g:'grasas',eq:1,p1:'1 cda / 1/4 pza'}],
+    steps:'Escurrir atún, mezclar con verduras picadas y mayonesa light. Enrollar en tortilla.',tip:'Se puede preparar para llevar.'},
+  {id:'sopa-lentejas',name:'Sopa de lentejas con verduras',meals:['comida','cena'],tags:['caliente','económico','vegetariano'],
+    ing:[{n:'Lentejas cocidas',g:'leguminosas',eq:1,p1:'1/2 taza'},{n:'Tortilla de maíz',g:'cereales',eq:1,p1:'1 pieza'},{n:'Verduras (zanahoria, calabaza, espinaca)',g:'verduras',eq:1,p1:'libre',free:true},{n:'Aceite de oliva',g:'grasas',eq:1,p1:'1 cdita'},{n:'Queso panela (opcional)',g:'aoa',eq:1,p1:'40 g'}],
+    steps:'Cocinar lentejas con verduras picadas y aceite. Servir con tortilla y queso.',tip:'Rica en fibra y hierro vegetal.'},
+  {id:'fruta-yogurt-granola',name:'Fruta con yogurt y granola',meals:['colacionAM','colacionPM'],tags:['frío','rápido','dulce'],
+    ing:[{n:'Yogurt light',g:'leche',eq:1,p1:'3/4 taza'},{n:'Fruta picada',g:'frutas',eq:1,p1:'ver equivalente'},{n:'Granola',g:'cereales',eq:1,p1:'1/4 taza'}],
+    steps:'Servir yogurt con fruta picada y granola encima.',tip:'Colación perfecta entre comidas.'},
+  {id:'verduras-hummus',name:'Verduras con hummus y tostada',meals:['colacionAM','colacionPM'],tags:['frío','rápido','saludable'],
+    ing:[{n:'Jícama, pepino, zanahoria en bastones',g:'verduras',eq:1,p1:'libre',free:true},{n:'Hummus (garbanzo)',g:'leguminosas',eq:1,p1:'1/2 taza'},{n:'Tostada horneada',g:'cereales',eq:1,p1:'1 pieza'}],
+    steps:'Cortar verduras en bastones. Servir con hummus y tostadas.',tip:'Snack rico en fibra.'},
+  {id:'manzana-cacahuate',name:'Manzana con crema de cacahuate',meals:['colacionAM','colacionPM'],tags:['frío','rápido','dulce'],
+    ing:[{n:'Manzana',g:'frutas',eq:1,p1:'1 pieza'},{n:'Crema de cacahuate',g:'grasas',eq:1,p1:'1 cdita'}],
+    steps:'Cortar manzana en gajos. Acompañar con crema de cacahuate.',tip:'Rica en fibra y grasas saludables.'},
+  {id:'pan-requeson-fruta',name:'Pan tostado con requesón y fruta',meals:['desayuno','colacionAM'],tags:['frío','rápido','ligero'],
+    ing:[{n:'Pan tostado integral',g:'cereales',eq:1,p1:'1 pieza'},{n:'Requesón / queso cottage',g:'aoa',eq:1,p1:'3 cdas'},{n:'Fruta rebanada (fresa, plátano)',g:'frutas',eq:1,p1:'ver equivalente'},{n:'Miel de abeja',g:'azucares',eq:1,p1:'2 cditas'}],
+    steps:'Untar requesón sobre pan tostado. Agregar fruta rebanada y un toque de miel.',tip:'Ligero y nutritivo.'},
+  {id:'huevo-espinaca-pan',name:'Huevo revuelto con espinaca y pan',meals:['desayuno','cena'],tags:['caliente','rápido','proteína'],
+    ing:[{n:'Pan integral tostado',g:'cereales',eq:2,p1:'1 rebanada'},{n:'Huevo entero',g:'aoa',eq:1,p1:'1 pieza'},{n:'Espinaca salteada',g:'verduras',eq:1,p1:'libre',free:true},{n:'Aceite de oliva',g:'grasas',eq:1,p1:'1 cdita'}],
+    steps:'Saltear espinaca en aceite, agregar huevo y revolver. Servir con pan tostado.',tip:'Se puede agregar champiñones (verdura libre).'},
+  {id:'ceviche-tostada',name:'Ceviche de pescado con tostada',meals:['comida','cena'],tags:['frío','mexicano','ligero'],
+    ing:[{n:'Filete de pescado blanco',g:'aoa',eq:2,p1:'40 g'},{n:'Tostada horneada',g:'cereales',eq:2,p1:'1 pieza'},{n:'Jitomate, cebolla, pepino, cilantro',g:'verduras',eq:1,p1:'libre',free:true},{n:'Aguacate',g:'grasas',eq:1,p1:'1/4 pieza'}],
+    steps:'Cortar pescado en cubos, marinar en limón 30 min. Mezclar con verduras. Servir en tostadas con aguacate.',tip:'El limón "cocina" el pescado. Fresco y ligero.'}
+];
+
+// =====================================================
+// RECIPE ENGINE — scales recipes to meal distributions
+// =====================================================
+const RecipeEngine = {
+  parseFrac(s) {
+    if (!s) return 0;
+    s = String(s).trim();
+    if (s.includes('/')) {
+      const pp = s.split('/');
+      return parseFloat(pp[0]) / parseFloat(pp[1]);
+    }
+    return parseFloat(s) || 0;
+  },
+  scalePortion(p1, eqCount) {
+    if (!eqCount || eqCount <= 0) return '—';
+    if (!p1 || p1 === 'libre' || p1 === 'ver equivalente') return p1;
+    var m = p1.match(/^([\d/.]+\s*[\d/]*)\s*(.+)$/);
+    if (!m) return eqCount + ' eq';
+    var rawQty = m[1].trim();
+    var unit = m[2].trim();
+    var baseQty = 0;
+    if (rawQty.includes(' ')) {
+      var parts = rawQty.split(/\s+/);
+      baseQty = this.parseFrac(parts[0]) + this.parseFrac(parts[1]);
+    } else {
+      baseQty = this.parseFrac(rawQty);
+    }
+    var total = baseQty * eqCount;
+    if (total <= 0) return '—';
+    var display = '';
+    if (total === 0.25) display = '1/4';
+    else if (total === 0.5) display = '1/2';
+    else if (total === 0.75) display = '3/4';
+    else if (total % 1 === 0.5) display = Math.floor(total) + ' 1/2';
+    else if (total % 1 === 0.25) display = Math.floor(total) + ' 1/4';
+    else if (total % 1 === 0.75) display = Math.floor(total) + ' 3/4';
+    else if (Number.isInteger(total)) display = String(total);
+    else display = total.toFixed(1);
+    return display + ' ' + unit;
+  },
+  getGroupInfo(groupId) {
+    return FOOD_EQUIVALENTS.groups.find(function(g) { return g.id === groupId; });
+  },
+  fitRecipe(recipe, mealDist) {
+    // mealDist = {cereales:2, aoa:1, grasas:1, verduras:1, ...}
+    // 1. Sum recipe's base eq per group
+    var recipeByGroup = {};
+    recipe.ing.forEach(function(i) {
+      if (i.free) return;
+      recipeByGroup[i.g] = (recipeByGroup[i.g] || 0) + i.eq;
+    });
+    // 2. Scale factor per group
+    var scales = {};
+    var groupKeys = Object.keys(recipeByGroup);
+    groupKeys.forEach(function(g) {
+      scales[g] = (mealDist[g] || 0) / recipeByGroup[g];
+    });
+    // 3. Scale each ingredient
+    var self = this;
+    var scaled = recipe.ing.map(function(i) {
+      if (i.free) {
+        return {name: i.n, group: i.g, baseEq: i.eq, adjustedEq: i.eq, portion: i.p1, free: true};
+      }
+      var factor = scales[i.g] || 0;
+      var adjEq = Math.round(i.eq * factor * 4) / 4;
+      return {
+        name: i.n,
+        group: i.g,
+        baseEq: i.eq,
+        adjustedEq: adjEq,
+        portion: self.scalePortion(i.p1, adjEq),
+        factor: factor
+      };
+    });
+    // 4. Remaining equivalents (groups in meal not covered by recipe)
+    var remaining = {};
+    var usedGroups = {};
+    scaled.forEach(function(s) { if (s.adjustedEq > 0 || s.free) usedGroups[s.group] = true; });
+    Object.keys(mealDist).forEach(function(g) {
+      if (!usedGroups[g] && (mealDist[g] || 0) > 0) {
+        remaining[g] = mealDist[g];
+      }
+    });
+    // 5. Coverage
+    var totalMealEq = Object.values(mealDist).reduce(function(s, v) { return s + v; }, 0);
+    var coveredEq = scaled.reduce(function(s, i) { return s + (i.free ? 0 : i.adjustedEq); }, 0);
+    var coverage = totalMealEq > 0 ? Math.round((coveredEq / totalMealEq) * 100) : 0;
+    // 6. Macros
+    var macros = {kcal: 0, protein: 0, fat: 0, carbs: 0};
+    scaled.forEach(function(i) {
+      if (i.free || i.adjustedEq <= 0) return;
+      var gInfo = self.getGroupInfo(i.group);
+      if (gInfo) {
+        macros.kcal += gInfo.energy * i.adjustedEq;
+        macros.protein += gInfo.protein * i.adjustedEq;
+        macros.fat += gInfo.fat * i.adjustedEq;
+        macros.carbs += gInfo.carbs * i.adjustedEq;
+      }
+    });
+    Object.keys(macros).forEach(function(k) { macros[k] = Math.round(macros[k] * 10) / 10; });
+    return {recipe: recipe, scaled: scaled, remaining: remaining, coverage: coverage, macros: macros, scales: scales};
+  },
+  getMealDistFromPlan(values, slotId) {
+    var dist = values.distribution || {};
+    var eqConfig = MealPlansView.eqConfig;
+    var mealDist = {};
+    eqConfig.forEach(function(g) {
+      var val = dist[g.key] && dist[g.key][slotId] ? +dist[g.key][slotId] : 0;
+      if (val > 0) mealDist[g.key] = val;
+    });
+    return mealDist;
+  },
+  findCompatible(mealTime, mealDist) {
+    var self = this;
+    var results = DYNAMIC_RECIPES.filter(function(r) {
+      return r.meals.indexOf(mealTime) !== -1 || r.meals.indexOf(self.normalizeMealTime(mealTime)) !== -1;
+    });
+    // Score by coverage
+    results = results.map(function(r) {
+      var fit = self.fitRecipe(r, mealDist);
+      return {recipe: r, fit: fit};
+    });
+    // Sort: higher coverage first, then fewer remaining groups
+    results.sort(function(a, b) {
+      return b.fit.coverage - a.fit.coverage || Object.keys(a.fit.remaining).length - Object.keys(b.fit.remaining).length;
+    });
+    return results;
+  },
+  normalizeMealTime(slotId) {
+    var map = {desayuno:'desayuno',colacionAM:'colacionAM',comida:'comida',colacionPM:'colacionPM',cena:'cena'};
+    return map[slotId] || slotId;
+  },
+  groupLabel(groupId) {
+    var g = this.getGroupInfo(groupId);
+    return g ? g.name : groupId;
+  },
+  renderFittedCard(fit, dayIndex, mealIndex, showAddBtn) {
+    var r = fit.recipe;
+    var coverageColor = fit.coverage >= 80 ? '#2E7D32' : (fit.coverage >= 50 ? '#F57F17' : '#C62828');
+    var coverageBg = fit.coverage >= 80 ? '#E8F5E9' : (fit.coverage >= 50 ? '#FFF8E1' : '#FFEBEE');
+    var ingHtml = fit.scaled.map(function(i) {
+      if (i.adjustedEq <= 0 && !i.free) return '';
+      var eqLabel = i.free ? '<span style="color:var(--success);font-weight:600">libre</span>' : '<strong>' + i.adjustedEq + '</strong> eq';
+      var portionLabel = i.portion || '';
+      return '<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--g50)">' +
+        '<div><span style="font-weight:600">' + i.name + '</span> <span class="text-xs text-muted">(' + RecipeEngine.groupLabel(i.group) + ')</span></div>' +
+        '<div class="text-sm" style="text-align:right">' + eqLabel + (portionLabel && portionLabel !== 'libre' ? ' · ' + portionLabel : '') + '</div>' +
+      '</div>';
+    }).filter(Boolean).join('');
+    var remKeys = Object.keys(fit.remaining);
+    var remHtml = remKeys.length ? '<div style="margin-top:10px;padding:10px;background:#FFF8E1;border-radius:var(--r-sm);font-size:.78rem"><strong>Complementar con:</strong> ' + remKeys.map(function(g) { return RecipeEngine.groupLabel(g) + ': ' + fit.remaining[g] + ' eq'; }).join(' · ') + '</div>' : '';
+    var addBtnHtml = showAddBtn ? '<button class="btn btn-primary btn-sm" onclick="MealPlansView.addDynamicRecipe(' + dayIndex + ',' + mealIndex + ',\'' + r.id + '\')">Agregar al menú</button>' : '';
+    return '<div class="card" style="margin-bottom:14px;border-left:4px solid ' + coverageColor + '">' +
+      '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap">' +
+        '<div><div style="font-weight:700;font-size:1rem">' + r.name + '</div>' +
+        '<div class="text-xs text-muted mt-2">' + fit.macros.kcal + ' kcal · P ' + fit.macros.protein + 'g · L ' + fit.macros.fat + 'g · HCO ' + fit.macros.carbs + 'g</div>' +
+        '<div class="text-xs mt-2" style="display:inline-flex;align-items:center;gap:6px"><span style="padding:2px 8px;border-radius:var(--r-full);background:' + coverageBg + ';color:' + coverageColor + ';font-weight:700;font-size:.75rem">' + fit.coverage + '% cobertura</span>' +
+        (r.tags || []).map(function(t) { return '<span style="padding:2px 8px;border-radius:var(--r-full);background:var(--g50);color:var(--g500);font-size:.7rem">' + t + '</span>'; }).join('') +
+        '</div></div>' +
+        '<div>' + addBtnHtml + '</div>' +
+      '</div>' +
+      '<div style="margin-top:14px">' + ingHtml + '</div>' +
+      remHtml +
+      (r.tip ? '<div class="text-xs text-muted mt-2" style="font-style:italic">💡 ' + r.tip + '</div>' : '') +
+    '</div>';
+  },
+  convertToLegacyRecipe(fit) {
+    var r = fit.recipe;
+    var ingLines = fit.scaled.filter(function(i) { return i.adjustedEq > 0 || i.free; }).map(function(i) {
+      if (i.free) return i.name + ': al gusto (libre)';
+      return i.name + ': ' + i.portion + ' (' + i.adjustedEq + ' eq de ' + RecipeEngine.groupLabel(i.group) + ')';
+    });
+    var remKeys = Object.keys(fit.remaining);
+    if (remKeys.length) {
+      ingLines.push('--- Complementar con ---');
+      remKeys.forEach(function(g) {
+        ingLines.push(RecipeEngine.groupLabel(g) + ': ' + fit.remaining[g] + ' equivalente(s) a elegir');
+      });
+    }
+    return {
+      id: 'dyn-' + r.id + '-' + Date.now(),
+      name: r.name,
+      ingredientsText: ingLines.join('\n'),
+      preparation: r.steps || '',
+      elaboration: '',
+      kcal: fit.macros.kcal,
+      protein: fit.macros.protein,
+      fat: fit.macros.fat,
+      carbs: fit.macros.carbs,
+      sodium: 0,
+      dynamic: true,
+      coverage: fit.coverage,
+      equivalentsSummary: fit.scaled.filter(function(i){return !i.free && i.adjustedEq>0}).map(function(i){return i.name+': '+i.adjustedEq+' eq'}).join(' · ')
+    };
+  }
+};
 const UI={
   toast(m,t='success',d=3500){const c=document.getElementById('toast-container');const icons={success:'✓',error:'✕',warning:'⚠',info:'ℹ'};const el=document.createElement('div');el.className='toast '+t;el.innerHTML=`<span>${icons[t]||'•'}</span><span>${m}</span>`;c.appendChild(el);setTimeout(()=>{el.style.opacity='0';el.style.transform='translateX(100%)';setTimeout(()=>el.remove(),300)},d)},
   toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('sidebar-overlay').classList.toggle('hidden')},
@@ -2371,8 +2658,8 @@ const MealPlansView = {
   renderMealEditor(meal, dayIndex, mealIndex){
     const totals=this.recipeTotals(meal);
     return `<div class="meal-time-card">
-      <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap"><div><h4>${meal.name} · <span class="text-xs text-muted">${meal.subtitle||''}</span></h4><div class="text-xs text-muted mt-2">Meta aprox: ${meal.targetKcal||0} kcal</div>${meal.equivalentsSummary?`<div class="text-xs text-muted mt-2">${this.esc(meal.equivalentsSummary)}</div>`:''}</div><div class="flex gap-2 flex-wrap"><button class="btn btn-outline btn-sm" onclick="MealPlansView.openRecipePicker(${dayIndex},${mealIndex})">📚 Elegir receta</button><button class="btn btn-secondary btn-sm" onclick="MealPlansView.openCustomRecipeModal(${dayIndex},${mealIndex})">➕ Nueva receta</button></div></div>
-      <div class="mt-4">${meal.recipes?.length ? meal.recipes.map((r,idx)=>this.renderRecipeChip(r,dayIndex,mealIndex,idx)).join('') : UI.emptyState('🍽️','Aún no agregas recetas','Usa tu CSV o agrega una receta propia para este tiempo de comida.')}</div>
+      <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap"><div><h4>${meal.name} · <span class="text-xs text-muted">${meal.subtitle||''}</span></h4><div class="text-xs text-muted mt-2">Meta aprox: ${meal.targetKcal||0} kcal</div>${meal.equivalentsSummary?`<div class="text-xs text-muted mt-2">${this.esc(meal.equivalentsSummary)}</div>`:''}</div><div class="flex gap-2 flex-wrap"><button class="btn btn-primary btn-sm" onclick="MealPlansView.openRecipePicker(${dayIndex},${mealIndex})">🧠 Receta dinámica</button><button class="btn btn-outline btn-sm" onclick="MealPlansView.openCustomRecipeModal(${dayIndex},${mealIndex})">➕ Receta nueva</button></div></div>
+      <div class="mt-4">${meal.recipes?.length ? meal.recipes.map((r,idx)=>this.renderRecipeChip(r,dayIndex,mealIndex,idx)).join('') : UI.emptyState('🍽️','Aún no agregas recetas','Usa "Receta dinámica" para elegir una receta que se ajuste automáticamente a los equivalentes de este tiempo de comida.')}</div>
       <div class="mt-3 text-xs text-muted">Actual: ${totals.kcal} kcal · P ${totals.protein} g · L ${totals.fat} g · HC ${totals.carbs} g</div>
       <div class="mt-3">${UI.fg(`meal_note_${dayIndex}_${mealIndex}`,'Nota editable de este tiempo','textarea',meal.note||'',{placeholder:'Observaciones, intercambios o instrucciones para este tiempo.'})}</div>
     </div>`;
@@ -2388,7 +2675,7 @@ const MealPlansView = {
   renderPlanEditor(planData){
     this.runtimePlan = planData;
     const cardHtml = (planData.days||[]).map((day,dayIndex)=>`<div class="card" style="margin-bottom:18px"><div class="card-title" style="margin-bottom:10px">${day.day}</div>${(day.meals||[]).map((meal,mealIndex)=>this.renderMealEditor(meal,dayIndex,mealIndex)).join('')}</div>`).join('');
-    return UI.card('Paso 3 · Arma el menú usando tu CSV de recetas',`<div class="mb-4">${UI.infoBox(`Aquí ya no se inventa el menú. Ahora eliges recetas reales de tu CSV y también puedes agregar recetas nuevas al recetario.`, 'tip')}</div>${this.renderMacroComparison(planData)}${cardHtml}${UI.fg('plan_recommendations','Recomendaciones generales para el paciente','textarea',planData.recommendations||'',{placeholder:'Indicaciones finales del plan'})}<div class="flex gap-3 mt-6 flex-wrap"><button class="btn btn-secondary" onclick="MealPlansView.saveDraftOnly()">💾 Guardar borrador</button><button class="btn btn-primary" onclick="MealPlansView.saveGeneratedPlan()">💾 Guardar y asignar al paciente</button></div>`,'Usando exactamente las recetas cargadas en tu CSV + recetas propias');
+    return UI.card('Paso 3 · Arma el menú con recetas dinámicas',`<div class="mb-4">${UI.infoBox(`Las recetas se adaptan automáticamente a los equivalentes de cada tiempo de comida. Elige una receta y el sistema calcula las cantidades para tu paciente.`, 'tip')}</div>${this.renderMacroComparison(planData)}${cardHtml}${UI.fg('plan_recommendations','Recomendaciones generales para el paciente','textarea',planData.recommendations||'',{placeholder:'Indicaciones finales del plan'})}<div class="flex gap-3 mt-6 flex-wrap"><button class="btn btn-secondary" onclick="MealPlansView.saveDraftOnly()">💾 Guardar borrador</button><button class="btn btn-primary" onclick="MealPlansView.saveGeneratedPlan()">💾 Guardar y asignar al paciente</button></div>`,'Recetas parametrizadas por equivalentes SMAE');
   },
   renderPlanIntoOutput(){
     const out=document.getElementById('plan-output');
@@ -2399,9 +2686,66 @@ const MealPlansView = {
     plan.days[dayIndex].meals[mealIndex].note=value;
   },
   openRecipePicker(dayIndex, mealIndex){
-    const html=`<div class="modal-header"><h2>Elige una receta para ${this.runtimePlan.days[dayIndex].day} · ${this.runtimePlan.days[dayIndex].meals[mealIndex].name}</h2><button class="btn-icon" onclick="UI.closeModal()">✕</button></div><div class="modal-body"><div class="form-group"><label class="form-label">Buscar receta</label><input id="meal_recipe_search" class="form-input" placeholder="Busca por nombre, ingredientes o preparación" oninput="MealPlansView.refreshRecipePicker(${dayIndex},${mealIndex})"></div><div class="text-xs text-muted mb-4">Se usan exactamente las recetas de tu CSV.</div><div id="meal_recipe_results"></div></div>`;
+    var meal = this.runtimePlan.days[dayIndex].meals[mealIndex];
+    var slotId = this.mealSlots[mealIndex]?.id || 'desayuno';
+    var values = this.getCurrentValues();
+    var mealDist = RecipeEngine.getMealDistFromPlan(values, slotId);
+    var hasDistribution = Object.values(mealDist).some(function(v){return v > 0});
+    var distSummary = hasDistribution ? Object.keys(mealDist).map(function(g){return RecipeEngine.groupLabel(g)+': '+mealDist[g]}).join(' · ') : 'Sin distribución asignada';
+    var html='<div class="modal-header"><h2>Recetas para ' + this.esc(this.runtimePlan.days[dayIndex].day) + ' · ' + this.esc(meal.name) + '</h2><button class="btn-icon" onclick="UI.closeModal()">✕</button></div><div class="modal-body">' +
+      '<div style="padding:12px;background:var(--sage-50);border-radius:var(--r-md);margin-bottom:16px;font-size:.85rem"><strong>Distribución de este tiempo:</strong> ' + distSummary + '</div>' +
+      '<div class="tabs mb-4"><div class="tab active" onclick="MealPlansView.switchRecipeTab(\'dynamic\',' + dayIndex + ',' + mealIndex + ')">🧠 Recetas dinámicas</div><div class="tab" onclick="MealPlansView.switchRecipeTab(\'csv\',' + dayIndex + ',' + mealIndex + ')">📚 Recetario CSV</div></div>' +
+      '<div id="recipe-tab-content"></div></div>';
     UI.openModal(html,{wide:true});
-    setTimeout(()=>this.refreshRecipePicker(dayIndex, mealIndex),0);
+    setTimeout(function(){MealPlansView.switchRecipeTab('dynamic', dayIndex, mealIndex)},0);
+  },
+  switchRecipeTab(tab, dayIndex, mealIndex){
+    var container = document.getElementById('recipe-tab-content');
+    if(!container) return;
+    document.querySelectorAll('.modal-body .tab').forEach(function(t,i){t.classList.toggle('active', (tab==='dynamic' && i===0)||(tab==='csv' && i===1))});
+    if(tab === 'dynamic'){
+      this.renderDynamicRecipeList(dayIndex, mealIndex, container);
+    } else {
+      container.innerHTML = '<div class="form-group"><input id="meal_recipe_search" class="form-input" placeholder="Buscar receta del CSV..." oninput="MealPlansView.refreshRecipePicker(' + dayIndex + ',' + mealIndex + ')"></div><div id="meal_recipe_results"></div>';
+      this.refreshRecipePicker(dayIndex, mealIndex);
+    }
+  },
+  renderDynamicRecipeList(dayIndex, mealIndex, container){
+    var slotId = this.mealSlots[mealIndex]?.id || 'desayuno';
+    var values = this.getCurrentValues();
+    var mealDist = RecipeEngine.getMealDistFromPlan(values, slotId);
+    var hasDistribution = Object.values(mealDist).some(function(v){return v > 0});
+    if(!hasDistribution){
+      container.innerHTML = UI.infoBox('Primero distribuye los equivalentes por tiempo de comida en el Paso 2 para que las recetas se ajusten automáticamente.','warn');
+      return;
+    }
+    var mealTimeKey = slotId;
+    if(slotId === 'colacionAM' || slotId === 'colacionPM') mealTimeKey = slotId;
+    var compatible = RecipeEngine.findCompatible(mealTimeKey, mealDist);
+    if(!compatible.length){
+      container.innerHTML = UI.emptyState('🍽️','Sin recetas compatibles','No hay recetas parametrizadas para este tiempo de comida. Puedes agregar una nueva o usar el recetario CSV.');
+      return;
+    }
+    var cardsHtml = compatible.map(function(item){
+      return RecipeEngine.renderFittedCard(item.fit, dayIndex, mealIndex, true);
+    }).join('');
+    container.innerHTML = '<div class="text-sm text-muted mb-4">Se muestran <strong>' + compatible.length + ' recetas</strong> compatibles, ordenadas por cobertura de equivalentes. Las cantidades ya están ajustadas a la distribución de este paciente.</div>' + cardsHtml;
+  },
+  addDynamicRecipe(dayIndex, mealIndex, recipeId){
+    var recipe = DYNAMIC_RECIPES.find(function(r){return r.id === recipeId});
+    if(!recipe) return;
+    var slotId = this.mealSlots[mealIndex]?.id || 'desayuno';
+    var values = this.getCurrentValues();
+    var mealDist = RecipeEngine.getMealDistFromPlan(values, slotId);
+    var fit = RecipeEngine.fitRecipe(recipe, mealDist);
+    var legacyRecipe = RecipeEngine.convertToLegacyRecipe(fit);
+    var plan = this.ensureRuntimePlan();
+    plan.days[dayIndex].meals[mealIndex].recipes.push(legacyRecipe);
+    this.runtimePlan = plan;
+    UI.closeModal();
+    this.renderPlanIntoOutput();
+    this.saveDraftOnly();
+    UI.toast(recipe.name + ' agregada y escalada ✓', 'success');
   },
   refreshRecipePicker(dayIndex, mealIndex){
     const q=document.getElementById('meal_recipe_search')?.value||'';
