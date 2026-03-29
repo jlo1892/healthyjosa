@@ -241,6 +241,8 @@ a{color:var(--sage-dark);text-decoration:none}img{max-width:100%;display:block}
 .text-center{text-align:center}.text-sm{font-size:.82rem}.text-xs{font-size:.72rem}.text-muted{color:var(--g500)}
 .mt-2{margin-top:8px}.mt-4{margin-top:16px}.mt-6{margin-top:24px}.mb-4{margin-bottom:16px}.mb-6{margin-bottom:24px}
 .flex{display:flex}.flex-wrap{flex-wrap:wrap}.items-center{align-items:center}.justify-between{justify-content:space-between}.w-full{width:100%}.gap-3{gap:12px}
+.loading-spinner{width:44px;height:44px;border:4px solid var(--sage-200);border-top-color:var(--g600);border-radius:50%;animation:hj-spin .8s linear infinite}
+@keyframes hj-spin{to{transform:rotate(360deg)}}
 
 </style>
 </head>
@@ -1527,16 +1529,81 @@ const MealPlansView = {
   currentPatient:null,
   mealTimes:['Desayuno','Colación AM','Comida','Colación PM','Cena'],
   eqConfig:[
-    {key:'verduras',label:'Verduras',kcal:25,defaultValue:3,foods:[{name:'Pepino con limón',portion:'1 taza'},{name:'Ensalada de nopales',portion:'1 taza'},{name:'Calabacitas salteadas',portion:'1 taza'},{name:'Jitomate con cebolla',portion:'1 taza'},{name:'Brócoli cocido',portion:'1/2 taza'},{name:'Zanahoria cocida',portion:'1/2 taza'},{name:'Chayote cocido',portion:'1 taza'}]},
-    {key:'frutas',label:'Frutas',kcal:60,defaultValue:3,foods:[{name:'Papaya',portion:'1 taza'},{name:'Manzana',portion:'1 pieza'},{name:'Melón',portion:'1 taza'},{name:'Piña',portion:'1 taza'},{name:'Guayaba',portion:'3 piezas'},{name:'Pera',portion:'1/2 pieza'},{name:'Fresas',portion:'1 taza'}]},
-    {key:'cer_sg',label:'Cereales sin grasa',kcal:70,defaultValue:4,foods:[{name:'Tortilla de maíz',portion:'1 pieza'},{name:'Avena cocida',portion:'3/4 taza'},{name:'Arroz cocido',portion:'1/2 taza'},{name:'Pan integral',portion:'1 rebanada'},{name:'Pasta cocida',portion:'1/2 taza'},{name:'Papa cocida',portion:'1/2 taza'},{name:'Elote desgranado',portion:'1/2 taza'}]},
-    {key:'cer_cg',label:'Cereales con grasa',kcal:115,defaultValue:0,foods:[{name:'Granola',portion:'1/4 taza'},{name:'Pan dulce chico',portion:'1/2 pieza'},{name:'Galletas integrales con grasa',portion:'3 piezas'}]},
-    {key:'legum',label:'Leguminosas',kcal:120,defaultValue:1,foods:[{name:'Frijoles de la olla',portion:'1/2 taza'},{name:'Lentejas cocidas',portion:'1/2 taza'},{name:'Garbanzos cocidos',portion:'1/2 taza'},{name:'Habas cocidas',portion:'1/2 taza'}]},
-    {key:'aoa_mb',label:'AOA muy bajo',kcal:40,defaultValue:2,foods:[{name:'Pechuga de pollo',portion:'30 g'},{name:'Atún en agua',portion:'1/4 lata'},{name:'Claras de huevo',portion:'2 claras'},{name:'Pescado blanco',portion:'30 g'},{name:'Pavo',portion:'30 g'},{name:'Jaiba',portion:'30 g'}]},
-    {key:'aoa_b',label:'AOA bajo',kcal:55,defaultValue:1,foods:[{name:'Queso panela',portion:'40 g'},{name:'Jamón de pavo',portion:'2 rebanadas'},{name:'Huevo entero',portion:'1 pieza'},{name:'Queso cottage',portion:'1/2 taza'},{name:'Yogurt griego natural',portion:'3/4 taza'}]},
-    {key:'leche_d',label:'Leche descremada',kcal:95,defaultValue:1,foods:[{name:'Leche descremada',portion:'1 taza'},{name:'Yogurt natural light',portion:'3/4 taza'},{name:'Jocoque bajo en grasa',portion:'1 taza'}]},
-    {key:'grasas',label:'Grasas',kcal:45,defaultValue:3,foods:[{name:'Aguacate',portion:'1/4 pieza'},{name:'Aceite de oliva',portion:'1 cucharadita'},{name:'Almendras',portion:'6 piezas'},{name:'Cacahuates',portion:'1 cucharada'},{name:'Pepitas',portion:'1 cucharada'}]},
-    {key:'azucares',label:'Azúcares',kcal:40,defaultValue:0,foods:[{name:'Miel',portion:'2 cucharaditas'},{name:'Mermelada',portion:'2 cucharaditas'},{name:'Azúcar',portion:'2 cucharaditas'}]}
+    {key:'verduras',label:'Verduras',kcal:25,defaultValue:3,foods:[
+      {name:'Pepino con limón',portion:'1 taza'},{name:'Ensalada de nopales',portion:'1 taza'},{name:'Calabacitas salteadas',portion:'1 taza'},
+      {name:'Jitomate con cebolla',portion:'1 taza'},{name:'Brócoli cocido',portion:'1/2 taza'},{name:'Zanahoria cocida',portion:'1/2 taza'},
+      {name:'Chayote cocido',portion:'1 taza'},{name:'Espinacas crudas',portion:'2 tazas'},{name:'Champiñones rebanados',portion:'1 taza'},
+      {name:'Pimiento morrón',portion:'1/2 taza'},{name:'Ejotes cocidos',portion:'1/2 taza'},{name:'Betabel cocido',portion:'1/2 taza'},
+      {name:'Coliflor cocida',portion:'1/2 taza'},{name:'Espárragos',portion:'4 piezas'},{name:'Acelgas cocidas',portion:'1/2 taza'},
+      {name:'Jícama rallada',portion:'1/2 taza'},{name:'Tomate verde',portion:'1/2 taza'},{name:'Apio',portion:'1 taza'},
+      {name:'Lechuga mixta',portion:'2 tazas'},{name:'Arúgula',portion:'2 tazas'},{name:'Kale crudo',portion:'1 taza'},
+      {name:'Rábanos',portion:'1 taza'},{name:'Germinado de alfalfa',portion:'1 taza'},{name:'Verdolagas cocidas',portion:'1/2 taza'}
+    ]},
+    {key:'frutas',label:'Frutas',kcal:60,defaultValue:3,foods:[
+      {name:'Papaya',portion:'1 taza'},{name:'Manzana',portion:'1 pieza'},{name:'Melón',portion:'1 taza'},
+      {name:'Piña',portion:'1 taza'},{name:'Guayaba',portion:'3 piezas'},{name:'Pera',portion:'1/2 pieza'},
+      {name:'Fresas',portion:'1 taza'},{name:'Plátano',portion:'1/2 pieza'},{name:'Naranja',portion:'1 pieza'},
+      {name:'Mandarina',portion:'2 piezas'},{name:'Toronja',portion:'1/2 pieza'},{name:'Uvas',portion:'15 piezas'},
+      {name:'Kiwi',portion:'1 1/2 pieza'},{name:'Mango',portion:'1/2 pieza'},{name:'Sandía',portion:'1 taza'},
+      {name:'Durazno',portion:'2 piezas'},{name:'Ciruelas',portion:'3 piezas'},{name:'Zarzamoras',portion:'1 taza'},
+      {name:'Arándanos',portion:'3/4 taza'},{name:'Frambuesas',portion:'1 taza'},{name:'Tuna',portion:'2 piezas'},
+      {name:'Chabacano',portion:'4 piezas'},{name:'Mamey',portion:'1/3 taza'},{name:'Zapote',portion:'1/3 pieza'}
+    ]},
+    {key:'cer_sg',label:'Cereales sin grasa',kcal:70,defaultValue:4,foods:[
+      {name:'Tortilla de maíz',portion:'1 pieza'},{name:'Avena cocida',portion:'3/4 taza'},{name:'Arroz cocido',portion:'1/2 taza'},
+      {name:'Pan integral',portion:'1 rebanada'},{name:'Pasta cocida',portion:'1/2 taza'},{name:'Papa cocida',portion:'1/2 taza'},
+      {name:'Elote desgranado',portion:'1/2 taza'},{name:'Tortilla de harina integral',portion:'1 pieza chica'},
+      {name:'Camote cocido',portion:'1/4 taza'},{name:'Quinoa cocida',portion:'1/3 taza'},{name:'Cuscús cocido',portion:'1/3 taza'},
+      {name:'Arroz integral cocido',portion:'1/3 taza'},{name:'Pan pita integral',portion:'1/2 pieza'},
+      {name:'Tostada horneada',portion:'2 piezas'},{name:'Galletas de arroz',portion:'3 piezas'},
+      {name:'Sopa de pasta cocida',portion:'1/2 taza'},{name:'Palomitas naturales',portion:'3 tazas'},
+      {name:'Cereal integral sin azúcar',portion:'1/3 taza'},{name:'Amaranto',portion:'3/4 taza'}
+    ]},
+    {key:'cer_cg',label:'Cereales con grasa',kcal:115,defaultValue:0,foods:[
+      {name:'Granola',portion:'1/4 taza'},{name:'Pan dulce chico',portion:'1/2 pieza'},{name:'Galletas integrales con grasa',portion:'3 piezas'},
+      {name:'Hot cakes (1 pieza chica)',portion:'1 pieza'},{name:'Waffle integral',portion:'1 pieza chica'},
+      {name:'Tamal (porción)',portion:'1/3 pieza'},{name:'Sope chico',portion:'1 pieza'}
+    ]},
+    {key:'legum',label:'Leguminosas',kcal:120,defaultValue:1,foods:[
+      {name:'Frijoles de la olla',portion:'1/2 taza'},{name:'Lentejas cocidas',portion:'1/2 taza'},
+      {name:'Garbanzos cocidos',portion:'1/2 taza'},{name:'Habas cocidas',portion:'1/2 taza'},
+      {name:'Frijoles negros',portion:'1/2 taza'},{name:'Frijoles bayos',portion:'1/2 taza'},
+      {name:'Soya texturizada cocida',portion:'1/3 taza'},{name:'Edamames',portion:'1/3 taza'},
+      {name:'Alubias cocidas',portion:'1/2 taza'},{name:'Hummus',portion:'1/3 taza'}
+    ]},
+    {key:'aoa_mb',label:'AOA muy bajo',kcal:40,defaultValue:2,foods:[
+      {name:'Pechuga de pollo',portion:'30 g'},{name:'Atún en agua',portion:'1/4 lata'},{name:'Claras de huevo',portion:'2 claras'},
+      {name:'Pescado blanco (tilapia)',portion:'30 g'},{name:'Pavo',portion:'30 g'},{name:'Camarón',portion:'30 g'},
+      {name:'Salmón fresco',portion:'30 g'},{name:'Pechuga de pavo',portion:'30 g'},{name:'Robalo',portion:'30 g'},
+      {name:'Mojarra',portion:'30 g'},{name:'Pulpo cocido',portion:'30 g'},{name:'Surimi',portion:'40 g'},
+      {name:'Lomo de cerdo',portion:'30 g'},{name:'Filete de res',portion:'30 g'},{name:'Milanesa de pollo (sin empanizar)',portion:'30 g'}
+    ]},
+    {key:'aoa_b',label:'AOA bajo',kcal:55,defaultValue:1,foods:[
+      {name:'Queso panela',portion:'40 g'},{name:'Jamón de pavo',portion:'2 rebanadas'},{name:'Huevo entero',portion:'1 pieza'},
+      {name:'Queso cottage',portion:'1/2 taza'},{name:'Yogurt griego natural',portion:'3/4 taza'},
+      {name:'Queso Oaxaca',portion:'30 g'},{name:'Requesón',portion:'1/4 taza'},{name:'Queso ricotta',portion:'1/4 taza'},
+      {name:'Queso mozzarella fresco',portion:'30 g'},{name:'Atún en aceite (escurrido)',portion:'1/4 lata'},
+      {name:'Huevo revuelto',portion:'1 pieza'}
+    ]},
+    {key:'leche_d',label:'Leche descremada',kcal:95,defaultValue:1,foods:[
+      {name:'Leche descremada',portion:'1 taza'},{name:'Yogurt natural light',portion:'3/4 taza'},
+      {name:'Jocoque bajo en grasa',portion:'1 taza'},{name:'Leche deslactosada light',portion:'1 taza'},
+      {name:'Leche de almendra sin azúcar',portion:'1 taza'},{name:'Leche de soya sin azúcar',portion:'1 taza'},
+      {name:'Yogurt griego bajo en grasa',portion:'1/2 taza'},{name:'Leche evaporada light',portion:'1/2 taza'}
+    ]},
+    {key:'grasas',label:'Grasas',kcal:45,defaultValue:3,foods:[
+      {name:'Aguacate',portion:'1/4 pieza'},{name:'Aceite de oliva',portion:'1 cucharadita'},{name:'Almendras',portion:'6 piezas'},
+      {name:'Cacahuates',portion:'1 cucharada'},{name:'Pepitas',portion:'1 cucharada'},{name:'Nueces',portion:'2 mitades'},
+      {name:'Semillas de chía',portion:'1 cucharada'},{name:'Semillas de linaza',portion:'1 cucharada'},
+      {name:'Crema de cacahuate natural',portion:'1 cucharadita'},{name:'Aceite de coco',portion:'1 cucharadita'},
+      {name:'Pistaches',portion:'8 piezas'},{name:'Ajonjolí',portion:'1 cucharada'},
+      {name:'Semillas de girasol',portion:'1 cucharada'},{name:'Guacamole',portion:'2 cucharadas'},
+      {name:'Aceitunas',portion:'5 piezas'},{name:'Tahini',portion:'1 cucharadita'}
+    ]},
+    {key:'azucares',label:'Azúcares',kcal:40,defaultValue:0,foods:[
+      {name:'Miel',portion:'2 cucharaditas'},{name:'Mermelada',portion:'2 cucharaditas'},{name:'Azúcar',portion:'2 cucharaditas'},
+      {name:'Piloncillo rallado',portion:'2 cucharaditas'},{name:'Jarabe de maple',portion:'1 cucharadita'}
+    ]}
   ],
 
   getDraftKey(pid){ return `hj_plan_draft_${pid}`; },
@@ -1555,7 +1622,7 @@ const MealPlansView = {
     return `${await AppContext.renderBar()}
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:16px">
         <div><h1>Plan de alimentación</h1><p class="text-muted">Genera, edita y asigna el plan real para ${p.name||p.email} sin salir del contexto del paciente.</p><p class="text-xs text-muted mt-2">Si ya guardaste equivalentes desde calculadoras, aquí se cargan automáticamente.</p></div>
-        <div class="flex gap-3"><button class="btn btn-outline" onclick="Router.navigate('calculators',{patientId:'${p.id}'})">🧮 Volver a calculadoras</button><button class="btn btn-primary" onclick="MealPlansView.generatePlan()">✨ Generar plan</button></div>
+        <div class="flex gap-3"><button class="btn btn-outline" onclick="Router.navigate('calculators',{patientId:'${p.id}'})">🧮 Volver a calculadoras</button><button class="btn btn-primary" onclick="MealPlansView.generatePlan()">✨ Generar menú con IA</button><button class="btn btn-secondary" onclick="MealPlansView.generatePlanLocal()">📋 Generar rápido (sin IA)</button></div>
       </div>
       ${UI.infoBox('<strong>Flujo de consulta:</strong> revisa expediente → usa calculadoras guardadas → genera plan → edítalo → guárdalo y el paciente lo verá en su portal.','info')}
       ${calcTargets.kcalTarget ? UI.infoBox(`<strong>Importado desde calculadora:</strong> ${Math.round(calcTargets.kcalTarget||0)} kcal · proteínas meta ${Math.round(calcTargets.proteinTargetG||0)} g · lípidos meta ${Math.round(calcTargets.fatTargetG||0)} g · HCO meta ${Math.round(calcTargets.carbTargetG||0)} g${calcTotals ? ` · total equivalentes ${calcTotals.kcal} kcal` : ''}`,'tip') : ''}
@@ -1643,10 +1710,148 @@ const MealPlansView = {
   generatePlan(){
     if(!this.currentPatient?.id){ UI.toast('Selecciona un paciente','warning'); return; }
     const values=this.getCurrentValues();
-    const plan={meta:values, days:this.buildPlan(values), recommendations:'• Prioriza preparaciones sencillas\n• Si cambias un alimento, hazlo por otro del mismo grupo de equivalentes\n• Reporta dudas o baja adherencia en tu siguiente check-in'};
+    const outEl=document.getElementById('plan-output');
+    // Show loading state
+    outEl.innerHTML=UI.card('','<div style="text-align:center;padding:48px 24px"><div class="loading-spinner" style="margin:0 auto 20px"></div><h3 style="color:var(--g700);margin-bottom:8px">Generando menú personalizado con IA...</h3><p class="text-muted" id="ai-gen-status">Creando platillos variados y realistas para tu paciente</p></div>');
+    this.generatePlanAI(values).then(plan=>{
+      outEl.innerHTML=this.renderPlanEditor(plan);
+      this.saveDraftOnly();
+    }).catch(err=>{
+      console.warn('AI generation failed, using fallback:', err);
+      document.getElementById('ai-gen-status').textContent='La IA no está disponible, generando con sistema local...';
+      setTimeout(()=>{
+        const plan={meta:values, days:this.buildPlan(values), recommendations:'• Prioriza preparaciones sencillas\n• Si cambias un alimento, hazlo por otro del mismo grupo de equivalentes\n• Reporta dudas o baja adherencia en tu siguiente check-in'};
+        outEl.innerHTML=this.renderPlanEditor(plan);
+        this.saveDraftOnly();
+        UI.toast('Plan generado con sistema local (IA no disponible)','warning');
+      },800);
+    });
+  },
+
+  async generatePlanAI(values){
+    const p=this.currentPatient;
+    const patientCtx = this.buildPatientContext(p, values);
+    const eqDetail = this.eqConfig.map(g => g.key + ': ' + (values.equivalents[g.key]||0) + ' eq (' + g.label + ', ' + g.kcal + ' kcal c/u) — opciones: ' + g.foods.slice(0,6).map(f=>f.name+' '+f.portion).join(', ')).join('\n');
+    const dayNames={3:['Día 1','Día 2','Día 3'],5:['Lunes','Martes','Miércoles','Jueves','Viernes'],7:['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo']}[values.dayCount] || ['Lunes','Martes','Miércoles','Jueves','Viernes'];
+    const mealNames=this.mealTimes;
+
+    const prompt = 'Eres un nutriólogo mexicano experto en planificación de menús usando el sistema mexicano de equivalentes (SMAE).\n\n'
+    + 'CONTEXTO GEOGRÁFICO Y CULTURAL:\n'
+    + '- Los menús son para pacientes que viven en ciudades de México.\n'
+    + '- Usa ingredientes que se consiguen fácilmente en supermercados mexicanos comunes (Soriana, Walmart, Chedraui, HEB, mercados locales).\n'
+    + '- PUEDES incluir cocina internacional accesible en México: pasta italiana, pollo teriyaki, bowl de salmón con arroz, ensaladas mediterráneas, wraps, bowls, curry con ingredientes disponibles, tacos de pescado estilo Baja, quesadillas gourmet, etc.\n'
+    + '- NO uses ingredientes exóticos, de importación especializada o poco comunes (ej: percebes, durian, haggis, foie gras, trufa fresca, caviar, ostras, wagyu).\n'
+    + '- SÍ usa: salmón, atún, camarón, pasta, arroz, quinoa, aguacate, tortillas, pan integral, yogur griego, quesos comunes, frutas y verduras de temporada.\n\n'
+    + 'REGLAS ESTRICTAS DE VARIEDAD:\n'
+    + '- No repitas la misma proteína principal más de 1 vez al día.\n'
+    + '- En un plan semanal, alterna entre al menos 4 estilos de cocina: mexicana, mediterránea, asiática adaptada, americana saludable, fusión, etc.\n'
+    + '- Varía métodos de cocción cada día: asado, salteado, crudo, al vapor, horneado, a la plancha.\n'
+    + '- Alterna entre preparaciones rápidas (<20 min) y más elaboradas.\n'
+    + '- Cada día debe sentirse diferente al anterior.\n'
+    + '- Los platillos deben ser REALES, con nombre de platillo concreto (no solo lista de ingredientes sueltos).\n'
+    + '- Ejemplo de platillo real: "Bowl de salmón con arroz integral, pepino y aguacate" en vez de "salmón 60g + arroz 1/2 taza + pepino 1 taza".\n\n'
+    + 'DATOS DEL PACIENTE:\n' + patientCtx + '\n\n'
+    + 'EQUIVALENTES ASIGNADOS POR DÍA:\n' + eqDetail + '\n\n'
+    + 'INSTRUCCIONES DE FORMATO:\n'
+    + '- Genera ' + dayNames.length + ' días: ' + dayNames.join(', ') + '\n'
+    + '- Cada día tiene estos tiempos: ' + mealNames.join(', ') + '\n'
+    + '- Para cada tiempo de comida, escribe el platillo como texto natural con:\n'
+    + '  • Nombre del platillo (creativo y apetitoso)\n'
+    + '  • Ingredientes con porciones del SMAE\n'
+    + '  • Equivalentes usados entre paréntesis\n'
+    + '- Al final incluye una sección de "Recomendaciones" con 4-5 tips personalizados.\n\n'
+    + 'RESPONDE ÚNICAMENTE con JSON válido (sin markdown, sin backticks, sin explicaciones), con esta estructura exacta:\n'
+    + '{"days":[{"day":"Lunes","meals":[{"name":"Desayuno","lines":["línea 1","línea 2"]},{"name":"Colación AM","lines":["..."]},{"name":"Comida","lines":["..."]},{"name":"Colación PM","lines":["..."]},{"name":"Cena","lines":["..."]}]},...],"recommendations":"texto con recomendaciones"}';
+
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:4000,
+        messages:[{role:'user', content:prompt}]
+      })
+    });
+    if(!response.ok) throw new Error('API error: ' + response.status);
+    const data = await response.json();
+    const text = (data.content||[]).map(c=>c.text||'').join('');
+    const clean = text.replace(/```json|```/g,'').trim();
+    const parsed = JSON.parse(clean);
+    return { meta:values, days:parsed.days, recommendations:parsed.recommendations||'' };
+  },
+
+  buildPatientContext(p, values){
+    const parts = [];
+    parts.push('- Nombre: ' + (p.name||p.email||'Paciente'));
+    if(values.kcalTarget) parts.push('- Calorías objetivo: ' + values.kcalTarget + ' kcal');
+    if(values.goal) parts.push('- Objetivo: ' + values.goal);
+    if(p.consultReason) parts.push('- Motivo de consulta: ' + p.consultReason);
+    const nh = p.nutritionHistory||{};
+    if(nh.allergies) parts.push('- Alergias/intolerancias: ' + nh.allergies);
+    if(nh.avoidFoods) parts.push('- Alimentos que NO consume: ' + nh.avoidFoods);
+    if(nh.preferences) parts.push('- Preferencias: ' + nh.preferences);
+    if(nh.mealSchedule) parts.push('- Horarios de comida: ' + nh.mealSchedule);
+    if(nh.waterIntake) parts.push('- Consumo de agua: ' + nh.waterIntake);
+    if(nh.physicalActivity) parts.push('- Actividad física: ' + nh.physicalActivity);
+    if(nh.alcohol) parts.push('- Consumo de alcohol: ' + nh.alcohol);
+    if(nh.cooking) parts.push('- Quién cocina: ' + nh.cooking);
+    if(nh.budget) parts.push('- Presupuesto: ' + nh.budget);
+    if(nh.recall24h) parts.push('- Recordatorio 24h previo: ' + nh.recall24h);
+    if(values.notes) parts.push('- Notas clínicas adicionales: ' + values.notes);
+    const calc = p.calculatorResults||{};
+    const mt = calc.macroTargets||{};
+    if(mt.proteinTargetG) parts.push('- Proteínas meta: ' + Math.round(mt.proteinTargetG) + 'g');
+    if(mt.carbTargetG) parts.push('- Carbohidratos meta: ' + Math.round(mt.carbTargetG) + 'g');
+    if(mt.fatTargetG) parts.push('- Lípidos meta: ' + Math.round(mt.fatTargetG) + 'g');
+    return parts.join('\n');
+  },
+  generatePlanLocal(){
+    if(!this.currentPatient?.id){ UI.toast('Selecciona un paciente','warning'); return; }
+    const values=this.getCurrentValues();
+    const plan={meta:values, days:this.buildPlanVaried(values), recommendations:'• Prioriza preparaciones sencillas y frescas\n• Si cambias un alimento, hazlo por otro del mismo grupo de equivalentes\n• Toma al menos 1.5 litros de agua natural al día\n• Reporta dudas o baja adherencia en tu siguiente check-in'};
     document.getElementById('plan-output').innerHTML=this.renderPlanEditor(plan);
     this.saveDraftOnly();
+    UI.toast('Plan generado con sistema local ✓');
   },
+  buildPlanVaried(values){
+    const dayNames={3:['Día 1','Día 2','Día 3'],5:['Lunes','Martes','Miércoles','Jueves','Viernes'],7:['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo']}[values.dayCount] || ['Lunes','Martes','Miércoles','Jueves','Viernes'];
+    return dayNames.map((day,dayIndex)=>{
+      const meals=this.distributeEquivalentsVaried(values, dayIndex).map((m)=>({ ...m, lines:m.lines }));
+      return {day, meals};
+    });
+  },
+  distributeEquivalentsVaried(values, dayIndex){
+    const slots=['Desayuno','Colación AM','Comida','Colación PM','Cena'];
+    const weights={verduras:[0,0,2,0,1],frutas:[1,1,0,1,0],cer_sg:[1,0,2,0,1],cer_cg:[0,0,0,0,0],legum:[0,0,1,0,0],aoa_mb:[1,0,1,0,0],aoa_b:[0,0,0,0,1],leche_d:[1,0,0,0,0],grasas:[1,0,1,0,1],azucares:[0,0,0,0,0]};
+    const perMeal = slots.map(s=>({name:s,lines:[],summary:{}}));
+    Object.entries(values.equivalents).forEach(([key,qty])=>{
+      let remaining=Math.max(0, qty||0); const base=weights[key]||[1,0,1,0,1];
+      const totalWeight=base.reduce((a,b)=>a+b,0)||1;
+      const cfg=this.eqConfig.find(x=>x.key===key);
+      const shuffled = [...(cfg?.foods||[])].sort(()=>Math.random()-0.5);
+      let foodIdx = dayIndex % shuffled.length;
+      slots.forEach((_,idx)=>{
+        if(remaining<=0) return;
+        let alloc=Math.floor((qty*(base[idx]||0))/totalWeight);
+        if(idx===slots.length-1) alloc=remaining;
+        alloc=Math.min(alloc,remaining);
+        if(alloc<=0) return;
+        remaining-=alloc;
+        const food=shuffled[foodIdx % shuffled.length]; foodIdx++;
+        perMeal[idx].lines.push('- ' + food.name + ' — ' + food.portion + ' → ' + alloc + ' eq de ' + cfg.label);
+        perMeal[idx].summary[key]=(perMeal[idx].summary[key]||0)+alloc;
+      });
+      let spillIdx=0;
+      while(remaining>0){
+        const mealIndex=spillIdx%slots.length;
+        const food=shuffled[foodIdx % shuffled.length]; foodIdx++;
+        perMeal[mealIndex].lines.push('- ' + food.name + ' — ' + food.portion + ' → 1 eq de ' + cfg.label);
+        perMeal[mealIndex].summary[key]=(perMeal[mealIndex].summary[key]||0)+1; remaining--; spillIdx++;
+      }
+    });
+    return perMeal;
+  },
+
   collectGeneratedPlan(){
     const values=this.getCurrentValues();
     const dayNames={3:['Día 1','Día 2','Día 3'],5:['Lunes','Martes','Miércoles','Jueves','Viernes'],7:['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo']}[values.dayCount] || ['Lunes','Martes','Miércoles','Jueves','Viernes'];
