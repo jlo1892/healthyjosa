@@ -1187,7 +1187,10 @@ const PatientRecord = {
         `,'Editable por la nutrióloga')}
       `;
       case 'plan': return `
-        ${plan?UI.card('Plan asignado al paciente',MealPlansView.renderSavedPlan(plan,'patient'),'Visible en el portal del paciente',`<button class="btn btn-outline btn-sm" onclick="Router.navigate('meal-plans',{patientId:'${p.id}'})">Editar plan</button>`):UI.card('Plan asignado',UI.emptyState('🥗','Sin plan asignado','Todavía no has creado un plan para este paciente.',`<button class="btn btn-primary" onclick="Router.navigate('meal-plans',{patientId:'${p.id}'})">Crear plan ahora</button>`))}
+        <div id="plan-tab-root">
+        ${plan ? '<div class="card"><div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px"><div class="card-title" style="margin:0">Plan asignado al paciente</div><div class="flex gap-3"><button class="btn btn-primary btn-sm" id="btn-toggle-edit" onclick="PatientRecord.toggleEditPlan()">✏️ Editar plan</button><button class="btn btn-outline btn-sm" onclick="Router.navigate(\'meal-plans\',{patientId:\''+p.id+'\'})">🔄 Regenerar completo</button></div></div><div class="text-xs text-muted mb-4">Visible en el portal del paciente</div><div id="plan-view-mode">'+MealPlansView.renderSavedPlan(plan,'patient')+'</div><div id="plan-edit-mode" style="display:none"></div></div>'
+        : UI.card('Plan asignado',UI.emptyState('🥗','Sin plan asignado','Todavía no has creado un plan para este paciente.','<button class="btn btn-primary" onclick="Router.navigate(\'meal-plans\',{patientId:\''+p.id+'\'})">Crear plan ahora</button>'))}
+        </div>
       `;
       case 'progress': return `${UI.card('Progreso del paciente',`<p class="text-sm text-muted">Revisa check-ins, hábitos y evolución registrada por el paciente.</p><div class="mt-4"><button class="btn btn-secondary" onclick="Router.navigate('patient-progress')">Ver ejemplo de progreso del portal</button></div>`)}`;
       default: return '';
@@ -1196,6 +1199,171 @@ const PatientRecord = {
   async saveFields(){
     const data={};document.querySelectorAll('#rec-content .form-input,#rec-content .form-textarea,#rec-content .form-select').forEach(el=>{if(el.name)data[el.name]=el.value});
     if(await DB.savePatientData(this.p.id,data)){UI.toast('Datos guardados ✓');Object.assign(this.p,data); AppContext.setPatient(this.p);}else UI.toast('Error al guardar','error');
+  },
+  _editingPlan: false,
+  toggleEditPlan(){
+    var viewDiv=document.getElementById('plan-view-mode');
+    var editDiv=document.getElementById('plan-edit-mode');
+    var btn=document.getElementById('btn-toggle-edit');
+    if(!viewDiv||!editDiv) return;
+    this._editingPlan = !this._editingPlan;
+    if(this._editingPlan){
+      viewDiv.style.display='none';
+      editDiv.style.display='block';
+      editDiv.innerHTML = this.renderEditablePlan(this.p.assignedPlan);
+      btn.textContent='❌ Cancelar edición';
+      btn.className='btn btn-outline btn-sm';
+    } else {
+      viewDiv.style.display='block';
+      editDiv.style.display='none';
+      editDiv.innerHTML='';
+      btn.textContent='✏️ Editar plan';
+      btn.className='btn btn-primary btn-sm';
+    }
+  },
+  renderEditablePlan(plan){
+    if(!plan || typeof plan==='string') return '<p>No se puede editar este formato de plan.</p>';
+    var esc = function(v){ return String(v||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); };
+    var days = plan.days || [];
+    var html = '<div style="background:var(--sage-50);border:2px solid var(--sage);padding:16px 20px;border-radius:var(--r-xl);margin-bottom:20px">' +
+      '<strong>Modo edición activo</strong> — Modifica lo que necesites y guarda los cambios al final.</div>';
+    // Meta info
+    html += '<div class="card mb-4"><div class="card-title">Información del plan</div>';
+    html += '<div class="form-row"><div class="form-group" style="flex:1"><label class="form-label">Objetivo</label><input class="form-input" id="edit-plan-goal" value="' + esc(plan.meta?.goal||'') + '"></div>';
+    html += '<div class="form-group" style="flex:1"><label class="form-label">Kcal objetivo</label><input class="form-input" id="edit-plan-kcal" type="number" value="' + (plan.meta?.kcalTarget||'') + '"></div></div></div>';
+    // Days
+    for(var di=0; di<days.length; di++){
+      var day = days[di];
+      html += '<div class="card mb-4" style="border-left:4px solid var(--sage)">';
+      html += '<div class="card-title">' + esc(day.day) + '</div>';
+      var meals = day.meals || [];
+      for(var mi=0; mi<meals.length; mi++){
+        var meal = meals[mi];
+        html += '<div style="background:var(--bg);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px;margin-bottom:14px">';
+        html += '<div style="font-weight:700;font-size:1.05rem;margin-bottom:8px">' + esc(meal.name) + '</div>';
+        // Equivalents summary
+        if(meal.equivalentsSummary){
+          html += '<div class="text-xs text-muted mb-2"><em>Equivalentes: ' + esc(meal.equivalentsSummary) + '</em></div>';
+        }
+        // Meal note
+        html += '<div class="form-group"><label class="form-label text-xs">Nota del tiempo de comida</label>';
+        html += '<textarea class="form-textarea" data-field="meal-note" data-day="'+di+'" data-meal="'+mi+'" rows="2" placeholder="Nota opcional...">' + esc(meal.note||'') + '</textarea></div>';
+        // Recipes
+        var recipes = meal.recipes || [];
+        html += '<div id="recipes-'+di+'-'+mi+'">';
+        for(var ri=0; ri<recipes.length; ri++){
+          var r = recipes[ri];
+          html += PatientRecord.renderEditableRecipe(di, mi, ri, r);
+        }
+        html += '</div>';
+        // Add recipe button
+        html += '<button class="btn btn-outline btn-sm mt-2" onclick="PatientRecord.addRecipeToMeal('+di+','+mi+')">＋ Agregar platillo</button>';
+        html += '</div>';
+      }
+      html += '</div>';
+    }
+    // Recommendations
+    html += '<div class="card mb-4"><div class="card-title">✨ Recomendaciones</div>';
+    html += '<textarea class="form-textarea" id="edit-plan-recommendations" rows="5" placeholder="Recomendaciones generales...">' + esc(plan.recommendations||'') + '</textarea></div>';
+    // Save / Cancel buttons
+    html += '<div class="flex gap-3" style="justify-content:flex-end">';
+    html += '<button class="btn btn-outline" onclick="PatientRecord.toggleEditPlan()">❌ Cancelar</button>';
+    html += '<button class="btn btn-primary" onclick="PatientRecord.saveEditedPlan()">💾 Guardar cambios</button>';
+    html += '</div>';
+    return html;
+  },
+  renderEditableRecipe(di, mi, ri, r){
+    var esc = function(v){ return String(v||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); };
+    var html = '<div class="edit-recipe-card" data-day="'+di+'" data-meal="'+mi+'" data-recipe="'+ri+'" style="border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0;background:#fafcf9">';
+    html += '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">';
+    html += '<div style="flex:1"><input class="form-input" data-field="recipe-name" data-day="'+di+'" data-meal="'+mi+'" data-recipe="'+ri+'" value="' + esc(r.name||'') + '" placeholder="Nombre del platillo" style="font-weight:700"></div>';
+    html += '<button class="btn btn-outline btn-sm" style="color:var(--error);border-color:var(--error);white-space:nowrap" onclick="PatientRecord.removeRecipeFromMeal('+di+','+mi+',this)">✕ Quitar</button>';
+    html += '</div>';
+    html += '<div class="form-row mt-2" style="gap:8px">';
+    html += '<div class="form-group" style="flex:1"><label class="form-label text-xs">Kcal</label><input class="form-input" type="number" data-field="recipe-kcal" data-day="'+di+'" data-meal="'+mi+'" data-recipe="'+ri+'" value="'+(r.kcal||0)+'"></div>';
+    html += '<div class="form-group" style="flex:1"><label class="form-label text-xs">Prot g</label><input class="form-input" type="number" data-field="recipe-protein" data-day="'+di+'" data-meal="'+mi+'" data-recipe="'+ri+'" value="'+(r.protein||0)+'"></div>';
+    html += '<div class="form-group" style="flex:1"><label class="form-label text-xs">Grasas g</label><input class="form-input" type="number" data-field="recipe-fat" data-day="'+di+'" data-meal="'+mi+'" data-recipe="'+ri+'" value="'+(r.fat||0)+'"></div>';
+    html += '<div class="form-group" style="flex:1"><label class="form-label text-xs">HC g</label><input class="form-input" type="number" data-field="recipe-carbs" data-day="'+di+'" data-meal="'+mi+'" data-recipe="'+ri+'" value="'+(r.carbs||0)+'"></div>';
+    html += '</div>';
+    html += '<div class="form-group mt-2"><label class="form-label text-xs">Ingredientes</label>';
+    html += '<textarea class="form-textarea" data-field="recipe-ingredients" data-day="'+di+'" data-meal="'+mi+'" data-recipe="'+ri+'" rows="3" placeholder="Lista de ingredientes...">' + esc(r.ingredientsText||'') + '</textarea></div>';
+    html += '</div>';
+    return html;
+  },
+  addRecipeToMeal(dayIdx, mealIdx){
+    var container = document.getElementById('recipes-'+dayIdx+'-'+mealIdx);
+    if(!container) return;
+    var existing = container.querySelectorAll('.edit-recipe-card').length;
+    var newRecipe = {name:'', kcal:0, protein:0, fat:0, carbs:0, ingredientsText:''};
+    var div = document.createElement('div');
+    div.innerHTML = this.renderEditableRecipe(dayIdx, mealIdx, existing, newRecipe);
+    container.appendChild(div.firstElementChild);
+  },
+  removeRecipeFromMeal(dayIdx, mealIdx, btn){
+    var card = btn.closest('.edit-recipe-card');
+    if(card && confirm('¿Quitar este platillo del plan?')){
+      card.remove();
+    }
+  },
+  async saveEditedPlan(){
+    var plan = JSON.parse(JSON.stringify(this.p.assignedPlan || {}));
+    // Update meta
+    var goalEl = document.getElementById('edit-plan-goal');
+    var kcalEl = document.getElementById('edit-plan-kcal');
+    if(!plan.meta) plan.meta = {};
+    if(goalEl) plan.meta.goal = goalEl.value;
+    if(kcalEl) plan.meta.kcalTarget = parseInt(kcalEl.value)||0;
+    // Update recommendations
+    var recoEl = document.getElementById('edit-plan-recommendations');
+    if(recoEl) plan.recommendations = recoEl.value;
+    // Update meal notes
+    document.querySelectorAll('[data-field="meal-note"]').forEach(function(el){
+      var di = parseInt(el.dataset.day);
+      var mi = parseInt(el.dataset.meal);
+      if(plan.days && plan.days[di] && plan.days[di].meals && plan.days[di].meals[mi]){
+        plan.days[di].meals[mi].note = el.value;
+      }
+    });
+    // Rebuild recipes per meal from DOM
+    var days = plan.days || [];
+    for(var di=0; di<days.length; di++){
+      var meals = days[di].meals || [];
+      for(var mi=0; mi<meals.length; mi++){
+        var container = document.getElementById('recipes-'+di+'-'+mi);
+        if(!container) continue;
+        var cards = container.querySelectorAll('.edit-recipe-card');
+        var newRecipes = [];
+        cards.forEach(function(card){
+          var getName = card.querySelector('[data-field="recipe-name"]');
+          var getKcal = card.querySelector('[data-field="recipe-kcal"]');
+          var getProt = card.querySelector('[data-field="recipe-protein"]');
+          var getFat = card.querySelector('[data-field="recipe-fat"]');
+          var getCarbs = card.querySelector('[data-field="recipe-carbs"]');
+          var getIng = card.querySelector('[data-field="recipe-ingredients"]');
+          newRecipes.push({
+            name: getName ? getName.value : '',
+            kcal: getKcal ? parseFloat(getKcal.value)||0 : 0,
+            protein: getProt ? parseFloat(getProt.value)||0 : 0,
+            fat: getFat ? parseFloat(getFat.value)||0 : 0,
+            carbs: getCarbs ? parseFloat(getCarbs.value)||0 : 0,
+            ingredientsText: getIng ? getIng.value : ''
+          });
+        });
+        plan.days[di].meals[mi].recipes = newRecipes;
+      }
+    }
+    // Save to Firestore
+    var ok = await DB.savePatientPlan(this.p.id, plan);
+    if(ok){
+      this.p.assignedPlan = plan;
+      AppContext.setPatient(this.p);
+      this._editingPlan = false;
+      // Re-render the tab
+      document.getElementById('rec-content').innerHTML = this.renderTab();
+      UI.toast('Plan actualizado correctamente ✓');
+    } else {
+      UI.toast('Error al guardar el plan','error');
+    }
   }
 };
 
@@ -2431,7 +2599,7 @@ const MealPlansView = {
     this.currentPatient = await DB.getPatient(patientId);
     if(!this.currentPatient) return AppContext.requireState('No se pudo cargar el paciente.');
     AppContext.setPatient(this.currentPatient);
-    const p=this.currentPatient, calc=p.calculatorResults||{}, savedDraft=JSON.parse(localStorage.getItem(this.getDraftKey(p.id))||'null'), draft=savedDraft || this.extractDraftFromPlan(p.assignedPlan);
+    const p=this.currentPatient, calc=p.calculatorResults||{}, draft=JSON.parse(localStorage.getItem(this.getDraftKey(p.id))||'null');
     const eqSource = draft?.equivalents || calc.equivalents || {};
     const dayCount = draft?.dayCount || 5;
     const budgetLevel = draft?.budgetLevel || this.inferBudgetLevel(p.budget||'');
@@ -2449,7 +2617,7 @@ const MealPlansView = {
         ${UI.card('Equivalentes globales del plan',`<div class="grid-2" style="gap:12px">${renderEqInputs}</div><div id="plan-eq-summary" class="mt-4"></div>`)}
       </div>
       ${UI.card('Paso 2 · Distribuye tus equivalentes por tiempo de comida',`${UI.infoBox('Aquí decides cómo repartir los equivalentes entre desayuno, colaciones, comida y cena. Cuando los totales cuadren, genera el menú.','tip')}<div class="flex gap-3 flex-wrap mb-4"><button class="btn btn-outline btn-sm" onclick="MealPlansView.autoDistribute()">⚙️ Auto distribuir</button><button class="btn btn-outline btn-sm" onclick="MealPlansView.clearDistribution()">🧹 Limpiar distribución</button><button class="btn btn-secondary btn-sm" onclick="MealPlansView.saveDraftOnly()">💾 Guardar esta distribución</button></div><div class="table-wrapper"><table class="data-table"><thead><tr><th>Grupo</th>${this.mealSlots.map(m=>`<th>${m.label}</th>`).join('')}<th>Total</th><th>Diferencia</th></tr></thead><tbody>${distributionRows}<tr style="background:var(--sage-50);font-weight:700"><td>Total por tiempo</td>${this.mealSlots.map(slot=>`<td id="meal_total_${slot.id}">0</td>`).join('')}<td id="grand_total_eq">0</td><td>—</td></tr></tbody></table></div><div id="distribution-summary" class="mt-4"></div><div class="flex gap-3 mt-4 flex-wrap"><button class="btn btn-primary" onclick="MealPlansView.generatePlan()">✨ Generar menú desde esta distribución</button><button class="btn btn-outline" onclick="MealPlansView.previewDistributionOnly()">👀 Revisar distribución</button></div>`)}
-      <div id="plan-output" class="mt-6">${p.assignedPlan ? '<div class="card" style="background:var(--sage-50);border:2px solid var(--sage);margin-bottom:16px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;border-radius:var(--r-xl)"><div><strong>✅ Este paciente ya tiene un plan asignado.</strong><br><span class="text-sm text-muted">Los datos del plan se cargaron arriba. Modifica lo que necesites y vuelve a generar para actualizar.</span></div><div class="flex gap-3"><button class="btn btn-secondary btn-sm" onclick="MealPlansView.generatePlan()">🔄 Regenerar menú</button><button class="btn btn-outline btn-sm" onclick="MealPlansView.clearAndStartFresh()">🧹 Empezar desde cero</button></div></div>' + this.renderSavedPlan(p.assignedPlan,false) : UI.card('',UI.emptyState('🥗','Aún no hay plan generado','Primero distribuye equivalentes y luego genera el menú real para el paciente.'))}</div>`;
+      <div id="plan-output" class="mt-6">${p.assignedPlan ? this.renderSavedPlan(p.assignedPlan,false) : UI.card('',UI.emptyState('🥗','Aún no hay plan generado','Primero distribuye equivalentes y luego genera el menú real para el paciente.'))}</div>`;
   },
   getCurrentValues(){
     const values={patientName:document.querySelector('[name=mp_patient_name]')?.value||'',kcalTarget:+(document.querySelector('[name=mp_kcal]')?.value||0),goal:document.querySelector('[name=mp_goal]')?.value||'',dayCount:+(document.querySelector('[name=mp_days]')?.value||5),notes:document.querySelector('[name=mp_notes]')?.value||'',budgetText:document.querySelector('[name=mp_budget_text]')?.value||'',budgetLevel:document.querySelector('[name=mp_budget_level]')?.value||'medio',equivalents:{}};
@@ -2879,32 +3047,6 @@ const MealPlansView = {
     return `<div><div class="mb-4"><strong>Objetivo:</strong> ${this.esc(plan.meta?.goal||'—')} · <strong>Kcal:</strong> ${plan.meta?.kcalTarget||'—'} · <strong>Promedio real:</strong> ${avg.kcal} kcal</div>${dayHtml}<div class="card"><div class="card-title">Recomendaciones</div><div style="white-space:pre-wrap;font-size:.9rem">${this.esc(plan.recommendations||'—')}</div>${!inRecord?'<div class="mt-4"><button class="btn btn-outline btn-sm" onclick="MealPlansView.generatePlan()">Editar desde este paciente</button></div>':''}</div></div>`;
   },
   mealIcon(name=''){ const n=(name||'').toLowerCase(); if(n.includes('desay')) return '🌅'; if(n.includes('am')) return '🍏'; if(n.includes('comida')) return '🍽️'; if(n.includes('pm')) return '☕'; if(n.includes('cena')) return '🌙'; return '🥗'; },
-  extractDraftFromPlan(plan){
-    if(!plan || typeof plan==='string') return null;
-    var meta = plan.meta || {};
-    var draftData = {
-      kcalTarget: meta.kcalTarget || '',
-      goal: meta.goal || '',
-      dayCount: (plan.days||[]).length || 5,
-      notes: meta.notes || '',
-      budgetText: meta.budgetText || '',
-      budgetLevel: meta.budgetLevel || 'medio',
-      equivalents: meta.equivalents || {},
-      distribution: meta.distribution || null
-    };
-    return draftData;
-  },
-clearAndStartFresh(){
-    var p = this.currentPatient;
-    if(!p) return;
-    localStorage.removeItem(this.getDraftKey(p.id));
-    var cleanPatient = Object.assign({}, p);
-    delete cleanPatient.assignedPlan;
-    AppContext.setPatient(cleanPatient);
-    this.currentPatient = cleanPatient;
-    Router.navigate('meal-plans', {patientId: p.id});
-    UI.toast('Formulario limpio — puedes crear un plan nuevo');
-  },
 async assignPlan(){},
   async doAssign(){},
   showCreate(){ this.generatePlan(); }
