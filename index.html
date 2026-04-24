@@ -1406,9 +1406,14 @@ const NutHistory = {
         ${UI.fg('nh_anxietyEating','¿Come por ansiedad o estrés?','select',nh.anxietyEating||'',{options:[{value:'',label:'Selecciona'},{value:'si_frecuente',label:'Sí, frecuentemente'},{value:'si_aveces',label:'Sí, a veces'},{value:'rara_vez',label:'Rara vez'},{value:'no',label:'No'}]})}
         ${UI.fg('nh_guiltEating','¿Siente culpa al comer ciertos alimentos?','select',nh.guiltEating||'',{options:[{value:'',label:'Selecciona'},{value:'si',label:'Sí'},{value:'aveces',label:'A veces'},{value:'no',label:'No'}]})}
         ${UI.fg('nh_emotionalEating','¿Come por emociones?','textarea',nh.emotionalEating||'',{placeholder:'Describe el patrón'})}
-        ${UI.fg('nh_stressLevel','Nivel de estrés','select',nh.stressLevel||'',{options:[{value:'',label:'Selecciona'},{value:'1-3',label:'Bajo (1-3)'},{value:'4-6',label:'Moderado (4-6)'},{value:'7-10',label:'Alto (7-10)'}]})}
+       ${UI.fg('nh_stressLevel','Nivel de estrés','select',nh.stressLevel||'',{options:[{value:'',label:'Selecciona'},{value:'1-3',label:'Bajo (1-3)'},{value:'4-6',label:'Moderado (4-6)'},{value:'7-10',label:'Alto (7-10)'}]})}
       `)}
-      ${UI.card('Sueño y actividad física',`
+      ${UI.card('Hidratacion',`
+        ${UI.fg('nh_waterGlasses','Cuantos vasos de agua toma al dia?','select',nh.waterGlasses||'',{options:[{value:'',label:'Selecciona'},{value:'1-3',label:'1-3 vasos (menos de lo recomendado)'},{value:'4-6',label:'4-6 vasos'},{value:'7-8',label:'7-8 vasos (recomendado)'},{value:'9-10',label:'9-10 vasos'},{value:'mas10',label:'Mas de 10 vasos'}]})}
+        ${UI.fg('nh_waterType','Que tipo de agua toma principalmente?','select',nh.waterType||'',{options:[{value:'',label:'Selecciona'},{value:'natural',label:'Agua natural de la llave o garrafon'},{value:'embotellada',label:'Agua embotellada'},{value:'fresca',label:'Aguas frescas o de fruta'},{value:'mixta',label:'Mezcla de opciones'}]})}
+        ${UI.fg('nh_waterNotes','Notas sobre hidratacion','textarea',nh.waterNotes||'',{placeholder:'Ej: solo toma agua con comidas, prefiere aguas de sabor...'})}
+      `)}
+      ${UI.card('Sueno y actividad fisica',`
         <div class="form-row">${UI.fg('nh_sleepTime','Hora de dormir','time',nh.sleepTime||'')}${UI.fg('nh_wakeTime','Hora de despertar','time',nh.wakeTime||'')}</div>
         <div class="form-row">${UI.fg('nh_exerciseType','Tipo de actividad','text',nh.exerciseType||'',{placeholder:'Caminar, gym, correr...'})}${UI.fg('nh_exerciseFreq','Frecuencia','select',nh.exerciseFreq||'',{options:[{value:'',label:'Selecciona'},{value:'sedentario',label:'Sedentario'},{value:'1-2',label:'1-2/semana'},{value:'3-4',label:'3-4/semana'},{value:'5+',label:'5+/semana'}]})}</div>
         <div class="form-row">${UI.fg('nh_exerciseIntensity','Intensidad','select',nh.exerciseIntensity||'',{options:[{value:'',label:'Selecciona'},{value:'baja',label:'Baja'},{value:'moderada',label:'Moderada'},{value:'alta',label:'Alta'}]})}${UI.fg('nh_exerciseDuration','Duración','text',nh.exerciseDuration||'',{placeholder:'30 min, 1 hora...'})}</div>
