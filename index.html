@@ -1413,6 +1413,14 @@ const NutHistory = {
         ${UI.fg('nh_waterType','Que tipo de agua toma principalmente?','select',nh.waterType||'',{options:[{value:'',label:'Selecciona'},{value:'natural',label:'Agua natural de la llave o garrafon'},{value:'embotellada',label:'Agua embotellada'},{value:'fresca',label:'Aguas frescas o de fruta'},{value:'mixta',label:'Mezcla de opciones'}]})}
         ${UI.fg('nh_waterNotes','Notas sobre hidratacion','textarea',nh.waterNotes||'',{placeholder:'Ej: solo toma agua con comidas, prefiere aguas de sabor...'})}
       `)}
+      ${UI.card('Digestion 🫶',`
+        <div class="form-row">
+          ${UI.fg('nh_bowelFreq','Frecuencia de evacuaciones','select',nh.bowelFreq||'',{options:[{value:'',label:'Selecciona'},{value:'mas1_dia',label:'Mas de 1 vez al dia'},{value:'1_dia',label:'1 vez al dia (normal)'},{value:'cada2dias',label:'Cada 2 dias'},{value:'cada3dias',label:'Cada 3 dias'},{value:'menos3_semana',label:'Menos de 3 veces por semana (estreñimiento)'},{value:'irregular',label:'Muy irregular'}]})}
+          ${UI.fg('nh_bowelConsistency','Consistencia de las evacuaciones','select',nh.bowelConsistency||'',{options:[{value:'',label:'Selecciona'},{value:'normal',label:'Normal (forma definida, facil de evacuar)'},{value:'dura',label:'Dura o seca (grumos o pelotas)'},{value:'blanda',label:'Blanda pero formada'},{value:'suelta',label:'Suelta o pastosa'},{value:'liquida',label:'Liquida o muy suelta'},{value:'variable',label:'Variable / irregular'}]})}
+        </div>
+        ${UI.fg('nh_digestiveSymptoms','Sintomas digestivos frecuentes','select',nh.digestiveSymptoms||'',{options:[{value:'',label:'Selecciona'},{value:'ninguno',label:'Ninguno'},{value:'gases',label:'Gases o flatulencia'},{value:'distension',label:'Distension o inflamacion abdominal'},{value:'reflujo',label:'Reflujo o acidez'},{value:'nauseas',label:'Nauseas'},{value:'varios',label:'Varios de los anteriores'}]})}
+        ${UI.fg('nh_digestiveNotes','Notas digestivas adicionales','textarea',nh.digestiveNotes||'',{placeholder:'Ej: dolor despues de comer, intolerancia a lactosa, colon irritable...'})}
+      `)}
       ${UI.card('Sueno y actividad fisica',`
         <div class="form-row">${UI.fg('nh_sleepTime','Hora de dormir','time',nh.sleepTime||'')}${UI.fg('nh_wakeTime','Hora de despertar','time',nh.wakeTime||'')}</div>
         <div class="form-row">${UI.fg('nh_exerciseType','Tipo de actividad','text',nh.exerciseType||'',{placeholder:'Caminar, gym, correr...'})}${UI.fg('nh_exerciseFreq','Frecuencia','select',nh.exerciseFreq||'',{options:[{value:'',label:'Selecciona'},{value:'sedentario',label:'Sedentario'},{value:'1-2',label:'1-2/semana'},{value:'3-4',label:'3-4/semana'},{value:'5+',label:'5+/semana'}]})}</div>
