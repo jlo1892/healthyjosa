@@ -1157,7 +1157,7 @@ const PatientRecord = {
           ${UI.statCard('📐',v('waistCirc')?v('waistCirc')+' cm':'—','Cintura','rose')}
           ${UI.statCard('🧍',v('hipCirc')?v('hipCirc')+' cm':'—','Cadera','blue')}
         </div><div class="mt-4 grid-4" style="gap:12px">
-          ${UI.statCard('↔️',v('waistCirc')&&v('hipCirc')?(Number(v('waistCirc'))/Number(v('hipCirc'))).toFixed(2):'—','Índice cintura-cadera','green')}
+         ${(function(){var w=v('waistCirc'),h=v('hipCirc'),s=v('sex')||p.sex||'';if(!w||!h)return UI.statCard('↔️','—','ICC — sin datos','green');var icc=(Number(w)/Number(h)).toFixed(2);var num=parseFloat(icc);var esMujer=(s==='F'||s==='femenino'||s==='mujer'||s==='f');var alto=esMujer?num>=0.85:num>=1.0;var etiqueta=alto?('ICC '+icc+' — Riesgo alto'):('ICC '+icc+' — Normal');var color=alto?'rose':'green';return UI.statCard('↔️',icc,etiqueta,color);})()}
           ${UI.statCard('💪',v('bicepCirc')?v('bicepCirc')+' cm':'—','Bíceps','amber')}
           ${UI.statCard('🦵',v('thighCirc')?v('thighCirc')+' cm':'—','Muslo','rose')}
           ${UI.statCard('📉',v('weight5years')?v('weight5years')+' kg':'—','Peso habitual 5 años','blue')}
