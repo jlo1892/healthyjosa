@@ -1426,6 +1426,17 @@ const NutHistory = {
         <div class="form-row">${UI.fg('nh_exerciseType','Tipo de actividad','text',nh.exerciseType||'',{placeholder:'Caminar, gym, correr...'})}${UI.fg('nh_exerciseFreq','Frecuencia','select',nh.exerciseFreq||'',{options:[{value:'',label:'Selecciona'},{value:'sedentario',label:'Sedentario'},{value:'1-2',label:'1-2/semana'},{value:'3-4',label:'3-4/semana'},{value:'5+',label:'5+/semana'}]})}</div>
         <div class="form-row">${UI.fg('nh_exerciseIntensity','Intensidad','select',nh.exerciseIntensity||'',{options:[{value:'',label:'Selecciona'},{value:'baja',label:'Baja'},{value:'moderada',label:'Moderada'},{value:'alta',label:'Alta'}]})}${UI.fg('nh_exerciseDuration','Duración','text',nh.exerciseDuration||'',{placeholder:'30 min, 1 hora...'})}</div>
       `)}
+     ${UI.card('Preferencias alimentarias 🍽️',`
+        ${UI.fg('nh_favFoods','Alimentos que le gustan mucho','textarea',nh.favFoods||'',{placeholder:'Ej: pollo, arroz, fruta, cafe con leche, tacos, pasta...'})}
+        ${UI.fg('nh_dislikedFoods','Alimentos que NO le gustan o rechaza','textarea',nh.dislikedFoods||'',{placeholder:'Ej: higado, brocoli, pescado, huevo duro...'})}
+        ${UI.fg('nh_intolerances','Intolerancias o restricciones alimentarias','textarea',nh.intolerances||'',{placeholder:'Ej: intolerancia a la lactosa, celiaco, vegetariano, sin gluten...'})}
+        <div class="form-row">
+          ${UI.fg('nh_mealPrepWho','¿Quien prepara sus alimentos?','select',nh.mealPrepWho||'',{options:[{value:'',label:'Selecciona'},{value:'yo',label:'Yo mismo/a'},{value:'familiar',label:'Un familiar'},{value:'empleada',label:'Empleada del hogar'},{value:'fuera',label:'Principalmente come fuera'},{value:'mixto',label:'Mixto'}]})}
+          ${UI.fg('nh_cookingSkill','Nivel de habilidad en cocina','select',nh.cookingSkill||'',{options:[{value:'',label:'Selecciona'},{value:'ninguna',label:'No sabe cocinar'},{value:'basica',label:'Basica (huevos, pasta, cosas simples)'},{value:'intermedia',label:'Intermedia'},{value:'avanzada',label:'Avanzada'}]})}
+        </div>
+        ${UI.fg('nh_budgetFood','Presupuesto aproximado para alimentacion por semana','text',nh.budgetFood||'',{placeholder:'Ej: $500, $1000-$1500...'})}
+        ${UI.fg('nh_foodContext','Contexto familiar o social relevante','textarea',nh.foodContext||'',{placeholder:'Ej: come con familia numerosa, pareja con dieta diferente, trabaja en campo, viaja mucho...'})}
+      `)}
       ${UI.card('Historial y compromiso',`
         ${UI.fg('nh_previousDiets','¿Ha seguido planes de alimentación antes?','select',nh.previousDiets||'',{options:[{value:'',label:'Selecciona'},{value:'si',label:'Sí'},{value:'no',label:'No'}]})}
         ${UI.fg('nh_whyQuit','¿Por qué lo dejó?','textarea',nh.whyQuit||'',{placeholder:'Razones por las que dejó el plan anterior'})}
