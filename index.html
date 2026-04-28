@@ -1426,7 +1426,48 @@ const NutHistory = {
         <div class="form-row">${UI.fg('nh_exerciseType','Tipo de actividad','text',nh.exerciseType||'',{placeholder:'Caminar, gym, correr...'})}${UI.fg('nh_exerciseFreq','Frecuencia','select',nh.exerciseFreq||'',{options:[{value:'',label:'Selecciona'},{value:'sedentario',label:'Sedentario'},{value:'1-2',label:'1-2/semana'},{value:'3-4',label:'3-4/semana'},{value:'5+',label:'5+/semana'}]})}</div>
         <div class="form-row">${UI.fg('nh_exerciseIntensity','Intensidad','select',nh.exerciseIntensity||'',{options:[{value:'',label:'Selecciona'},{value:'baja',label:'Baja'},{value:'moderada',label:'Moderada'},{value:'alta',label:'Alta'}]})}${UI.fg('nh_exerciseDuration','Duración','text',nh.exerciseDuration||'',{placeholder:'30 min, 1 hora...'})}</div>
       `)}
-     ${UI.card('Preferencias alimentarias 🍽️',`
+      ${UI.card('Antecedentes ginecológicos, obstétricos y de lactancia 🌸',`
+        ${UI.infoBox('Esta seccion aplica para pacientes del sexo femenino. Llena los campos que sean relevantes para el caso clinico.','tip')}
+        <div class="form-row">
+          ${UI.fg('nh_menarcheAge','Edad de menarca (años)','number',nh.menarcheAge||'',{placeholder:'Ej: 12',min:8,max:18})}
+          ${UI.fg('nh_menstrualCycle','Ciclo menstrual','select',nh.menstrualCycle||'',{options:[{value:'',label:'Selecciona'},{value:'regular',label:'Regular (cada 21-35 días)'},{value:'irregular',label:'Irregular'},{value:'amenorrea',label:'Amenorrea'},{value:'menopausia',label:'Menopausia'},{value:'perimenopausia',label:'Perimenopausia'},{value:'postmenopausia',label:'Postmenopausia'},{value:'inducida',label:'Inducida (cirugía/medicamento)'}]})}
+        </div>
+        <div class="form-row">
+          ${UI.fg('nh_dysmenorrhea','Dismenorrea (dolor menstrual)','select',nh.dysmenorrhea||'',{options:[{value:'',label:'Selecciona'},{value:'ninguna',label:'Sin dolor'},{value:'leve',label:'Leve'},{value:'moderada',label:'Moderada'},{value:'intensa',label:'Intensa / incapacitante'}]})}
+          ${UI.fg('nh_pmsSymptoms','Síntomas premenstruales','select',nh.pmsSymptoms||'',{options:[{value:'',label:'Selecciona'},{value:'ninguno',label:'Ninguno'},{value:'leves',label:'Leves (retención leve, sensibilidad)'},{value:'moderados',label:'Moderados (hinchazón, cambios de ánimo)'},{value:'intensos',label:'Intensos (SPM significativo)'}]})}
+        </div>
+        <div class="form-row">
+          ${UI.fg('nh_contraceptives','Método anticonceptivo actual','select',nh.contraceptives||'',{options:[{value:'',label:'Selecciona'},{value:'ninguno',label:'Ninguno'},{value:'pildora',label:'Píldora anticonceptiva'},{value:'diu_hormonal',label:'DIU hormonal'},{value:'diu_cobre',label:'DIU de cobre'},{value:'implante',label:'Implante subdérmico'},{value:'inyeccion',label:'Inyección anticonceptiva'},{value:'parche',label:'Parche'},{value:'preservativo',label:'Preservativo / barrera'},{value:'esterilizacion',label:'Esterilización'},{value:'otro',label:'Otro'}]})}
+          ${UI.fg('nh_gynecologicalDx','Diagnósticos ginecológicos','text',nh.gynecologicalDx||'',{placeholder:'Ej: SOP, endometriosis, miomas, hipotiroidismo...'})}
+        </div>
+        ${UI.fg('nh_gynecologicalNotes','Notas ginecológicas adicionales','textarea',nh.gynecologicalNotes||'',{placeholder:'Cambios de peso relacionados al ciclo, antojos premenstruales, influencia de anticonceptivos en peso o apetito...'})}
+        <hr style="border:none;border-top:1px solid var(--g100);margin:16px 0">
+        <div class="form-label" style="font-size:.95rem;font-weight:700;color:var(--sage-dark);margin-bottom:10px">Historial obstétrico</div>
+        <div class="form-row">
+          ${UI.fg('nh_pregnancies','Número de embarazos (gestas)','number',nh.pregnancies||'',{placeholder:'0',min:0})}
+          ${UI.fg('nh_deliveries','Partos / nacimientos vivos','number',nh.deliveries||'',{placeholder:'0',min:0})}
+        </div>
+        <div class="form-row">
+          ${UI.fg('nh_csections','Cesáreas','number',nh.csections||'',{placeholder:'0',min:0})}
+          ${UI.fg('nh_miscarriages','Abortos (espontáneos o inducidos)','number',nh.miscarriages||'',{placeholder:'0',min:0})}
+        </div>
+        ${UI.fg('nh_pregnancyStatus','Situación obstétrica actual','select',nh.pregnancyStatus||'',{options:[{value:'',label:'Selecciona'},{value:'no_embarazada',label:'No embarazada'},{value:'embarazada',label:'Embarazada (actualmente)'},{value:'posparto',label:'Posparto (menos de 6 meses)'},{value:'posparto_tardio',label:'Posparto tardío (6-12 meses)'}]})}
+        <div id="pregnancy-details-section">
+          ${UI.fg('nh_gestationalWeek','Semana de gestación (si aplica)','number',nh.gestationalWeek||'',{placeholder:'Ej: 20',min:1,max:42})}
+          ${UI.fg('nh_pregnancyComplications','Complicaciones del embarazo actual o previos','textarea',nh.pregnancyComplications||'',{placeholder:'Ej: diabetes gestacional, preeclampsia, anemia, nauseas severas...'})}
+          ${UI.fg('nh_weightPrePregnancy','Peso pregestacional (kg)','number',nh.weightPrePregnancy||'',{placeholder:'Ej: 65',step:'0.1'})}
+          ${UI.fg('nh_weightGainPregnancy','Ganancia de peso gestacional total (kg)','number',nh.weightGainPregnancy||'',{placeholder:'Ej: 12',step:'0.1'})}
+        </div>
+        <hr style="border:none;border-top:1px solid var(--g100);margin:16px 0">
+        <div class="form-label" style="font-size:.95rem;font-weight:700;color:var(--sage-dark);margin-bottom:10px">Lactancia</div>
+        ${UI.fg('nh_breastfeedingStatus','Estado actual de lactancia','select',nh.breastfeedingStatus||'',{options:[{value:'',label:'Selecciona'},{value:'no',label:'No está/nunca ha lactado'},{value:'lactando_exclusivo',label:'Lactando actualmente — exclusiva'},{value:'lactando_mixto',label:'Lactando actualmente — mixta'},{value:'lacto_previo',label:'Lactó en el pasado (ya no)'}]})}
+        <div class="form-row">
+          ${UI.fg('nh_breastfeedingDuration','Duración de lactancia (meses, si aplica)','number',nh.breastfeedingDuration||'',{placeholder:'Ej: 6',min:0})}
+          ${UI.fg('nh_breastfeedingFrequency','Tomas al día (si está lactando)','select',nh.breastfeedingFrequency||'',{options:[{value:'',label:'Selecciona'},{value:'<4',label:'Menos de 4'},{value:'4-6',label:'4-6 tomas'},{value:'7-9',label:'7-9 tomas'},{value:'10+',label:'10 o más'}]})}
+        </div>
+        ${UI.fg('nh_breastfeedingNotes','Notas de lactancia','textarea',nh.breastfeedingNotes||'',{placeholder:'Dificultades, producción baja, uso de fórmula, destete reciente, impacto en alimentación o peso...'})}
+      `)}
+      ${UI.card('Preferencias alimentarias 🍽️',`
         ${UI.fg('nh_favFoods','Alimentos que le gustan mucho','textarea',nh.favFoods||'',{placeholder:'Ej: pollo, arroz, fruta, cafe con leche, tacos, pasta...'})}
         ${UI.fg('nh_dislikedFoods','Alimentos que NO le gustan o rechaza','textarea',nh.dislikedFoods||'',{placeholder:'Ej: higado, brocoli, pescado, huevo duro...'})}
         ${UI.fg('nh_intolerances','Intolerancias o restricciones alimentarias','textarea',nh.intolerances||'',{placeholder:'Ej: intolerancia a la lactosa, celiaco, vegetariano, sin gluten...'})}
@@ -2633,14 +2674,14 @@ const MealPlansView = {
     return `${await AppContext.renderBar()}
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:16px">
         <div><h1>Plan de alimentación</h1><p class="text-muted">Paso 1: revisa equivalentes → Paso 2: distribúyelos por tiempo de comida → Paso 3: genera el menú real.</p><p class="text-xs text-muted mt-2">Las sugerencias usan alimentos comunes en México y se ajustan al presupuesto capturado por el paciente.</p></div>
-        <div class="flex gap-3"><button class="btn btn-outline" onclick="Router.navigate('calculators',{patientId:'${p.id}'})">🧮 Volver a calculadoras</button><button class="btn btn-primary" onclick="MealPlansView.generatePlan()">✨ Generar menú desde esta distribución</button></div>
+        <div class="flex gap-3"><button class="btn btn-outline" onclick="Router.navigate('calculators',{patientId:'${p.id}'})">🧮 Volver a calculadoras</button><button class="btn btn-primary" onclick="MealPlansView.generatePlan()">✏️ Abrir editor de menú</button></div>
       </div>
       ${UI.infoBox('<strong>Flujo sugerido:</strong> ajusta kcal y macros en calculadoras → pasa equivalentes al plan → distribuye equivalentes por tiempo de comida → genera el menú → revisa y guarda para el paciente.','info')}
       <div class="grid-2">
         ${UI.card('Datos base del plan',`<div class="form-row">${UI.fg('mp_patient_name','Paciente','text',p.name||p.email||'',{placeholder:'Nombre'})}${UI.fg('mp_kcal','Calorías objetivo','number',draft?.kcalTarget||calc.macroTargets?.kcalTarget||calc.kcalTarget||'',{placeholder:'1500'})}</div><div class="form-row">${UI.fg('mp_goal','Objetivo','select',draft?.goal||p.consultReason||'',{options:[{value:'Pérdida de peso',label:'Pérdida de peso'},{value:'Mantenimiento',label:'Mantenimiento'},{value:'Ganancia muscular',label:'Ganancia muscular'},{value:'Control glucémico',label:'Control glucémico'},{value:'Salud cardiovascular',label:'Salud cardiovascular'}]})}<div class="form-group"><label class="form-label">Días del menú</label><select class="form-select" name="mp_days" onchange="MealPlansView.onDaysChange()"><option value="3" ${String(dayCount)==='3'?'selected':''}>3 días de muestra</option><option value="5" ${String(dayCount)==='5'?'selected':''}>5 días lun-vie</option><option value="7" ${String(dayCount)==='7'?'selected':''}>7 días</option></select></div></div><div class="form-row">${UI.fg('mp_budget_text','Presupuesto reportado','text',draft?.budgetText||p.budget||'',{placeholder:'Ej: $500-$1000'})}${UI.fg('mp_budget_level','Nivel de presupuesto para sugerencias','select',budgetLevel,{options:[{value:'economico',label:'Económico'},{value:'medio',label:'Medio'},{value:'amplio',label:'Amplio'}]})}</div>${UI.fg('mp_notes','Notas clínicas para personalizar el menú','textarea',draft?.notes||p.recall24h||p.expectations||'',{placeholder:'Preferencias, horarios, antojos, alimentos que sí consume, presupuesto real, etc.'})}<button class="btn btn-secondary w-full" onclick="MealPlansView.saveDraftOnly()">💾 Guardar borrador</button>`)}
         ${UI.card('Equivalentes globales del plan',`<div class="grid-2" style="gap:12px">${renderEqInputs}</div><div id="plan-eq-summary" class="mt-4"></div>`)}
       </div>
-      ${UI.card('Paso 2 · Distribuye tus equivalentes por tiempo de comida',`${UI.infoBox('Aquí decides cómo repartir los equivalentes entre desayuno, colaciones, comida y cena. Cuando los totales cuadren, genera el menú.','tip')}<div class="flex gap-3 flex-wrap mb-4"><button class="btn btn-outline btn-sm" onclick="MealPlansView.autoDistribute()">⚙️ Auto distribuir</button><button class="btn btn-outline btn-sm" onclick="MealPlansView.clearDistribution()">🧹 Limpiar distribución</button><button class="btn btn-secondary btn-sm" onclick="MealPlansView.saveDraftOnly()">💾 Guardar esta distribución</button></div><div class="table-wrapper"><table class="data-table"><thead><tr><th>Grupo</th>${this.mealSlots.map(m=>`<th>${m.label}</th>`).join('')}<th>Total</th><th>Diferencia</th></tr></thead><tbody>${distributionRows}<tr style="background:var(--sage-50);font-weight:700"><td>Total por tiempo</td>${this.mealSlots.map(slot=>`<td id="meal_total_${slot.id}">0</td>`).join('')}<td id="grand_total_eq">0</td><td>—</td></tr></tbody></table></div><div id="distribution-summary" class="mt-4"></div><div class="flex gap-3 mt-4 flex-wrap"><button class="btn btn-primary" onclick="MealPlansView.generatePlan()">✨ Generar menú desde esta distribución</button><button class="btn btn-outline" onclick="MealPlansView.previewDistributionOnly()">👀 Revisar distribución</button></div>`)}
+      ${UI.card('Paso 2 · Distribuye tus equivalentes por tiempo de comida',`${UI.infoBox('Aquí decides cómo repartir los equivalentes entre desayuno, colaciones, comida y cena. Cuando los totales cuadren, genera el menú.','tip')}<div class="flex gap-3 flex-wrap mb-4"><button class="btn btn-outline btn-sm" onclick="MealPlansView.autoDistribute()">⚙️ Auto distribuir</button><button class="btn btn-outline btn-sm" onclick="MealPlansView.clearDistribution()">🧹 Limpiar distribución</button><button class="btn btn-secondary btn-sm" onclick="MealPlansView.saveDraftOnly()">💾 Guardar esta distribución</button></div><div class="table-wrapper"><table class="data-table"><thead><tr><th>Grupo</th>${this.mealSlots.map(m=>`<th>${m.label}</th>`).join('')}<th>Total</th><th>Diferencia</th></tr></thead><tbody>${distributionRows}<tr style="background:var(--sage-50);font-weight:700"><td>Total por tiempo</td>${this.mealSlots.map(slot=>`<td id="meal_total_${slot.id}">0</td>`).join('')}<td id="grand_total_eq">0</td><td>—</td></tr></tbody></table></div><div id="distribution-summary" class="mt-4"></div><div class="flex gap-3 mt-4 flex-wrap"><button class="btn btn-primary" onclick="MealPlansView.generatePlan()">✏️ Abrir editor de menú</button><button class="btn btn-outline" onclick="MealPlansView.previewDistributionOnly()">👀 Revisar distribución</button></div>`)}
       <div id="plan-output" class="mt-6">${p.assignedPlan ? this.renderSavedPlan(p.assignedPlan,false) : UI.card('',UI.emptyState('🥗','Aún no hay plan generado','Primero distribuye equivalentes y luego genera el menú real para el paciente.'))}</div>`;
   },
   getCurrentValues(){
@@ -2865,13 +2906,22 @@ const MealPlansView = {
     </div>`;
   },
   renderMealEditor(meal, dayIndex, mealIndex){
-    const totals=this.recipeTotals(meal);
-    return `<div class="meal-time-card">
-      <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap"><div><h4>${meal.name} · <span class="text-xs text-muted">${meal.subtitle||''}</span></h4><div class="text-xs text-muted mt-2">Meta aprox: ${meal.targetKcal||0} kcal</div>${meal.equivalentsSummary?`<div class="text-xs text-muted mt-2">${this.esc(meal.equivalentsSummary)}</div>`:''}</div><div class="flex gap-2 flex-wrap"><button class="btn btn-primary btn-sm" onclick="MealPlansView.openRecipePicker(${dayIndex},${mealIndex})">🧠 Receta dinámica</button><button class="btn btn-outline btn-sm" onclick="MealPlansView.openCustomRecipeModal(${dayIndex},${mealIndex})">➕ Receta nueva</button></div></div>
-      <div class="mt-4">${meal.recipes?.length ? meal.recipes.map((r,idx)=>this.renderRecipeChip(r,dayIndex,mealIndex,idx)).join('') : UI.emptyState('🍽️','Aún no agregas recetas','Usa "Receta dinámica" para elegir una receta que se ajuste automáticamente a los equivalentes de este tiempo de comida.')}</div>
-      <div class="mt-3 text-xs text-muted">Actual: ${totals.kcal} kcal · P ${totals.protein} g · L ${totals.fat} g · HC ${totals.carbs} g</div>
-      <div class="mt-3">${UI.fg(`meal_note_${dayIndex}_${mealIndex}`,'Nota editable de este tiempo','textarea',meal.note||'',{placeholder:'Observaciones, intercambios o instrucciones para este tiempo.'})}</div>
-    </div>`;
+    var icon = this.mealIcon(meal.name);
+    var eqSummary = meal.equivalentsSummary ? '<span class="text-xs text-muted" style="margin-left:8px">' + this.esc(meal.equivalentsSummary) + '</span>' : '';
+    var kcalBadge = meal.targetKcal ? '<span class="text-xs text-muted" style="margin-left:8px">Meta: ' + meal.targetKcal + ' kcal</span>' : '';
+    var existingText = meal.note || '';
+    return '<div class="meal-time-card" style="margin-bottom:16px;padding:16px;border:1.5px solid var(--g100);border-radius:var(--r-lg);background:#fff">' +
+      '<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">' +
+        '<span style="font-size:1.5rem">' + icon + '</span>' +
+        '<div style="flex:1">' +
+          '<h4 style="margin:0;font-family:var(--font-d);color:var(--sage-dark)">' + this.esc(meal.name) + '</h4>' +
+          '<div style="display:flex;flex-wrap:wrap;gap:4px">' + kcalBadge + eqSummary + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<textarea class="form-textarea" name="meal_note_' + dayIndex + '_' + mealIndex + '" rows="6" ' +
+        'placeholder="Escribe el menú para ' + this.esc(meal.name) + ':\n- Platillo principal\n- Porciones e ingredientes\n- Equivalentes asignados\n- Indicaciones especiales..." ' +
+        'style="width:100%;resize:vertical;font-size:.88rem;line-height:1.6">' + this.esc(existingText) + '</textarea>' +
+    '</div>';
   },
   ensureRuntimePlan(){
     if(this.runtimePlan) return this.runtimePlan;
@@ -2883,8 +2933,26 @@ const MealPlansView = {
   },
   renderPlanEditor(planData){
     this.runtimePlan = planData;
-    const cardHtml = (planData.days||[]).map((day,dayIndex)=>`<div class="card" style="margin-bottom:18px"><div class="card-title" style="margin-bottom:10px">${day.day}</div>${(day.meals||[]).map((meal,mealIndex)=>this.renderMealEditor(meal,dayIndex,mealIndex)).join('')}</div>`).join('');
-    return UI.card('Paso 3 · Arma el menú con recetas dinámicas',`<div class="mb-4">${UI.infoBox(`Las recetas se adaptan automáticamente a los equivalentes de cada tiempo de comida. Elige una receta y el sistema calcula las cantidades para tu paciente.`, 'tip')}</div>${this.renderMacroComparison(planData)}${cardHtml}${UI.fg('plan_recommendations','Recomendaciones generales para el paciente','textarea',planData.recommendations||'',{placeholder:'Indicaciones finales del plan'})}<div class="flex gap-3 mt-6 flex-wrap"><button class="btn btn-secondary" onclick="MealPlansView.saveDraftOnly()">💾 Guardar borrador</button><button class="btn btn-primary" onclick="MealPlansView.saveGeneratedPlan()">💾 Guardar y asignar al paciente</button></div>`,'Recetas parametrizadas por equivalentes SMAE');
+    var self = this;
+    var cardHtml = (planData.days||[]).map(function(day, dayIndex){
+      var mealsHtml = (day.meals||[]).map(function(meal, mealIndex){
+        return self.renderMealEditor(meal, dayIndex, mealIndex);
+      }).join('');
+      return '<div class="card" style="margin-bottom:20px">' +
+        '<div class="card-title" style="margin-bottom:14px;font-size:1.1rem">' + day.day + '</div>' +
+        mealsHtml +
+      '</div>';
+    }).join('');
+    var recoField = UI.fg('plan_recommendations','Recomendaciones generales para el paciente','textarea',planData.recommendations||'',{placeholder:'Hidratacion, suplementos, actividad fisica, habitos, consejos adicionales para el paciente...',rows:5});
+    return UI.card('Paso 3 · Escribe el menu de cada tiempo de comida',
+      UI.infoBox('Escribe libremente el contenido del menu para cada tiempo. Puedes poner platillos, ingredientes, porciones, equivalentes e indicaciones especiales. Lo que escribas aqui lo vera el paciente en su portal.','tip') +
+      cardHtml +
+      recoField +
+      '<div class="flex gap-3 mt-6 flex-wrap">' +
+        '<button class="btn btn-secondary" onclick="MealPlansView.saveDraftOnly()">💾 Guardar borrador</button>' +
+        '<button class="btn btn-primary" onclick="MealPlansView.saveGeneratedPlan()">💾 Guardar y asignar al paciente</button>' +
+      '</div>'
+    );
   },
   renderPlanIntoOutput(){
     const out=document.getElementById('plan-output');
@@ -3021,8 +3089,6 @@ const MealPlansView = {
   },
   generatePlan(){
     if(!this.currentPatient?.id){ UI.toast('Selecciona un paciente','warning'); return; }
-    const val=this.validateDistribution(true);
-    if(!val.ok) return;
     const values=this.getCurrentValues();
     const p=this.currentPatient;
     const draft = p?.id ? JSON.parse(localStorage.getItem(this.getDraftKey(p.id))||'null') : null;
@@ -3062,7 +3128,7 @@ const MealPlansView = {
     const days=plan.days||[];
     const dayHtml=days.map(day=>{
       const dayTotal=(day.meals||[]).reduce((s,m)=>{ const t=this.recipeTotals(m); return s+t.kcal; },0);
-      return `<div class="${patientMode?'plan-day-card':'card'}" style="margin-bottom:14px"><div class="${patientMode?'plan-day-header':'card-header'}"><div class="${patientMode?'':'card-title'}"><h3 style="margin:0;font-size:${patientMode?'1.18rem':'1.05rem'}">${this.esc(day.day)}</h3></div>${patientMode?`<div class="plan-day-kcal">${Math.round(dayTotal)} kcal aprox.</div>`:''}</div><div class="${patientMode?'plan-meals':''}" style="${patientMode?'':'padding:0 0 8px 0'}">${(day.meals||[]).map(meal=>{ const t=this.recipeTotals(meal); const recipes=(meal.recipes||[]); const body=recipes.length ? recipes.map(r=>`<div class="${patientMode?'plan-recipe-card':''}" style="margin:10px 0;padding:${patientMode?'12px':'10px'};border:1px solid var(--line);border-radius:12px;background:${patientMode?'#fff':'#fafcf9'}"><div style="font-weight:700">${this.esc(r.name)}</div><div class="text-xs text-muted mt-2">${r.kcal} kcal · P ${r.protein} g · L ${r.fat} g · HC ${r.carbs} g</div><div class="text-sm mt-2" style="white-space:pre-wrap;line-height:1.65"><strong>Ingredientes:</strong> ${this.esc(r.ingredientsText)}</div></div>`).join('') : `<div class="text-sm text-muted">Sin recetas asignadas.</div>`; return `<div class="${patientMode?'plan-meal-box':''}" style="margin-bottom:${patientMode?'0':'10px'}"><div class="${patientMode?'plan-meal-title':''}">${patientMode?this.mealIcon(meal.name)+' ':''}<strong>${this.esc(meal.name)}</strong></div><div class="text-xs text-muted mt-2">Meta: ${meal.targetKcal||0} kcal · Actual: ${t.kcal} kcal</div>${meal.equivalentsSummary?`<div class="plan-exchange-note">${this.esc(meal.equivalentsSummary)}</div>`:''}${body}${meal.note?`<div class="mt-2 text-sm"><strong>Nota:</strong> ${this.esc(meal.note)}</div>`:''}</div>`; }).join('')}</div></div>`;
+      return `<div class="${patientMode?'plan-day-card':'card'}" style="margin-bottom:14px"><div class="${patientMode?'plan-day-header':'card-header'}"><div class="${patientMode?'':'card-title'}"><h3 style="margin:0;font-size:${patientMode?'1.18rem':'1.05rem'}">${this.esc(day.day)}</h3></div>${patientMode?`<div class="plan-day-kcal">${Math.round(dayTotal)} kcal aprox.</div>`:''}</div><div class="${patientMode?'plan-meals':''}" style="${patientMode?'':'padding:0 0 8px 0'}">${(day.meals||[]).map(meal=>{ const t=this.recipeTotals(meal); const recipes=(meal.recipes||[]); const body = meal.note ? `<div style=\"white-space:pre-wrap;padding:10px;background:var(--sage-50);border-radius:8px;font-size:.88rem;line-height:1.75\">${this.esc(meal.note)}</div>` : (recipes.length ? recipes.map(r=>`<div class="${patientMode?'plan-recipe-card':''}" style="margin:10px 0;padding:${patientMode?'12px':'10px'};border:1px solid var(--line);border-radius:12px;background:${patientMode?'#fff':'#fafcf9'}"><div style="font-weight:700">${this.esc(r.name)}</div><div class="text-xs text-muted mt-2">${r.kcal} kcal · P ${r.protein} g · L ${r.fat} g · HC ${r.carbs} g</div><div class="text-sm mt-2" style="white-space:pre-wrap;line-height:1.65"><strong>Ingredientes:</strong> ${this.esc(r.ingredientsText)}</div></div>`).join('') : `<div class=\"text-sm text-muted\" style=\"font-style:italic\">Sin menu asignado.</div>`); return `<div class="${patientMode?'plan-meal-box':''}" style="margin-bottom:${patientMode?'0':'10px'}"><div class="${patientMode?'plan-meal-title':''}">${patientMode?this.mealIcon(meal.name)+' ':''}<strong>${this.esc(meal.name)}</strong></div><div class="text-xs text-muted mt-2">Meta: ${meal.targetKcal||0} kcal · Actual: ${t.kcal} kcal</div>${meal.equivalentsSummary?`<div class="plan-exchange-note">${this.esc(meal.equivalentsSummary)}</div>`:''}${body}</div>`; }).join('')}</div></div>`;
     }).join('');
     const avg=this.planAverageTotals(plan);
     if(patientMode){
