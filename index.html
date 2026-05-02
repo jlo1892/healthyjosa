@@ -1004,7 +1004,7 @@ const Router = {
   },
   views: {
     'dashboard':()=>NutDashboard.render(),'patients':()=>PatientsView.render(),'patient-record':(p)=>PatientRecord.render(p),
-    'equivalents':()=>EquivalentsView.render(),'food-kb':()=>FoodKnowledgeView.render(),'calculators':()=>CalcView.render(),'meal-plans':()=>MealPlansView.render(),
+    'equivalents':()=>EquivalentsView.render(),'food-kb':()=>FoodKnowledgeView.render(),'calculators':(p)=>CalcView.render(p),'meal-plans':(p)=>MealPlansView.render(p),
     'patient-dashboard':()=>PatDashboard.render(),'patient-progress':()=>PatProgress.render(),'patient-plan':()=>PatPlan.render(),'patient-equivalents':()=>PatientEquivalentsView.render(),
     'patient-photos':()=>PatPhotos.render(),'onboarding':()=>Onboarding.render(),
     'nut-history':(p)=>NutHistory.render(p),'evolution-notes':(p)=>EvoNotes.render(p),'recall-r24':(p)=>RecallR24.render(p)
