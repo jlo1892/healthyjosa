@@ -1770,10 +1770,283 @@ const RecallR24 = {
 
 // === EVOLUTION NOTES ===
 const EvoNotes = {
-  p:null,notes:[],
+  p: null,
+  notes: [],
+  editingNoteId: null,
+
+  getDraftKey(pid){ return 'hj_evo_draft_' + pid; },
+
+  saveDraft(){
+    if(!this.p?.id) return;
+    const d = this.getFormData();
+    localStorage.setItem(this.getDraftKey(this.p.id), JSON.stringify(d));
+    const ind = document.getElementById('evo-draft-indicator');
+    if(ind){ ind.textContent = '💾 Borrador guardado'; ind.style.color = 'var(--sage)'; }
+  },
+
+  loadDraft(){
+    if(!this.p?.id) return null;
+    try{ return JSON.parse(localStorage.getItem(this.getDraftKey(this.p.id)) || 'null'); }catch(e){ return null; }
+  },
+
+  clearDraft(){
+    if(!this.p?.id) return;
+    localStorage.removeItem(this.getDraftKey(this.p.id));
+  },
+
+  getFormData(){
+    const g = (n) => document.querySelector('[name=' + n + ']')?.value || '';
+    return {
+      weight: g('evo_weight'), bp: g('evo_bp'), bmi: g('evo_bmi'), glucose: g('evo_glucose'),
+      height: g('evo_height'), usual5y: g('evo_usual5y'), waistHipIndex: g('evo_waistHipIndex'),
+      waist: g('evo_waist'), hip: g('evo_hip'), biceps: g('evo_biceps'), thigh: g('evo_thigh'),
+      planFeeling: g('evo_planFeeling'), anxietyHunger: g('evo_anxietyHunger'),
+      weekend: g('evo_weekend'), important: g('evo_important'), notes: g('evo_notes')
+    };
+  },
+
   async render(params={}){
-    this.p=await DB.getPatient(params.patientId || AppContext.getId());
-    if(!this.p) return AppContext.requireState('Selecciona un paciente primero.');
+    const main = document.getElementById('main-content');
+    main.innerHTML = UI.spinner();
+    const patientId = params?.patientId || AppContext.getId();
+    this.p = await DB.getPatient(patientId);
+    if(!this.p){ main.innerHTML = AppContext.requireState('Selecciona un paciente primero.'); return; }
+    AppContext.setPatient(this.p);
+    this.notes = await DB.getSubDocs(this.p.id, 'evolutionNotes');
+    if(!params?.keepEditing) this.editingNoteId = null;
+    main.innerHTML = this.buildHTML();
+    const draft = this.loadDraft();
+    if(draft) this.restoreFormValues(draft);
+    this.attachDraftListeners();
+  },
+
+  buildHTML(){
+    const p = this.p;
+    const draft = this.loadDraft();
+    const hasDraft = draft && Object.values(draft).some(v => v !== '');
+    const weight = draft?.weight || p.weight || p.currentWeight || '';
+    const height = draft?.height || p.height || '';
+    const bmi = (weight && height)
+      ? (Number(weight) / ((Number(height) / 100) ** 2)).toFixed(1)
+      : (draft?.bmi || '');
+    const waist = draft?.waist || p.waistCirc || '';
+    const hip = draft?.hip || p.hipCirc || '';
+    const icc = (waist && hip) ? (Number(waist) / Number(hip)).toFixed(2) : (draft?.waistHipIndex || '');
+
+    const draftBanner = (hasDraft && !this.editingNoteId)
+      ? '<div style="background:#FFF8E1;color:#8A6D1D;padding:10px 14px;border-radius:var(--r-md);margin-bottom:14px;font-size:.85rem">'+
+          '📝 Tienes un borrador no guardado. Se restauró automáticamente. '+
+          '<button class="btn btn-outline btn-sm" style="margin-left:8px" onclick="EvoNotes.clearDraft();EvoNotes.render({patientId:\''+p.id+'\'})">Descartar</button>'+
+        '</div>'
+      : '';
+
+    const editBanner = this.editingNoteId
+      ? '<div style="background:var(--sage-50);border:1px solid var(--sage);color:var(--sage-dark);padding:10px 14px;border-radius:var(--r-md);margin-bottom:14px;font-size:.85rem">'+
+          '✏️ Editando nota existente. Guarda los cambios o cancela para volver al modo nueva nota.'+
+        '</div>'
+      : '';
+
+    const formTitle = this.editingNoteId ? '✏️ Editar nota' : '➕ Nueva nota de evolución';
+    const saveLabel = this.editingNoteId ? '💾 Actualizar nota' : '💾 Guardar nota';
+    const cancelBtn = this.editingNoteId
+      ? '<button class="btn btn-outline" onclick="EvoNotes.cancelEdit()">✕ Cancelar edición</button>'
+      : '';
+
+    const formHtml =
+      '<div class="card mb-6" style="border-left:4px solid var(--sage)">' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">' +
+          '<h3 style="margin:0">' + formTitle + '</h3>' +
+          '<span id="evo-draft-indicator" style="font-size:.8rem;color:var(--muted)">' +
+            (hasDraft && !this.editingNoteId ? '💾 Borrador guardado' : '') +
+          '</span>' +
+        '</div>' +
+        draftBanner + editBanner +
+        '<div class="grid-4 mb-4" style="gap:12px">' +
+          UI.fg('evo_weight','Peso (kg)','number',weight,{step:'0.1'}) +
+          UI.fg('evo_bp','Presión arterial','text','',{placeholder:'120/80'}) +
+          UI.fg('evo_bmi','IMC','number',bmi,{step:'0.1'}) +
+          UI.fg('evo_glucose','Glucosa (mg/dL)','number','',{placeholder:'95'}) +
+        '</div>' +
+        '<div class="form-row-3">' +
+          UI.fg('evo_height','Talla (cm)','number',height,{step:'0.1'}) +
+          UI.fg('evo_usual5y','Peso habitual 5 años (kg)','number',p.usualWeight5y||'',{step:'0.1'}) +
+          UI.fg('evo_waistHipIndex','Índice cintura-cadera','number',icc,{step:'0.01'}) +
+        '</div>' +
+        '<div class="grid-4 mb-4" style="gap:12px">' +
+          UI.fg('evo_waist','Cintura (cm)','number',waist,{step:'0.1'}) +
+          UI.fg('evo_hip','Cadera (cm)','number',hip,{step:'0.1'}) +
+          UI.fg('evo_biceps','Bíceps (cm)','number',p.bicepsCirc||'',{step:'0.1'}) +
+          UI.fg('evo_thigh','Muslo (cm)','number',p.thighCirc||'',{step:'0.1'}) +
+        '</div>' +
+        UI.fg('evo_planFeeling','¿Cómo se sintió con su plan?','textarea','',{placeholder:'¿Lo siguió? ¿Le gustó? ¿Qué le resultó difícil?'}) +
+        UI.fg('evo_anxietyHunger','¿Sintió hambre o ansiedad? ¿En qué momento?','textarea','',{placeholder:'Mañana, tarde, noche...'}) +
+        UI.fg('evo_weekend','¿Cómo fue su alimentación el fin de semana?','textarea','') +
+        UI.fg('evo_important','¿Algo importante que quiera contar?','textarea','') +
+        UI.fg('evo_notes','Notas adicionales de la nutrióloga','textarea','') +
+        '<div class="flex gap-3 mt-4">' +
+          '<button class="btn btn-primary" onclick="EvoNotes.saveNote()">' + saveLabel + '</button>' +
+          cancelBtn +
+        '</div>' +
+      '</div>';
+
+    const notesHtml = this.notes.length
+      ? this.notes.map(n => this.renderNoteCard(n)).join('')
+      : UI.emptyState('📝','Sin notas aún','La primera nota aparecerá aquí una vez que la guardes.');
+
+    return '<div class="flex items-center gap-3 mb-6" style="flex-wrap:wrap">' +
+        '<button class="btn btn-outline btn-sm" onclick="Router.navigate(\'patient-record\',{patientId:\'' + p.id + '\'})">← Volver al expediente</button>' +
+        '<div><h1 style="font-size:1.5rem">Notas de evolución</h1>' +
+        '<p class="text-sm text-muted">' + (p.name || p.email) + ' — Solo visible para la nutrióloga</p></div>' +
+      '</div>' +
+      formHtml +
+      '<h3 class="mb-4" style="color:var(--g700)">Historial de notas</h3>' +
+      notesHtml;
+  },
+
+  renderNoteCard(n){
+    const esc = (v) => String(v||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const date = n.createdAt?.toDate
+      ? n.createdAt.toDate().toLocaleDateString('es-MX',{day:'2-digit',month:'long',year:'numeric'})
+      : (n.createdAt ? new Date(n.createdAt).toLocaleDateString('es-MX') : 'Sin fecha');
+    const chips = [
+      ['⚖️ Peso', n.weight ? n.weight + ' kg' : ''],
+      ['📏 Talla', n.height ? n.height + ' cm' : ''],
+      ['📊 IMC', n.bmi || ''],
+      ['🩺 Presión', n.bloodPressure || ''],
+      ['🩸 Glucosa', n.glucose ? n.glucose + ' mg/dL' : ''],
+      ['📐 C/C', n.waistHipIndex || '']
+    ].filter(r => r[1]).map(r =>
+      '<span style="display:inline-block;background:var(--sage-50);border-radius:var(--r-sm);padding:3px 10px;font-size:.8rem;margin:2px 4px 2px 0">' +
+        '<strong>' + r[0] + '</strong> ' + esc(r[1]) +
+      '</span>'
+    ).join('');
+
+    const textFields = [
+      ['Sentimiento con el plan', n.planFeeling],
+      ['Hambre / ansiedad', n.anxietyHunger],
+      ['Fin de semana', n.weekend],
+      ['Algo importante', n.important],
+      ['Notas de la nutrióloga', n.notes]
+    ].filter(f => f[1]).map(f =>
+      '<div style="margin-bottom:10px">' +
+        '<div style="font-weight:600;font-size:.82rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px">' + f[0] + '</div>' +
+        '<div style="font-size:.9rem;line-height:1.7">' + esc(f[1]) + '</div>' +
+      '</div>'
+    ).join('');
+
+    return '<div class="card mb-4" style="border-left:3px solid var(--g200)">' +
+      '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;gap:12px">' +
+        '<div>' +
+          '<div style="font-weight:700;font-size:1rem;margin-bottom:6px">📅 ' + date + '</div>' +
+          (chips ? '<div>' + chips + '</div>' : '') +
+        '</div>' +
+        '<button class="btn btn-outline btn-sm" onclick="EvoNotes.editNote(\'' + n.id + '\')">✏️ Editar</button>' +
+      '</div>' +
+      (textFields
+        ? '<div style="border-top:1px solid var(--g100);padding-top:12px">' + textFields + '</div>'
+        : '') +
+    '</div>';
+  },
+
+  restoreFormValues(draft){
+    if(!draft) return;
+    const s = (n, v) => { const el = document.querySelector('[name=' + n + ']'); if(el && v !== undefined && v !== '') el.value = v; };
+    s('evo_weight', draft.weight); s('evo_bp', draft.bp); s('evo_bmi', draft.bmi);
+    s('evo_glucose', draft.glucose); s('evo_height', draft.height); s('evo_usual5y', draft.usual5y);
+    s('evo_waistHipIndex', draft.waistHipIndex); s('evo_waist', draft.waist); s('evo_hip', draft.hip);
+    s('evo_biceps', draft.biceps); s('evo_thigh', draft.thigh);
+    s('evo_planFeeling', draft.planFeeling); s('evo_anxietyHunger', draft.anxietyHunger);
+    s('evo_weekend', draft.weekend); s('evo_important', draft.important); s('evo_notes', draft.notes);
+  },
+
+  attachDraftListeners(){
+    document.querySelectorAll('[name^="evo_"]').forEach(el => {
+      el.addEventListener('input', () => EvoNotes.saveDraft());
+    });
+  },
+
+  editNote(noteId){
+    const note = this.notes.find(n => n.id === noteId);
+    if(!note){ UI.toast('No se encontró la nota','error'); return; }
+    this.editingNoteId = noteId;
+    this.clearDraft();
+    // Rebuild page with edit mode, then fill form with note data
+    const main = document.getElementById('main-content');
+    main.innerHTML = this.buildHTML();
+    const noteDraft = {
+      weight: note.weight || '', bp: note.bloodPressure || '', bmi: note.bmi || '',
+      glucose: note.glucose || '', height: note.height || '', usual5y: note.usualWeight5y || '',
+      waistHipIndex: note.waistHipIndex || '', waist: note.waistCirc || '', hip: note.hipCirc || '',
+      biceps: note.bicepsCirc || '', thigh: note.thighCirc || '',
+      planFeeling: note.planFeeling || '', anxietyHunger: note.anxietyHunger || '',
+      weekend: note.weekend || '', important: note.important || '', notes: note.notes || ''
+    };
+    this.restoreFormValues(noteDraft);
+    this.attachDraftListeners();
+    window.scrollTo({top:0, behavior:'smooth'});
+    UI.toast('Nota cargada para edición ✏️', 'info');
+  },
+
+  cancelEdit(){
+    this.editingNoteId = null;
+    this.clearDraft();
+    this.render({patientId: this.p.id});
+  },
+
+  async saveNote(){
+    const bp = (document.querySelector('[name=evo_bp]')?.value || '').trim();
+    const [sys, dia] = bp.includes('/') ? bp.split('/') : ['',''];
+    const d = {
+      weight: document.querySelector('[name=evo_weight]')?.value || '',
+      bloodPressure: bp, bpSystolic: sys||'', bpDiastolic: dia||'',
+      bmi: document.querySelector('[name=evo_bmi]')?.value || '',
+      glucose: document.querySelector('[name=evo_glucose]')?.value || '',
+      height: document.querySelector('[name=evo_height]')?.value || '',
+      usualWeight5y: document.querySelector('[name=evo_usual5y]')?.value || '',
+      waistHipIndex: document.querySelector('[name=evo_waistHipIndex]')?.value || '',
+      waistCirc: document.querySelector('[name=evo_waist]')?.value || '',
+      hipCirc: document.querySelector('[name=evo_hip]')?.value || '',
+      bicepsCirc: document.querySelector('[name=evo_biceps]')?.value || '',
+      thighCirc: document.querySelector('[name=evo_thigh]')?.value || '',
+      planFeeling: document.querySelector('[name=evo_planFeeling]')?.value || '',
+      anxietyHunger: document.querySelector('[name=evo_anxietyHunger]')?.value || '',
+      weekend: document.querySelector('[name=evo_weekend]')?.value || '',
+      important: document.querySelector('[name=evo_important]')?.value || '',
+      notes: document.querySelector('[name=evo_notes]')?.value || ''
+    };
+
+    let ok = false;
+    if(this.editingNoteId){
+      try{
+        await db.collection('patients').doc(this.p.id)
+          .collection('evolutionNotes').doc(this.editingNoteId)
+          .update({...d, updatedAt: firebase.firestore.FieldValue.serverTimestamp()});
+        ok = true;
+      }catch(e){ console.error('Update note error:',e); }
+    } else {
+      ok = await DB.addSubDoc(this.p.id, 'evolutionNotes', d);
+    }
+
+    const okPatient = await DB.updatePatient(this.p.id, {
+      weight: d.weight, height: d.height, usualWeight5y: d.usualWeight5y,
+      waistCirc: d.waistCirc, hipCirc: d.hipCirc,
+      bicepsCirc: d.bicepsCirc, thighCirc: d.thighCirc,
+      updatedAt: new Date().toISOString()
+    });
+
+    if(ok && okPatient){
+      this.clearDraft();
+      this.editingNoteId = null;
+      UI.toast(this.editingNoteId ? 'Nota actualizada ✓' : 'Nota guardada ✓');
+      this.render({patientId: this.p.id});
+    } else {
+      UI.toast('Error al guardar la nota','error');
+    }
+  },
+
+  // Legacy alias — kept in case other code calls openNew()
+  openNew(){ window.scrollTo({top:0,behavior:'smooth'}); }
+};
     this.notes=await DB.getSubDocs(this.p.id,'evolutionNotes');
     const trendCards = [
       this.renderTrendCard('Peso (kg)','weight','kg'),
