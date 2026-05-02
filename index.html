@@ -1836,7 +1836,7 @@ const EvoNotes = {
     const draftBanner = (hasDraft && !this.editingNoteId)
       ? '<div style="background:#FFF8E1;color:#8A6D1D;padding:10px 14px;border-radius:var(--r-md);margin-bottom:14px;font-size:.85rem">'+
           '📝 Tienes un borrador no guardado. Se restauró automáticamente. '+
-          '<button class="btn btn-outline btn-sm" style="margin-left:8px" onclick="EvoNotes.clearDraft();EvoNotes.render({patientId:''+p.id+''})">Descartar</button>'+
+          '<button class="btn btn-outline btn-sm" style="margin-left:8px" onclick="EvoNotes.clearDraft();EvoNotes.render({patientId:\''+p.id+'\'})">Descartar</button>'+
         '</div>'
       : '';
 
@@ -1894,7 +1894,7 @@ const EvoNotes = {
       : UI.emptyState('📝','Sin notas aún','La primera nota aparecerá aquí una vez que la guardes.');
 
     return '<div class="flex items-center gap-3 mb-6" style="flex-wrap:wrap">' +
-        '<button class="btn btn-outline btn-sm" onclick="Router.navigate('patient-record',{patientId:'' + p.id + ''})">← Volver al expediente</button>' +
+        '<button class="btn btn-outline btn-sm" onclick="Router.navigate('patient-record',{patientId:\'' + p.id + '\'})">← Volver al expediente</button>' +
         '<div><h1 style="font-size:1.5rem">Notas de evolución</h1>' +
         '<p class="text-sm text-muted">' + (p.name || p.email) + ' — Solo visible para la nutrióloga</p></div>' +
       '</div>' +
